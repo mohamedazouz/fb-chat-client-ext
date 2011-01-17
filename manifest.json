@@ -2,7 +2,7 @@
     "name":"Facebook Chat",
     "version": "1.0",
     "description": "Chat with your buddies chrome chrome",
-//    "background_page": "views/background.html",
+    "background_page": "views/background.html",
     "options_page": "views/options.html",
    /*"icons":{"48": "views/images/logo.png",
               "128": "views/images/logo.png"},*/
