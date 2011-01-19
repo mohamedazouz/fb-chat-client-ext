@@ -1,0 +1,380 @@
+body {
+    margin:0;
+    padding:0;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:13px;
+    background:#333;
+}
+.container {
+    width:420px;
+    background:#aeb8c8;
+    position:relative;
+    overflow:hidden;
+}
+.status-box {
+    line-height:32px;
+    background:url(../images/status_bg.png) repeat-x;
+    color:#FFF;
+    width:420px;
+}
+.f {
+    float:left;
+}
+.f-r {
+    float:right;
+}
+/* conversation box */
+.conversation-container {
+    width:420px;
+    height:366px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.conversation-container::-webkit-scrollbar {
+    width: 12px;
+    height: 16px;
+    cursor:pointer;
+}
+.conversation-container::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {
+    height: 30px;
+    display: block;
+    background-color: transparent;
+    display:none;
+}
+.conversation-container::-webkit-scrollbar-track-piece {
+    cursor:pointer;
+    background:#4a66a2;
+}
+.conversation-container::-webkit-scrollbar-thumb:vertical {
+    height: 50px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#d1cfcf));
+    border:1px solid #999;
+    -webkit-border-radius: 3px;
+    cursor:pointer;
+}
+.conversation {
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#d1cfcf));
+    width:418px;
+    border-color: #adb1be #FFF #FFF #FFF;
+    border-style: solid;
+    border-width: 1px;
+}
+.chatbox {
+    width: 294px;
+    position:relative;
+}
+.b-chatbox {
+    margin:10px 25px 10px 0;
+}
+.w-chatbox {
+    margin:10px 0px 10px 25px;
+}
+.b-chatbox-top, .w-chatbox-top {
+    height:6px;
+    width: 294px;
+    background:url(../images/b_chat_box_top.png);
+}
+.w-chatbox-top {
+    background:url(../images/w_chat_box_top.png);
+}
+.b-chatbox-middle, .w-chatbox-middle {
+    width: 268px;
+    background:url(../images/b_chat_box_middle.png) repeat-y;
+    min-height:60px;
+    padding:0 13px;
+    color:#FFF;
+}
+.w-chatbox-middle {
+    background:url(../images/w_chat_box_middle.png) repeat-y;
+    color:#1e3159;
+}
+.b-chatbox-bottom, .w-chatbox-bottom {
+    width: 294px;
+    height:6px;
+    background:url(../images/b_chat_box_bottom.png);
+}
+.w-chatbox-bottom {
+    background:url(../images/w_chat_box_bottom.png);
+}
+.b-chatbox-arrow, .w-chatbox-arrow {
+    background: url(../images/b_chat_box_arrow.png) no-repeat;
+    height: 26px;
+    left: -13px;
+    position: absolute;
+    top: 13px;
+    width: 16px;
+}
+.w-chatbox-arrow {
+    background: url(../images/w_chat_box_arrow.png) no-repeat;
+    left: 291px;
+}
+.talker-image, .slider-image {
+    width:54px;
+    height:54px;
+    margin:17px;
+    position:relative;
+}
+.slider-image{
+    margin: 2px 0px 0px 2px;
+    width:56px;
+    height:56px;
+}
+.slider-image-border{
+
+    -webkit-border-radius: 5px 5px 5px 5px;
+    border: 3px solid #324e88;
+    height: 46px !important;
+    width: 47px !important;
+}
+.talker-image img {
+    -webkit-border-radius:5px;
+    width:50px !important;
+    height:50px !important;
+}
+.slider-image img{-webkit-border-radius:5px;}
+.talker-image-shadow {
+    position:absolute;
+    width:54px;
+    height:54px;
+    background:url(../images/user-shadow.png) no-repeat;
+    top:-2px;
+    left:-2px;
+}
+.current .talker-image-shadow {
+     background:url(../images/current.png) no-repeat;
+}
+.typing-area {
+    background:url(../images/typing_BG.png) repeat-x;
+    width:420px;
+    height:76px;
+}
+.typing-box {
+    width:308px;
+    background:#20242a;
+    -webkit-border-radius: 5px 0 0 5px;
+    outline:0;
+    margin:20px 0 0 10px;
+    border:0;
+    font-family:Arial, Helvetica, sans-serif;
+    overflow:hidden;
+    color:#b5c0d8;
+    height:44px;
+}
+.icons {
+    width:42px;
+    height:46px;
+    background:url(../images/icons.png);
+    margin-top:19px;
+    position: relative;
+}
+.send-btn {
+    width:46px;
+    height:46px;
+    background:url(../images/send-btn.png) no-repeat;
+    border:0;
+    margin-top:20px;
+    margin-right:6px;
+    cursor:pointer;
+}
+.slider-container{
+    width:100%;
+    height:70px;
+    border-top: 6px solid #324E88;
+    position: relative;
+}
+.user-pointer{
+    width: 23px;
+    height: 11px;
+    background: url(../images/user-pointer.png) no-repeat;
+    position: absolute;
+    top: 0;
+    left: 52px;
+}
+/* ------------ Top Menu ------------ */
+
+.top-menu-container {
+    position:absolute;
+    top:41px;
+    left:0;
+    background:url(../images/top-menu_bg.png) repeat;
+    width:420px;
+    height: 445px;
+    display:none;
+}
+.top-menu-footer{
+    position:absolute;
+    bottom:0;
+    left:0;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#d1cfcf));
+    height:7px;
+    width:420px;
+}
+.users-list {
+    height: 412px;
+    overflow-y:auto;
+    overflow-x:hidden;
+    width:400px;
+    margin-top:10px;
+}
+.users-list::-webkit-scrollbar {
+    width: 15px;
+    height: 16px;
+    cursor:pointer;
+}
+.users-list::-webkit-scrollbar-button:start:decrement, ::-webkit-scrollbar-button:end:increment {
+    height: 30px;
+    display: block;
+    background-color: transparent;
+    display:none;
+}
+.users-list::-webkit-scrollbar-track-piece {
+    cursor:pointer;
+    background:url(../images/scroll-track_1.png) repeat-y 1px 0;
+}
+.users-list::-webkit-scrollbar-thumb:vertical {
+    height: 20px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#d1cfcf));
+    border:1px solid #FFF;
+    -webkit-border-radius: 4px;
+    cursor:pointer;
+}
+.online-users {
+    width:154px;
+    height:21px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
+    color:#FFF;
+    padding:10px;
+    margin-right:1px;
+    cursor:pointer;
+}
+.friends-list, .settings {
+    width:152px;
+    height:19px;
+    background: -webkit-gradient(linear, left top, left bottom, from(#edeff4), to(#dbdce0));
+    color:#212121;
+    padding:10px;
+    border:1px solid #FFF;
+}
+.settings {
+    width:48px;
+    margin-left:1px;
+    text-align:center;
+}
+.user-container {
+    width:327px;
+    border-bottom:1px solid #626264;
+    color:#FFF;
+    height:46px;
+    margin-left:15px;
+    margin-top:5px;
+}
+.friend-image {
+    width:41px;
+    height:41px;
+    margin-right:7px;
+    position:relative;
+}
+.friend-image img {
+    -webkit-border-radius:5px;
+    width:41px !important;
+    height:41px !important;
+}
+.friend-image-shadow {
+    position:absolute;
+    width:45px;
+    height:45px;
+    background:url(../images/friends-list-shadow.png) no-repeat;
+    top:-2px;
+    left:-2px;
+}
+.group {
+    color:#7f9fee;
+    font-size:10px;
+    width:245px;
+}
+.user-name {
+    width:245px;
+}
+.arrow{
+    position:absolute;
+    bottom:10px;
+    left:203px;
+    border-bottom: 7px solid #FFF;
+    border-right: 7px solid transparent;
+    border-top: 7px solid transparent;
+    border-left: 7px solid transparent;
+    height: 0;
+    margin-top: 15px;
+    width: 0;
+    cursor:pointer;
+}
+/* ------------ slider ------------ */
+
+#slideshow {
+    margin:15 auto;
+    width: 395px;
+
+    position:relative;
+}
+#slideshow #slidesContainer {
+    margin:0 auto;
+    width: 335px;
+    overflow:auto; /* allow scrollbar */
+    position:relative;
+}
+#slideshow #slidesContainer .slide {
+    margin-right: 2px;
+    width:54px !important; /* reduce by 20 pixels of #slidesContainer to avoid horizontal scroll */
+    height:54px !important;
+}
+#slideInner{
+    width: 392px !important;
+
+}
+
+/**
+ * Slideshow controls style rules.
+*/
+.control {
+    display:block;
+    width:28px;
+    height:28px;
+    text-indent:-10000px;
+    position:absolute;
+    cursor: pointer;
+}
+#leftControl {
+    top:9px;
+    left:0;
+    background:transparent url(../images/left.png) no-repeat 0 0;
+}
+#rightControl {
+    top:9px;
+    right:0;
+    background:transparent url(../images/right.png) no-repeat 0 0;
+}
+.emoticons-container{
+	position:absolute;
+	bottom:37px;
+	right:-18px;
+	}
+.emoticons-top, .emoticons-bottom{
+	width:222px;
+	height:8px;
+	background:url(../images/emot_top.png) no-repeat;
+	}
+.emoticons-bottom{
+	height:21px;
+	background:url(../images/emot_bottom.png) no-repeat;
+	}
+.emoticons-middle{
+	width:216px;
+	border-right:3px solid #3b5998;
+	border-left:3px solid #3b5998;
+	background:#f1f1f1;
+	}
+.emoticons{
+	width:25px;
+	height:25px;
+	margin:5px;
+	}
