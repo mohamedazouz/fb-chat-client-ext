@@ -166,6 +166,7 @@ body {
     background:url(../images/icons.png);
     margin-top:19px;
     position: relative;
+    cursor: pointer;
 }
 .send-btn {
     width:46px;
@@ -208,6 +209,7 @@ body {
     background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#d1cfcf));
     height:7px;
     width:420px;
+    cursor: pointer;
 }
 .users-list {
     height: 412px;
@@ -357,6 +359,7 @@ body {
 	position:absolute;
 	bottom:37px;
 	right:-18px;
+        display: none;
 	}
 .emoticons-top, .emoticons-bottom{
 	width:222px;

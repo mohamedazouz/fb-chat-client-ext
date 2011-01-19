@@ -9,77 +9,7 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                // sliding top menu
-                $('.online-users').click(function() {
-                    $('.top-menu-container').slideDown('slow', function() {
- 
-                    });
-                });
-	
-	
-	
-                $('.arrow').click(function() {
-                    $('.top-menu-container').slideUp('slow', function() {
-                       
-                    });
-                });
-
-                // users slider
-                var currentPosition = 0;
-                var slideWidth = 50;
-                var slides = $('.slide');
-                var numberOfSlides = slides.length;
-
-                // Remove scrollbar in JS
-                $('#slidesContainer').css('overflow', 'hidden');
-
-                // Wrap all .slides with #slideInner div
-                slides
-                .wrapAll('<div id="slideInner"></div>')
-                // Float left to display horizontally, readjust .slides width
-                .css({
-                    'float' : 'left',
-                    'width' : slideWidth
-                });
-
-                // Set #slideInner width equal to total width of all slides
-                $('#slideInner').css('width', slideWidth * numberOfSlides);
-
-                // Insert controls in the DOM
-                $('#slideshow')
-                .prepend('<span class="control" id="leftControl">Clicking moves left</span>')
-                .append('<span class="control" id="rightControl">Clicking moves right</span>');
-
-                // Hide left arrow control on first load
-                manageControls(currentPosition);
-
-                // Create event listeners for .controls clicks
-                $('.control')
-                .bind('click', function(){
-                    // Determine new position
-                    currentPosition = ($(this).attr('id')=='rightControl') ? currentPosition+1 : currentPosition-1;
-
-                    // Hide / show controls
-                    manageControls(currentPosition);
-                    // Move slideInner using margin-left
-                    $('#slideInner').animate({
-                        'marginLeft' : slideWidth*(-currentPosition)
-                    });
-                });
-
-                // manageControls: Hides and Shows controls depending on currentPosition
-                function manageControls(position){
-                    // Hide left arrow if position is first slide
-                    if(position==0){ $('#leftControl').hide() } else{ $('#leftControl').show() }
-                    // Hide right arrow if position is last slide
-                    if(position==numberOfSlides-6){ $('#rightControl').hide() } else{ $('#rightControl').show() }
-                }
-
-
-            });
-        </script>
+        <script type="text/javascript" src="js/popup.js"></script>
     </head>
     <body>
         <div class="container">
@@ -253,33 +183,30 @@ and open the template in the editor.
 
             </div>
             <div class="typing-area f">
-                <form action="" method="get">
-                    <textarea name="" cols="" rows="" class="typing-box f" >type your message here</textarea>
-                    <div class="icons f">
-                    	<div class="emoticons-container">
-                        	<div class="emoticons-top f"></div>
-                            <div class="emoticons-middle f">
-                            	<div class="emoticons f"><img src="images/icon_1.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_2.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_3.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_4.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_5.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_6.png" width="25" height="25"></div>
-                                
-                                <div class="emoticons f"><img src="images/icon_7.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_8.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_9.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_10.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_11.png" width="25" height="25"></div>
-                                <div class="emoticons f"><img src="images/icon_12.png" width="25" height="25"></div>
-                                
-                                <div class="emoticons f"><img src="images/icon_13.png" width="25" height="25"></div>
-                            </div>
-                            <div class="emoticons-bottom f"></div>
+                <textarea id="chat-text-box" name="" cols="" rows="" class="typing-box f" >type your message here</textarea>
+                <div class="icons f">
+                    <div class="emoticons-container">
+                        <div class="emoticons-top f"></div>
+                        <div class="emoticons-middle f">
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_1.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_2.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_3.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_4.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_5.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_6.png" width="25" height="25"></div>
+
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_7.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_8.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_9.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_10.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_11.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_12.png" width="25" height="25"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="images/icon_13.png" width="25" height="25"></div>
                         </div>
+                        <div class="emoticons-bottom f"></div>
                     </div>
-                    <input name="" type="submit" class="send-btn f-r" value=""/>
-                </form>
+                </div>
+                <input name="" type="submit" class="send-btn f-r" value=""/>
             </div>
         </div>
 
