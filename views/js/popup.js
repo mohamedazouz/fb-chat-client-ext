@@ -3,17 +3,35 @@
  * and open the template in the editor.
  */
 $(document).ready(function() {
-    // sliding top menu
-    $('.online-users').click(function() {
-        $('.top-menu-container').slideToggle('slow', function() {
-            });
+    // online friends slider
+    $('#online-users').click(function() {
+        $('#online-top-menu-container').slideToggle('slow');
+        $('#friendlist-top-menu-container').slideUp('slow');
+        $('#settings-top-menu-container').slideUp('slow');
     });
-
-    $('.arrow , .top-menu-footer').click(function() {
-        $('.top-menu-container').slideUp('slow', function() {
-            });
+    $('#online-friends-arrow , #online-friends-top-menu-footer').click(function() {
+        $('#online-top-menu-container').slideUp('slow');
     });
-    $('.typing-box').click(function(){
+    //friend list slider
+    $('#friends-list').click(function(){
+        $('#friendlist-top-menu-container').slideToggle('slow');
+        $('#online-top-menu-container').slideUp('slow');
+        $('#settings-top-menu-container').slideUp('slow');
+    });
+    $('#friendlist-friends-arrow , #friendlist-friends-top-menu-footer').click(function() {
+        $('#friendlist-top-menu-container').slideUp('slow');
+    });
+    //settings slider
+    $('#settings').click(function(){
+        $('#settings-top-menu-container').slideToggle('slow');
+        $('#online-top-menu-container').slideUp('slow');
+        $('#friendlist-top-menu-container').slideUp('slow');
+    });
+    $('#settings-arrow , #settings-top-menu-footer').click(function() {
+        $('#settings-top-menu-container').slideUp('slow');
+    });
+    //typeing area.
+    $('.typing-box').mouseover(function(){
         if(this.value == 'type your message here'){
             this.value='';
         }
@@ -22,7 +40,12 @@ $(document).ready(function() {
             //use i18n later for message
             this.value='type your message here';
         }
+    }).keydown(function(){
+        if(this.value == 'type your message here'){
+            this.value='';
+        }
     });
+    //icons actions
     $('.icons').click(function(){
         $('.emoticons-container').toggle();
     });
@@ -106,72 +129,3 @@ $(document).ready(function() {
         }
     }
 });
-
-/*var emotions = [
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        },
-        {
-            id:'',
-            src:'',
-            value:''
-        }
-]
-*/

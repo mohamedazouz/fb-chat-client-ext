@@ -4,12 +4,15 @@
     "description": "Chat with your buddies chrome chrome",
     "background_page": "views/background.html",
     "options_page": "views/options.html",
-   /*"icons":{"48": "views/images/logo.png",
-              "128": "views/images/logo.png"},*/
+    "icons":{
+        "48": "views/icons/facebookchat.png",
+        "128": "views/icons/128x128.png",
+        "16": "views/icons/16x16.png"
+    },
     "browser_action": {
-        //"default_icon": "views/images/logo.png",
-        "default_title": "TV Guide",
+        "default_icon": "views/icons/32x32_off.png",
+        "default_title": "Facebook Chat",
         "popup": "views/popup.html"
-  },
+    },
     "permissions": [ "tabs", "http://*/*" ,"notifications"]
 }
