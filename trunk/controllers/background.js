@@ -24,9 +24,10 @@ var fbchatBG=function(){
 
         },
         liveUpdateOnlineFriends:function(){
-            fbchatbg.updateFriendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
+            fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
         },
         updateFriendsStatus:function(){
+            console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
             });
@@ -76,7 +77,7 @@ function onRequest(request, sender, callback) {
         fbchatbg.liveUpdateOnlineFriends();
     }
     if(request.action == 'disconnect'){
-        window.clearInterval(fbchatbg.updateFriendsInterval);
+        window.clearInterval(fbchatbg.friendsInterval);
         Proxy.disconnect();
     }
 }
