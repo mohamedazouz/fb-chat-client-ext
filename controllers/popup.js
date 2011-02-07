@@ -10,6 +10,7 @@ var background=chrome.extension.getBackgroundPage();
 var proxy=background.Proxy;
 var fbchatPOPUP = function(){
     var fbchatpopup = {
+        friendsInterval:null,
         /**
          * create html for list of friends.
          */
@@ -24,7 +25,7 @@ var fbchatPOPUP = function(){
                 out+='<div class="user-name f">'+list[o].name+'</div>';
                 out+='<div class="group f"></div>';
                 if(online){
-                    out+='<div"><img id="'+list[o].fbuid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
+                    out+='<div><img id="'+list[o].fbuid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
                 }
                 out+='</div>';
             }
@@ -52,9 +53,12 @@ var fbchatPOPUP = function(){
                     background.Proxy.getOnlineFriends(function(list){
                         //___update online friends.
                         background.fbchatdb.setOnline(list);
-
+                        //____ running the intervals
+                        fbchatpopup.runIntervals();
                         //______update list of friends, shows the container and hide the connect page.
-                        $("#online-friends").html(fbchatpopup.populateFriendsList(list,true));
+                        var staticfriendlist=fbchatpopup.populateFriendsList(list,true);
+                        window.localStorage.onlineFriends=staticfriendlist;
+                        $("#online-friends").html(staticfriendlist);
                         $('#notconnected').fadeOut();
                         $("#container").fadeIn('fast');
                         //background.fbchatbg.popup.container=$("#container").html();
@@ -73,8 +77,25 @@ var fbchatPOPUP = function(){
         /**
          * update online friends popup
          */
-        updatetOnlineFriends:function(list){
-            $("#online-friends").html(fbchatpopup.populateFriendsList(list,true));
+        updatetOnlineFriends:function(){
+            console.log('updating frinds:'+(new Date()).getMinutes())
+            var staticlist=null;
+            background.fbchatdb.getOnlineFriends(function(list){
+                staticlist=fbchatpopup.populateFriendsList(list,true);
+                window.localStorage.onlineFriends=staticlist;
+                fbchatpopup.setOnlineFriendsList(staticlist);
+            });
+        },
+        /**
+         * setting the online friends from the localStorage or from paramters
+         */
+        setOnlineFriendsList:function(staticlist){
+            if(staticlist != null && staticlist != ""){
+                $("#online-friends").html(staticlist);
+            }else{
+                $("#online-friends").html(window.localStorage.onlineFriends);
+            }
+            
         },
         /**
          * disconnecting from chat.
@@ -98,12 +119,19 @@ var fbchatPOPUP = function(){
          */
         logout:function(){
             console.log('logging out');
+            for(i in window.localStorage){
+                delete window.localStorage[i]
+            }
             window.localStorage.logged=false;
+            window.localStorage.connected=false;
             chrome.browserAction.setIcon({
                 path:'icons/32x32_off.png'
             });
             window.close();
         },
+        /**
+         * setting the onclick actions
+         */
         setClickEventActions:function(){
             $("#connect").click(function(){
                 fbchatpopup.connect();
@@ -119,10 +147,14 @@ var fbchatPOPUP = function(){
             });
         },
         updateConversations:function(list){
-
         },
         updateConversation:function(msg){
-
+        },
+        /**
+         * running the intervals while popup is on.
+         */
+        runIntervals:function(){
+            fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         }
     };
     $(function(){
@@ -140,11 +172,9 @@ var fbchatPOPUP = function(){
             $('#container').hide();
             $("#notconnected").fadeIn('fast');
         }else{
-            console.log('connected')
-            //___update online friends list
-            background.fbchatdb.getOnlineFriends(function(list){
-                fbchatpopup.updatetOnlineFriends(list);
-            });
+            fbchatpopup.runIntervals();
+            //___ setting the online friends list
+            fbchatpopup.setOnlineFriendsList();
             //___update friends list from sessionStroge
             $("#friend-list").html(window.localStorage.friendList);
             //___update chat windows.
