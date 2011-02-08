@@ -31,6 +31,40 @@ var fbchatBG=function(){
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
             });
+        },
+        connect:function(handler){
+            var callbackParam={};
+            Proxy.connect(function(){
+                Proxy.getFriendsList(function(list){
+                    fbchatdb.insertFriends(list, function(list){
+                        //populate list of all friends and save it in the localStorage
+                        callbackParam.friendlist=fbchatpopup.populateFriendsList(list);
+                        window.localStorage.friendList=callbackParam.friendlist;
+                    });
+                    Proxy.getOnlineFriends(function(list){
+                        //___ set connected to be true
+                        window.localStorage.connected=true;
+                        //___update online friends.
+                        fbchatdb.setOnline(list);
+                        
+                        //___ tern back the list to the popup,update list of friends, shows the container and hide the connect page.
+                        callbackParam.onlineFriends=fbchatpopup.populateFriendsList(list,true);
+                        window.localStorage.onlineFriends=callbackParam.onlineFriends;
+                        
+                        //___ updating friends and start to recieve messages.
+                        fbchatbg.liveUpdateOnlineFriends();
+                        //____update connect icon.
+                        chrome.browserAction.setIcon({
+                            path:'/views/icons/32x32.png'
+                        });
+                        try{
+                            handler(callbackParam);
+                        }catch(ex){
+                            console.log(ex);
+                        }
+                    });
+                });
+            });
         }
     };
 
@@ -49,11 +83,6 @@ var fbchatBG=function(){
         }
 
         fbchatbg.popup.logged=JSON.parse(window.localStorage.logged);
-
-    //        fbchatbg.getFriendsList(function(list){
-    //            fbchatdb.insertFriends(list, function(){});
-    //        });
-        
         
     });
     
@@ -73,14 +102,36 @@ function onRequest(request, sender, callback) {
     if(request.action=='getAuth'){
         window.setTimeout("Proxy.Authenticate(0);", 1000 * 30);
     }
-    if(request.action == 'friendsLiveUpdate'){
-        fbchatbg.liveUpdateOnlineFriends();
-    }
     if(request.action == 'disconnect'){
         window.clearInterval(fbchatbg.friendsInterval);
         Proxy.disconnect();
+    }
+    if(request.action == 'connect'){
+        fbchatbg.connect(callback);
     }
 }
 
 // Wire up the listener.
 chrome.extension.onRequest.addListener(onRequest);
+
+/**
+ * create html for list of friends. got it from popup
+ */
+var fbchatpopup={};
+fbchatpopup.populateFriendsList=function(list,online){
+    var out="";
+    for(o =0; o< list.length; o++){
+        out+='<div class="user-container f">';
+        out+='<div class="friend-image f">';
+        out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
+        out+='<div class="friend-image-shadow"/>';
+        out+='</div>';
+        out+='<div class="user-name f">'+list[o].name+'</div>';
+        out+='<div class="group f"></div>';
+        if(online){
+            out+='<div><img id="'+list[o].uid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
+        }
+        out+='</div>';
+    }
+    return out;
+};

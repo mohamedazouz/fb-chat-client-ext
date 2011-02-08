@@ -81,10 +81,9 @@ var Proxy={
             },
             type:'POST',
             success:function(){
+                console.log('connected.');
                 //TO DO: after login function
-                window.localStorage.connected=true;
                 handler();
-            //set online friend list.
             }
         })
     },

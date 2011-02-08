@@ -8,6 +8,17 @@
  */
 var background=chrome.extension.getBackgroundPage();
 var proxy=background.Proxy;
+var POPUPConnectHandler=function(ob){
+    //populate list of all friends and save it in the localStorage
+    $("#friend-list").html(ob.friendlist);
+
+    //____ running the intervals
+    fbchatpopup.runIntervals();
+
+    $("#online-friends").html(ob.onlineFriends);
+    $('#notconnected').fadeOut();
+    $("#container").fadeIn('fast');
+}
 var fbchatPOPUP = function(){
     var fbchatpopup = {
         friendsInterval:null,
@@ -19,13 +30,13 @@ var fbchatPOPUP = function(){
             for(o =0; o< list.length; o++){
                 out+='<div class="user-container f">';
                 out+='<div class="friend-image f">';
-                out+='<img height="45" src="'+list[o].pic+'" width="46"/>';
+                out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
                 out+='<div class="friend-image-shadow"/>';
                 out+='</div>';
                 out+='<div class="user-name f">'+list[o].name+'</div>';
                 out+='<div class="group f"></div>';
                 if(online){
-                    out+='<div><img id="'+list[o].fbuid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
+                    out+='<div><img id="'+list[o].uid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
                 }
                 out+='</div>';
             }
@@ -35,43 +46,30 @@ var fbchatPOPUP = function(){
          * fired when clicking on connect.
          */
         connect:function(){
+            window.localStorage.connected = 'connecting';
             //___loading dots #loadindots
+            $("#notconnected").hide();
+            $("#loadingdiv").show();
             $("#loadindots").Loadingdotdotdot({
                 "speed": 400,
                 "maxDots": 4
             });
+            chrome.extension.sendRequest({
+                'action':'connect'
+            },function(ob){
+                //stoping the loader.
+                $("#loadindots").Loadingdotdotdot("stop");
+                $("#loadingdiv").hide();
 
-            background.Proxy.connect(function(){
-                background.Proxy.getFriendsList(function(list){
-                    background.fbchatdb.insertFriends(list, function(list){
-                        //populate list of all friends and save it in the localStorage
-                        var friendList=fbchatpopup.populateFriendsList(list);
-                        $("#friend-list").html(friendList);
-                        window.localStorage.friendList=friendList;
-                        console.log('friend list populated');
-                    });
-                    background.Proxy.getOnlineFriends(function(list){
-                        //___update online friends.
-                        background.fbchatdb.setOnline(list);
-                        //____ running the intervals
-                        fbchatpopup.runIntervals();
-                        //______update list of friends, shows the container and hide the connect page.
-                        var staticfriendlist=fbchatpopup.populateFriendsList(list,true);
-                        window.localStorage.onlineFriends=staticfriendlist;
-                        $("#online-friends").html(staticfriendlist);
-                        $('#notconnected').fadeOut();
-                        $("#container").fadeIn('fast');
-                        //background.fbchatbg.popup.container=$("#container").html();
-                        //___send to background to keep updating friends and start to recieve messages.
-                        chrome.extension.sendRequest({
-                            'action':'friendsLiveUpdate'
-                        });
-                        //____update connect icon.
-                        chrome.browserAction.setIcon({
-                            path:'icons/32x32.png'
-                        });
-                    });
-                });
+                //populate list of all friends and save it in the localStorage
+                $("#friend-list").html(ob.friendlist);
+
+                //____ running the intervals
+                fbchatpopup.runIntervals();
+
+                $("#online-friends").html(ob.onlineFriends);
+                $('#notconnected').fadeOut();
+                $("#container").fadeIn('fast');
             });
         },
         /**
@@ -168,9 +166,17 @@ var fbchatPOPUP = function(){
         }
 
         //_____check if user is connected or not, if not shows you are not connected.
-        if(! JSON.parse(window.localStorage.connected)){
+        if(window.localStorage.connected == 'false'){
             $('#container').hide();
             $("#notconnected").fadeIn('fast');
+        }else if(window.localStorage.connected == 'connecting'){
+            //___loading dots #loadindots
+            $('#container').hide();
+            $("#loadingdiv").fadeIn();
+            $("#loadindots").Loadingdotdotdot({
+                "speed": 400,
+                "maxDots": 4
+            });
         }else{
             fbchatpopup.runIntervals();
             //___ setting the online friends list

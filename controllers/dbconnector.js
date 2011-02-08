@@ -9,8 +9,8 @@ var fbchatDB=function(){
             fbchatdb.db=openDatabase('fbchat', '1.0', 'facebook chat extension database',  5*1024*1024);
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("create table if not exists " +
-                    "friends(id integer primary key asc, name string, pic string,"+
-                    "fbuid integer,online boolean);",
+                    "friends(id integer primary key asc, name string, pic_square string,"+
+                    "uid integer,online boolean);",
                     [],
                     function() {
                         console.log("friends on.");
@@ -35,8 +35,8 @@ var fbchatDB=function(){
         insertFriends:function(list,handler){
             fbchatdb.db.transaction(function(tx) {
                 for(i=0; i< list.length; i++){
-                    tx.executeSql("INSERT into friends (fbuid,name,pic,online) VALUES (?,?,?,?);",
-                        [list[i].id,list[i].name,list[i].pic,false],
+                    tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
+                        [list[i].id,list[i].name,list[i].pic_square,false],
                         handler(list),
                         fbchatdb.onError);
                 }
@@ -51,7 +51,7 @@ var fbchatDB=function(){
                     [false],
                     function(){
                         for(i=0; i< list.length; i++){
-                            tx.executeSql("update friends set online=? where fbuid = ?;",
+                            tx.executeSql("update friends set online=? where uid = ?;",
                                 [true,list[i].id],
                                 null,
                                 fbchatdb.onError);
