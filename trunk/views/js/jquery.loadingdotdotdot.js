@@ -24,13 +24,15 @@
         
             if ( typeof( speed ) === "undefined" || speed === null ) speed = 300;
             if ( typeof( maxDots ) === "undefined" || maxDots === null ) maxDots = 3;
+            if ( typeof( message ) === "undefined" || message === null ) message = 'connecting';
             
             base.speed = speed;
             base.maxDots = maxDots;
+            base.message = message;
                                     
             base.options = $.extend({},$.Loadingdotdotdot.defaultOptions, options);
                         
-            base.$el.html("<span>connecting<em></em></span>");
+            base.$el.html("<span>"+base.message+"<em></em></span>");
             
             base.$dots = base.$el.find("em");
             base.$loadingText = base.$el.find("span");
@@ -52,7 +54,8 @@
     
     $.Loadingdotdotdot.defaultOptions = {
         speed: 300,
-        maxDots: 3
+        maxDots: 3,
+        message: 'connecting'
     };
     
     $.fn.Loadingdotdotdot = function(options) {

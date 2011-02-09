@@ -141,6 +141,9 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
+            $("#sendMessage").click(function(){
+                fbchatpopup.sendMessage();
+            })
         },
         updateConversations:function(list){
         },
@@ -159,9 +162,36 @@ var fbchatPOPUP = function(){
             return out;
         },
         /**
+         * send a message from popup.
+         */
+        sendMessage:function(){
+            if($('#chat-text-box').attr('value')== 'type your message here'){
+                console.log('not sinding')
+                return;
+            }
+            var message ={
+                msg:$('#chat-text-box').attr('value'),
+                to:window.localStorage.chatwindow,
+                from:window.localStorage.sessionKey,
+                //get from session later.
+                sendername:'prog mania',
+                senderpic:'http://profile.ak.fbcdn.net/hprofile-ak-snc4/161416_704065197_6613427_q.jpg'
+            }
+            chrome.extension.sendRequest({
+                'action':'sendmessage',
+                'message':message
+            });
+            var out=fbchatpopup.populateChatWindow(message.msg, 'blue', 'http://profile.ak.fbcdn.net/hprofile-ak-snc4/161416_704065197_6613427_q.jpg', 'prog mania');
+            $("#conversation-container").append(out);
+            $('#chat-text-box').attr('value','');
+        },
+        /**
          * generate the html for the chat window.
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
+            for( i= 0; i< anim.length;i++){
+                msg=background.util.replaceAll(msg, anim[i].value, '<img src="'+anim[i].value+'" width="16" height="16"')
+            }
             var out="";
             if(color== 'blue'){
                 out+='<div class="conversation f me">';
@@ -177,10 +207,11 @@ var fbchatPOPUP = function(){
             out+='<div class="b-chatbox-arrow"></div>';
             out+='</div>';
             out+='<div class="talker-image f">';
-            out+='<img src="'+senderpic+'" width="50" height="50" alt="'+sendername+'" />';
+            out+='<img src="'+senderpic+'" width="50" height="50" alt="'+sindername+'" />';
             out+='<div class="talker-image-shadow"></div>';
             out+='</div>';
             out+='</div>';
+            return out;
         },
         /**
          * opening a chat window with the friend of the uid.
@@ -196,7 +227,8 @@ var fbchatPOPUP = function(){
             //___update chat windows.
             $("#conversation-container").Loadingdotdotdot({
                 "speed": 400,
-                "maxDots": 4
+                "maxDots": 4,
+                "message":"loading"
             });
             // opening a new chat tab.
             background.fbchatdb.getFriendByUID(uid, function(friend){
@@ -215,7 +247,7 @@ var fbchatPOPUP = function(){
                     $("#conversation-container").Loadingdotdotdot("stop");
                     var chatContainer="";
                     for(i=0; i< chat.length; i++){
-                        chatContainer+=fbchatpopup.populateChatWindow(chat.msg, chat.dircolor, chat.senderpic,chat.sendername);
+                        chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].sender_pic,chat[i].sender_name);
                     }
                     $("#conversation-container").html(chatContainer);
                 });
@@ -300,9 +332,16 @@ var fbchatPOPUP = function(){
             //___update chat windows.
             //$("#conversation-container").html("");
             //___update open chat box name
-            $("#chat-buddy-name").html("");
-            $("#chat-buddy-img").hide();
-            
+            //            $("#chat-buddy-name").html("");
+            //            $("#chat-buddy-img").hide();
+            if(window.localStorage.chatwindow){
+                fbchatpopup.openchatwindow(window.localStorage.chatwindow);
+            }else{
+                $("#conversation-container").html("");
+                $("#chat-buddy-name").html("");
+                $("#chat-buddy-img").hide();
+                $("#closeChat").hide();
+            }
         }
         
         fbchatpopup.setClickEventActions();

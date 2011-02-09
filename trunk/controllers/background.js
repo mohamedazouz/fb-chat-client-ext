@@ -68,6 +68,18 @@ var fbchatBG=function(){
                     });
                 });
             });
+        },
+        sendMessage:function(message){
+            Proxy.sendMessage(message.to, message.msg,function(){
+                var msg={
+                    uid:message.to,
+                    msg:message.msg,
+                    sender_name:message.sendername,
+                    sender_pic:message.senderpic,
+                    dircolor:'blue'
+                }
+                fbchatdb.inserChatMessage(msg,function(){});
+            });
         }
     };
 
@@ -111,6 +123,9 @@ function onRequest(request, sender, callback) {
     }
     if(request.action == 'connect'){
         fbchatbg.connect(callback);
+    }
+    if(request.action == 'sendmessage'){
+        fbchatbg.sendMessage(request.message);
     }
 }
 

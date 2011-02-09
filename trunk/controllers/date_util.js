@@ -55,7 +55,7 @@ var date_util={
     },
     now:function(){
         var date=new Date();
-        var now=(date.getHours()%12 > 9 ? date.getHours()%12 : '0'+(date.getHours()%12))+':'+(date.getMinutes()>9?date.getMinutes():'0'+(date.getMinutes()))+' '+(date.getHours() > 12?'pm':'am');
+        var now=(date.getHours()%12 > 9 ? date.getHours()%12 : '0'+(date.getHours()%12))+':'+(date.getMinutes()>9?date.getMinutes():'0'+(date.getMinutes()))+':'+(date.getSeconds()>9?date.getSeconds():'0'+(date.getSeconds()))+' '+(date.getHours() > 12?'pm':'am');
         return now;
     },
     cutText:function(text,lenght){

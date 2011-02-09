@@ -17,7 +17,8 @@ var fbchatDB=function(){
                     },
                     fbchatdb.onError);
                 tx.executeSql("create table if not exists " +
-                    "chat_history(id integer primary key asc, uid integer,  msg string, sender_name string, sender_pic string, msgtime string, msgdate string, dircolor string);",
+                    "chat_history(id integer primary key asc, uid integer,  msg string, "+
+                    "sender_name string, sender_pic string, msgtime string, msgdate string, dircolor string);",
                     [],
                     function() {
                         console.log("chat on.");
@@ -148,7 +149,7 @@ var fbchatDB=function(){
         getTodayChatByUID:function(uid,handler){
             var chat=[];
             fbchatdb.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM chat_history where uid=? AND msgdate =? ORDER BY msgtime DESC;",
+                tx.executeSql("SELECT * FROM chat_history where uid=? AND msgdate =? ORDER BY msgtime ASC;",
                     [uid,date_util.today()],
                     function(tx,results) {
                         for (i = 0; i < results.rows.length; i++) {
@@ -158,6 +159,17 @@ var fbchatDB=function(){
                     });
             },
             fbchatdb.onError);
+        },
+        /**
+         * save a message to the chat history.
+         */
+        inserChatMessage:function(message,handler){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("INSERT into chat_history (uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor) VALUES (?,?,?,?,?,?,?);",
+                    [message.uid,message.msg,message.sender_name,message.sender_pic,date_util.today(),date_util.now(),message.dircolor],
+                    handler(),
+                    fbchatdb.onError);
+            });
         }
     }
     $(function(){

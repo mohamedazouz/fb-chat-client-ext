@@ -102,7 +102,7 @@ var Proxy={
     /**
      * send a chat message.
      */
-    sendMessage:function(to,msg){
+    sendMessage:function(to,msg,handler){
         $.ajax({
             url:Proxy.baseURL+Proxy.sendMessageURL,
             data:{
@@ -110,9 +110,8 @@ var Proxy={
                 msg:msg
             },
             dataType:'json',
-            success:function(){
-
-            }
+            type:'POST',
+            success:handler
         })
     },
     /**
