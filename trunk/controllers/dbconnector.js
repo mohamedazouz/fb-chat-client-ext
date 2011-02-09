@@ -16,6 +16,13 @@ var fbchatDB=function(){
                         console.log("friends on.");
                     },
                     fbchatdb.onError);
+                tx.executeSql("create table if not exists " +
+                    "chat_history(id integer primary key asc, uid integer,  msg string, sender_name string, sender_pic string, msgtime string, msgdate string, dircolor string);",
+                    [],
+                    function() {
+                        console.log("chat on.");
+                    },
+                    fbchatdb.onError);
                 tx.executeSql("DELETE FROM friends;",
                     [],
                     function(){
@@ -27,7 +34,7 @@ var fbchatDB=function(){
          * fbchat error function.
          */
         onError: function(tx,error) {
-            console.log("Error occurred: ", error.message);
+            console.log("Error occurred: ", error);
         },
         /**
          * insert friends into db
@@ -36,7 +43,7 @@ var fbchatDB=function(){
             fbchatdb.db.transaction(function(tx) {
                 for(i=0; i< list.length; i++){
                     tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
-                        [list[i].id,list[i].name,list[i].pic_square,false],
+                        [list[i].uid,list[i].name,list[i].pic_square,false],
                         handler(list),
                         fbchatdb.onError);
                 }
@@ -52,7 +59,7 @@ var fbchatDB=function(){
                     function(){
                         for(i=0; i< list.length; i++){
                             tx.executeSql("update friends set online=? where uid = ?;",
-                                [true,list[i].id],
+                                [true,list[i].uid],
                                 null,
                                 fbchatdb.onError);
                         }
@@ -73,6 +80,81 @@ var fbchatDB=function(){
                             onlineFriends.push(util.clone(results.rows.item(i)));
                         }
                         handler(onlineFriends);
+                    });
+            },
+            fbchatdb.onError);
+        },
+        /**
+         * get a friend item with unique facebook id.
+         */
+        getFriendByUID:function(uid,handler){
+            var friends=[];
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM friends where uid=? ;",
+                    [uid],
+                    function(tx,results) {
+                        for (i = 0; i < results.rows.length; i++) {
+                            friends.push(util.clone(results.rows.item(i)));
+                        }
+                        handler(friends.length == 0 ? null : friends[0] );
+                    });
+            },
+            fbchatdb.onError);
+        },
+        /**
+         * get Chat messages history by uid.
+         * @param uid friend uid.
+         * @param handler after success function
+         */
+        getChatByUID:function(uid,handler){
+            var chat=[];
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM chat_history where uid=? ;",
+                    [uid],
+                    function(tx,results) {
+                        for (i = 0; i < results.rows.length; i++) {
+                            chat.push(util.clone(results.rows.item(i)));
+                        }
+                        handler(chat);
+                    });
+            },
+            fbchatdb.onError);
+        },
+        /**
+         * get Chat messages history by uid.
+         * @param uid friend uid.
+         * @param max max chat messages.
+         * @param handler after success function
+         */
+        getMaxChatByUID:function(uid,max,handler){
+            var chat=[];
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM chat_history WHERE uid=? ORDER BY msgdate DESC, msgtime DESC LIMIT ?;",
+                    [uid,max],
+                    function(tx,results) {
+                        for (i = 0; i < results.rows.length; i++) {
+                            chat.push(util.clone(results.rows.item(i)));
+                        }
+                        handler(chat);
+                    });
+            },
+            fbchatdb.onError);
+        },
+        /**
+         * get Chat messages history by uid.
+         * @param uid friend uid.
+         * @param handler after success function
+         */
+        getTodayChatByUID:function(uid,handler){
+            var chat=[];
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM chat_history where uid=? AND msgdate =? ORDER BY msgtime DESC;",
+                    [uid,date_util.today()],
+                    function(tx,results) {
+                        for (i = 0; i < results.rows.length; i++) {
+                            chat.push(util.clone(results.rows.item(i)));
+                        }
+                        handler(chat);
                     });
             },
             fbchatdb.onError);

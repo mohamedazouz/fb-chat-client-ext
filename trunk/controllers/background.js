@@ -61,6 +61,9 @@ var fbchatBG=function(){
                             handler(callbackParam);
                         }catch(ex){
                             console.log(ex);
+                            chrome.extension.getViews({type:"popup"}).forEach(function(win){
+                                win.fbchatpopup.disposableFunctions.afterConnectingSuccess(callbackParam);
+                            });
                         }
                     });
                 });
@@ -129,7 +132,7 @@ fbchatpopup.populateFriendsList=function(list,online){
         out+='<div class="user-name f">'+list[o].name+'</div>';
         out+='<div class="group f"></div>';
         if(online){
-            out+='<div><img id="'+list[o].uid+'" style="cursor:pointer; height="34" src="images/user-symbol.png" width="30"/></div>';
+            out+='<div><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
         }
         out+='</div>';
     }

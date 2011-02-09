@@ -49,6 +49,30 @@ var util={
         return checked;
     },
     /**
+     * returns the index of the object in the array, the object must be similar to the array contains. 
+     * @param ob the object to get its index.
+     * @param array the array to check throw.
+     * @param compareItem the item that will compare with in the array items, if null the object will be compared as string.
+     * @return the index of the element, -1 if it's not exists.
+     */
+    inObjectArray:function(ob,array,compareItem){
+        var index=-1;
+        for(i=0; i< array.length; i++){
+            if(compareItem){
+                if(ob[compareItem] == array[i][compareItem]){
+                    index = i;
+                    i=array.length;
+                }
+            }else{
+                if(JSON.stringify(ob) == JSON.stringify(array[i])){
+                    index = i;
+                    i=array.length;
+                }
+            }
+        }
+        return index;
+    },
+    /**
      * revers a string.
      * @param str the string to be reversed.
      * @return the reversed string.
