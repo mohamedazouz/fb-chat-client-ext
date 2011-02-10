@@ -41,6 +41,18 @@ var fbchatPOPUP = function(){
                 //___update open chat box name
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();
+            },
+            fixSlider:function(){
+                // Wrap all .slides with #slideInner div
+                $('.slide')
+                .wrapAll('<div id="slideInner"></div>')
+                // Float left to display horizontally, readjust .slides width
+                .css({
+                    'float' : 'left',
+                    'width' : 50
+                });
+                // Set #slideInner width equal to total width of all slides
+                $('#slideInner').css('width', 50 *  $('.slide').length);
             }
         },
         friendsInterval:null,
@@ -159,7 +171,7 @@ var fbchatPOPUP = function(){
          */
         addToChatFriends:function(friend){
             var out='<div class="slide">';
-            out+='<div value="'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
+            out+='<div onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
             out+='<img width="50" height="50" alt="'+friend.name+'" src="'+friend.pic_square+'" >';
             out+='<div class="talker-image-shadow"></div>';
             out+='</div>';
@@ -242,8 +254,7 @@ var fbchatPOPUP = function(){
                     window.localStorage.activeChat=JSON.stringify(activeChat);
                     //appending the frined icon to the slider of chat friends.
                     $("#slidesContainer").append(fbchatpopup.addToChatFriends(friend));
-                    // Set #slideInner width equal to total width of all slides
-                    $('#slideInner').css('width', 50 *  $('.slide').length);
+                    fbchatpopup.disposableFunctions.fixSlider();
                     $("#slideshow, .user-pointer").show();
                 }
                 window.localStorage.chatwindow=friend.uid;
@@ -295,6 +306,7 @@ var fbchatPOPUP = function(){
                 chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
             }
             $("#slidesContainer").html(chatSlider);
+            fbchatpopup.disposableFunctions.fixSlider();
             if(activeChat.length ==0){
                 $("#slideshow, .user-pointer").hide();
             }
