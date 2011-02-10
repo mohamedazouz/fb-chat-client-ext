@@ -16,6 +16,7 @@ body {
     background:url(../images/status_bg.png) repeat-x;
     color:#FFF;
     width:420px;
+    height: 31px;
 }
 .f {
     float:left;
@@ -118,6 +119,7 @@ body {
     margin: 2px 0px 0px 2px;
     width:56px;
     height:56px;
+    cursor: pointer;
 }
 .slider-image-border{
 

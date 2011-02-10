@@ -5,7 +5,7 @@ var Proxy={
     /**
      * proxy base url.
      */
-    baseURL:'http://196.221.73.41:8080/FBChatProxy',
+    baseURL:'http://196.221.179.119:8080/FBChatProxy',
     /**
      * first time login url.
      */
@@ -68,7 +68,7 @@ var Proxy={
     /**
      * go online :).
      */
-    connect:function(handler){
+    connect:function(handler,failer){
         if(! JSON.parse(window.localStorage.logged) || (! window.localStorage.sessionKey)){
             return;
         }
@@ -80,10 +80,13 @@ var Proxy={
                 "sessionkey":window.localStorage.sessionKey
             },
             type:'POST',
-            success:function(){
-                console.log('connected.');
+            success:function(usr){
                 //TO DO: after login function
-                handler();
+                handler(usr);
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown)
+                failer();
             }
         })
     },

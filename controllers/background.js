@@ -34,7 +34,9 @@ var fbchatBG=function(){
         },
         connect:function(handler){
             var callbackParam={};
-            Proxy.connect(function(){
+            Proxy.connect(function(usr){
+                //saving user data.
+                window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
                     fbchatdb.insertFriends(list, function(list){
                         //populate list of all friends and save it in the localStorage
@@ -61,21 +63,28 @@ var fbchatBG=function(){
                             handler(callbackParam);
                         }catch(ex){
                             console.log(ex);
-                            chrome.extension.getViews({type:"popup"}).forEach(function(win){
+                            chrome.extension.getViews({
+                                type:"popup"
+                            }).forEach(function(win){
                                 win.fbchatpopup.disposableFunctions.afterConnectingSuccess(callbackParam);
                             });
                         }
                     });
                 });
+            },function(){
+                //___ set connected to be false
+                window.localStorage.connected=false;
             });
         },
-        sendMessage:function(message){
+        sendMessage:function(message,handler){
+            var user=JSON.parse(window.localStorage.user);
             Proxy.sendMessage(message.to, message.msg,function(){
+                handler(user);
                 var msg={
                     uid:message.to,
                     msg:message.msg,
-                    sender_name:message.sendername,
-                    sender_pic:message.senderpic,
+                    sender_name:user.name,
+                    sender_pic:user.pic_square,
                     dircolor:'blue'
                 }
                 fbchatdb.inserChatMessage(msg,function(){});
@@ -125,7 +134,7 @@ function onRequest(request, sender, callback) {
         fbchatbg.connect(callback);
     }
     if(request.action == 'sendmessage'){
-        fbchatbg.sendMessage(request.message);
+        fbchatbg.sendMessage(request.message,callback);
     }
 }
 

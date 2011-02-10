@@ -143,7 +143,12 @@ var fbchatPOPUP = function(){
             });
             $("#sendMessage").click(function(){
                 fbchatpopup.sendMessage();
-            })
+            });
+            $("#chat-text-box").bind("keypress",function(e){
+                if(e.keyCode == 13){
+                    fbchatpopup.sendMessage();
+                }
+            });
         },
         updateConversations:function(list){
         },
@@ -154,7 +159,7 @@ var fbchatPOPUP = function(){
          */
         addToChatFriends:function(friend){
             var out='<div class="slide">';
-            out+='<div class="slider-image f current">';
+            out+='<div value="'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
             out+='<img width="50" height="50" alt="'+friend.name+'" src="'+friend.pic_square+'" >';
             out+='<div class="talker-image-shadow"></div>';
             out+='</div>';
@@ -171,27 +176,25 @@ var fbchatPOPUP = function(){
             }
             var message ={
                 msg:$('#chat-text-box').attr('value'),
-                to:window.localStorage.chatwindow,
-                from:window.localStorage.sessionKey,
-                //get from session later.
-                sendername:'prog mania',
-                senderpic:'http://profile.ak.fbcdn.net/hprofile-ak-snc4/161416_704065197_6613427_q.jpg'
+                to:window.localStorage.chatwindow
             }
             chrome.extension.sendRequest({
                 'action':'sendmessage',
                 'message':message
+            },function(user){
+                var out=fbchatpopup.populateChatWindow(message.msg, 'blue', user.pic_square, user.name);
+                $("#conversation-container").append(out);
+                $('#chat-text-box').attr('value','');
+                window.scroll(0,150);
             });
-            var out=fbchatpopup.populateChatWindow(message.msg, 'blue', 'http://profile.ak.fbcdn.net/hprofile-ak-snc4/161416_704065197_6613427_q.jpg', 'prog mania');
-            $("#conversation-container").append(out);
-            $('#chat-text-box').attr('value','');
         },
         /**
          * generate the html for the chat window.
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
-            for( i= 0; i< anim.length;i++){
-                msg=background.util.replaceAll(msg, anim[i].value, '<img src="'+anim[i].value+'" width="16" height="16"')
-            }
+            //            for( z= 0; z< anim.length;z++){
+            //                msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].value+'" width="16" height="16"/>')
+            //            }
             var out="";
             if(color== 'blue'){
                 out+='<div class="conversation f me">';
@@ -234,12 +237,14 @@ var fbchatPOPUP = function(){
             background.fbchatdb.getFriendByUID(uid, function(friend){
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
-                console.log(background.util.inObjectArray(friend, activeChat,'uid'));
                 if(background.util.inObjectArray(friend, activeChat,'uid') == -1){
                     activeChat.push(friend);
                     window.localStorage.activeChat=JSON.stringify(activeChat);
                     //appending the frined icon to the slider of chat friends.
                     $("#slidesContainer").append(fbchatpopup.addToChatFriends(friend));
+                    // Set #slideInner width equal to total width of all slides
+                    $('#slideInner').css('width', 50 *  $('.slide').length);
+                    $("#slideshow, .user-pointer").show();
                 }
                 window.localStorage.chatwindow=friend.uid;
                 
@@ -290,6 +295,9 @@ var fbchatPOPUP = function(){
                 chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
             }
             $("#slidesContainer").html(chatSlider);
+            if(activeChat.length ==0){
+                $("#slideshow, .user-pointer").hide();
+            }
         },
         /**
          * running the intervals while popup is on.
@@ -311,6 +319,8 @@ var fbchatPOPUP = function(){
 
         //_____check if user is connected or not, if not shows you are not connected.
         if(window.localStorage.connected == 'false'){
+            delete window.localStorage.chatwindow;
+            window.localStorage.activeChat = "[]";
             $('#container').hide();
             $("#notconnected").fadeIn('fast');
         }else if(window.localStorage.connected == 'connecting'){
@@ -329,13 +339,14 @@ var fbchatPOPUP = function(){
             window.setTimeout('$("#friend-list").html(window.localStorage.friendList);', 1000 );
 
             //here open last chat messages.
-            //___update chat windows.
-            //$("#conversation-container").html("");
-            //___update open chat box name
-            //            $("#chat-buddy-name").html("");
-            //            $("#chat-buddy-img").hide();
             if(window.localStorage.chatwindow){
                 fbchatpopup.openchatwindow(window.localStorage.chatwindow);
+                // check for other chat to apppend to the slider.
+                var activeChat=JSON.parse(window.localStorage.activeChat);
+                for(j=0; j < activeChat.length; j++){
+                    $("#slidesContainer").append(fbchatpopup.addToChatFriends(activeChat[j]));
+                }
+                $("#slideshow, .user-pointer").show();
             }else{
                 $("#conversation-container").html("");
                 $("#chat-buddy-name").html("");
