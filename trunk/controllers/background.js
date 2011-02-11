@@ -72,7 +72,7 @@ var fbchatBG=function(){
             //checking for new online friends. every 3 min.
             fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
             // checking for new chat messages, every 2 sec.
-            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 4);
+            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 2);
         },
         /**
          * updates friends status.

@@ -257,6 +257,11 @@ var fbchatPOPUP = function(){
                 if(friend.online == 'true'){
                     $("#chat-buddy-img").attr('src','images/status_color.png');
                     $("#chat-text-box").attr('disabled',false);
+
+                    //unbind any previous click actions.
+                    $("#sendMessage").unbind("click");
+                    $("#chat-text-box").unbind("keypress");
+                    //bind new click actions.
                     $("#sendMessage").bind("click",function(){
                         fbchatpopup.sendMessage();
                     });
