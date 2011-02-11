@@ -30,31 +30,31 @@ var fbchatBG=function(){
                     return;
                 }
                 var messageDate=new Date();
-                sendMessages=function(msgs){
-                    for(i=0;i<msgs.length;i++){
-                        var sender_uid=(msgs[i].from).substring(1,(msgs[i].from).indexOf("@"));
-                        fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
-                            messageDate.setTime(msg.time);
-                            //uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor
-                            var message={
-                                uid:sender_uid,
-                                msg:msg.msg,
-                                sender_name:friend.name,
-                                sender_pic:friend.pic_square,
-                                msgdate:date_util.getDayString(messageDate),
-                                msgtime:date_util.getDateHours(messageDate),
-                                dircolor:'white'
+                sendMessages=function(msg){
+                    var sender_uid=(msg.from).substring(1,(msg.from).indexOf("@"));
+                    fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
+                        messageDate.setTime(msg.time);
+                        //uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor
+                        var message={
+                            uid:sender_uid,
+                            msg:msg.msg,
+                            sender_name:friend.name,
+                            sender_pic:friend.pic_square,
+                            msgdate:date_util.getDayString(messageDate),
+                            msgtime:date_util.getDateHours(messageDate),
+                            dircolor:'white'
 
-                            }
-                            fbchatdb.inserChatMessage(message, function(){
-                                fbchatbg.showMSG(sender_uid);
-                            })
-                        },msgs[i]);
-                    }
+                        }
+                        fbchatdb.inserChatMessage(message, function(){
+                            fbchatbg.showMSG(sender_uid);
+                        })
+                    },msg);
                 }
                 if(! window.localStorage.lastMessage){
-                    sendMessages(msgs);
-                    window.localStorage.lastMessage = msgs[msgs.length -1].time;
+                    for(j=0;j<msgs.length;j++){
+                        sendMessages(msgs);
+                        window.localStorage.lastMessage = msgs[msgs.length -1].time;
+                    }
                 }else{
                     for(j=0;j<msgs.length;j++){
                         if(window.localStorage.lastMessage < msgs[j].time){

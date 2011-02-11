@@ -1,5 +1,6 @@
 <html>
     <head>
+        <title></title>
         <script type="text/javascript">
             function getParameter(name){
                 name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -18,18 +19,133 @@
                 });
                 window.close();
             }
+            var anim=[
+                {
+                    id:0,
+                    img:'chat-icons/heart.png',
+                    value:'<3'
+                },
+                {
+                    id:1,
+                    img:'chat-icons/kiki.png',
+                    value:'^_^'
+                },
+                {
+                    id:2,
+                    img:'chat-icons/squint.png',
+                    value:'-_-'
+                },
+                {
+                    id:3,
+                    img:'chat-icons/confused.png',
+                    value:'o.O'
+                },
+                {
+                    id:4,
+                    img:'chat-icons/upset.png',
+                    value:'>:O'
+                },
+                {
+                    id:5,
+                    img:'chat-icons/pacman.png',
+                    value:':v'
+                },
+                {
+                    id:6,
+                    img:'chat-icons/colonthree.png',
+                    value:':3'
+                },
+                {
+                    id:7,
+                    img:'chat-icons/kiss.png',
+                    value:':*'
+                },
+                {
+                    id:8,
+                    img:'chat-icons/angel.png',
+                    value:'O:)'
+                },
+                {
+                    id:9,
+                    img:'chat-icons/devil.png',
+                    value:'3:)'
+                },
+                {
+                    id:10,
+                    img:'chat-icons/cry.png',
+                    value:">:'("
+                },
+                {
+                    id:11,
+                    img:'chat-icons/unsure.png',
+                    value:'>:/'
+                },
+                {
+                    id:12,
+                    img:'chat-icons/grumpy.png',
+                    value:'>:-('
+                },
+                {
+                    id:13,
+                    img:'chat-icons/sunglasses.png',
+                    value:'8|'
+                },
+                {
+                    id:14,
+                    img:'chat-icons/glasses.png',
+                    value:'8)'
+                },
+                {
+                    id:15,
+                    img:'chat-icons/wink.png',
+                    value:';)'
+                },
+                {
+                    id:16,
+                    img:'chat-icons/gasp.png',
+                    value:':O'
+                },
+                {
+                    id:17,
+                    img:'chat-icons/grin.png',
+                    value:':D'
+                },
+                {
+                    id:18,
+                    img:'chat-icons/tongue.png',
+                    value:':p'
+                },
+                {
+                    id:19,
+                    img:'chat-icons/frown.png',
+                    value:':('
+                },
+                {
+                    id:20,
+                    img:'chat-icons/smile.png',
+                    value:':)'
+                }
+            ];
+            var util={};
+            util.replaceAll=function(str,match,replace){
+                var retstr=str;
+                while(retstr.indexOf(match) != -1){
+                    retstr=retstr.replace(match, replace);
+                }
+                return retstr;
+            }
         </script>
     </head>
     <body>
         <div class="news-box" style="float:right;width:280px;border-radius:3px; padding: 0 5px;margin-bottom: 5px;padding-bottom: 10px">
             <div class="news-photo" id="imgparent" style="float:right;width:74px;height:53px;margin:10px 0 0px 10px;">
-                <a id="link" href="" onclick="openURL(this.href)">
+                <a id="link" href="" onclick="">
                     <img id="img" alt="" src="" width="72" height="51" style="width:72px;height:51px;border:1px #4767a1 solid;">
                 </a>
             </div>
             <div class="box-news-left" style="float:right;width:195px;">
                 <div class="box-news-title" style="float:right;width:100%;margin-top:10px;font-weight:bold;font-size:13px;color:#4c4c4c;text-align:right;direction:rtl;">
-                    <a style="cursor:pointer;color:#000;text-decoration:none;" id="title" href="" onclick="openURL(this.href)"> </a>
+                    <a style="cursor:pointer;color:#000;text-decoration:none;" id="title" href="" onclick=""> </a>
                 </div>
                 <div id="desc" class="box-news-brief" style="float:right;width:100%;margin-top:7px;font-weight:normal;font-size:11px;color:#4c4c4c; text-align:right; direction:rtl;">  </div>
             </div>
@@ -48,25 +164,39 @@
             };
             document.getElementById("title").innerHTML=decodeURIComponent(getParameter('title'));
             document.getElementById("title").href=decodeURIComponent(getParameter('link'));
-            document.getElementById("desc").innerHTML=decodeURIComponent(getParameter('msg'));
+            var msg=decodeURIComponent(getParameter('msg'));
+            for( z= 0; z< anim.length;z++){
+                msg=util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
+            }
+            document.getElementById("desc").innerHTML=msg;
             var closetime=decodeURIComponent(getParameter('closeafter'));
             if(closetime != 0){
                 window.setTimeout("window.close();",closetime * 1000);
             }
             console.log(window.location.href);
-            document.getElementById("enterButton").onclick=function(){
+            function sendMessage(){
                 var message ={
                     msg:document.getElementById("messageBox").value,
                     to:decodeURIComponent(getParameter("uid"))
                 }
-                console.log(JSON.stringify(message));
+                if(message.msg == ''){
+                    return;
+                }
                 chrome.extension.sendRequest({
                     'action':'sendmessage',
                     'message':message
                 },function(){
                     window.close();
                 });
+            }
+            document.getElementById("enterButton").onclick=function(){
+                sendMessages();
             };
+            document.getElementById("messageBox").onkeypress=function(e){
+                if(e.keyCode == 13){
+                    sendMessage();
+                }
+            }
         </script>
     </body>
 </html>
