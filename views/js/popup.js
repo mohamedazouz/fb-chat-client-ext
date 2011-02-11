@@ -39,10 +39,13 @@ $(document).ready(function() {
         if(this.value == ''){
             //use i18n later for message
             this.value='type your message here';
+            $(this).css('color','gray');
         }
     }).keydown(function(){
         if(this.value == 'type your message here'){
             this.value='';
+        }else{
+            $(this).css('color','#B5C0D8');
         }
     });
     //icons actions

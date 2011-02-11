@@ -89,7 +89,7 @@ var fbchatPOPUP = function(){
                 staticlist=fbchatpopup.populateFriendsList(list,true);
                 window.localStorage.onlineFriends=staticlist;
                 fbchatpopup.setOnlineFriendsList(staticlist);
-            });
+            },function(){});
         },
         /**
          * setting the online friends from the localStorage or from paramters
@@ -153,18 +153,21 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
-            $("#sendMessage").click(function(){
-                fbchatpopup.sendMessage();
-            });
+            //            $("#sendMessage").click(function(){
+            //                //fbchatpopup.sendMessage();
+            //            });
             $("#chat-text-box").bind("keypress",function(e){
                 if(e.keyCode == 13){
                     fbchatpopup.sendMessage();
                 }
             });
         },
-        updateConversations:function(list){
-        },
-        updateConversation:function(msg){
+        /**
+         * update the conversation in case a new message has been received.
+         */
+        updateConversation:function(uid){
+            //check for opened chat windows, if there is open, notifiy by adding star on it.
+            fbchatpopup.openchatwindow(uid);
         },
         /**
          * makes html for the online chat friends
@@ -190,6 +193,7 @@ var fbchatPOPUP = function(){
                 msg:$('#chat-text-box').attr('value'),
                 to:window.localStorage.chatwindow
             }
+//            console.log("sending:"+JSON.stringify(message));
             chrome.extension.sendRequest({
                 'action':'sendmessage',
                 'message':message
@@ -204,22 +208,29 @@ var fbchatPOPUP = function(){
          * generate the html for the chat window.
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
-            //            for( z= 0; z< anim.length;z++){
-            //                msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].value+'" width="16" height="16"/>')
-            //            }
+            for( z= 0; z< anim.length;z++){
+                msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>')
+            }
             var out="";
             if(color== 'blue'){
                 out+='<div class="conversation f me">';
+                out+='<div class="chatbox f-r b-chatbox">';
+                out+='<div class="b-chatbox-top f"></div>';
+                out+='<div class="b-chatbox-middle f">';
+                out+=msg;
+                out+='</div>';
+                out+='<div class="b-chatbox-bottom f"></div>';
+                out+='<div class="b-chatbox-arrow"></div>';
             }else{
                 out+='<div class="conversation f other">';
+                out+='<div class="chatbox f w-chatbox">';
+                out+='<div class="w-chatbox-top f"></div>';
+                out+='<div class="w-chatbox-middle f">';
+                out+=msg;
+                out+='</div>';
+                out+='<div class="w-chatbox-bottom f"></div>';
+                out+='<div class="w-chatbox-arrow"></div>';
             }
-            out+='<div class="chatbox f-r b-chatbox">';
-            out+='<div class="b-chatbox-top f"></div>';
-            out+='<div class="b-chatbox-middle f">';
-            out+=msg;
-            out+='</div>';
-            out+='<div class="b-chatbox-bottom f"></div>';
-            out+='<div class="b-chatbox-arrow"></div>';
             out+='</div>';
             out+='<div class="talker-image f">';
             out+='<img src="'+senderpic+'" width="50" height="50" alt="'+sindername+'" />';
@@ -247,6 +258,21 @@ var fbchatPOPUP = function(){
             });
             // opening a new chat tab.
             background.fbchatdb.getFriendByUID(uid, function(friend){
+                if(friend.online == 'true'){
+                    $("#chat-buddy-img").attr('src','images/status_color.png');
+                    $("#chat-text-box").attr('disabled',false);
+                    $("#sendMessage").bind("click",function(){
+                        fbchatpopup.sendMessage();
+                    });
+                    $("#chat-text-box").attr('value','type your message here');
+                    $("#chat-text-box").css('color','gray');
+                }else{
+                    $("#chat-buddy-img").attr('src','images/status_offline_color.png');
+                    $("#chat-text-box").attr('disabled',true);
+                    $("#chat-text-box").attr('value',friend.name +' went offline');
+                    $("#chat-text-box").css('color','#B5C0D8');
+                    $("#sendMessage").unbind("click");
+                }
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
                 if(background.util.inObjectArray(friend, activeChat,'uid') == -1){
@@ -359,6 +385,7 @@ var fbchatPOPUP = function(){
                     $("#slidesContainer").append(fbchatpopup.addToChatFriends(activeChat[j]));
                 }
                 $("#slideshow, .user-pointer").show();
+                fbchatpopup.disposableFunctions.fixSlider();
             }else{
                 $("#conversation-container").html("");
                 $("#chat-buddy-name").html("");
