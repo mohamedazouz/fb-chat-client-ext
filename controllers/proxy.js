@@ -51,7 +51,7 @@ var Proxy={
             dataType:'json',
             success:function(res){
                 if(! res.sessionkey && count < 60){
-                    window.setTimeout("fbchatbg.Authenticate("+(count+1)+")", 1000 * 10);
+                    window.setTimeout("Proxy.Authenticate("+(count+1)+")", 1000 * 10);
                 }else{
                     window.localStorage.sessionKey=res.sessionkey;
                     window.localStorage.logged=true;
@@ -60,7 +60,7 @@ var Proxy={
             },
             error:function(){
                 if(count < 60){
-                    window.setTimeout("fbchatbg.Authenticate("+(count+1)+")", 1000 * 10);
+                    window.setTimeout("Proxy.Authenticate("+(count+1)+")", 1000 * 10);
                 }
             }
         });
