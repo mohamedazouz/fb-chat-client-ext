@@ -210,6 +210,20 @@ function onRequest(request, sender, callback) {
     }
     if(request.action == 'disconnect'){
         window.clearInterval(fbchatbg.friendsInterval);
+        window.clearInterval(fbchatbg.ChatInterval);
+        Proxy.disconnect();
+    }
+    if(request.action == 'logout'){
+        window.clearInterval(fbchatbg.friendsInterval);
+        window.clearInterval(fbchatbg.ChatInterval);
+        for(i in window.localStorage){
+            delete window.localStorage[i]
+        }
+        window.localStorage.logged=false;
+        window.localStorage.connected=false;
+        chrome.browserAction.setIcon({
+            path:'/views/icons/32x32_off.png'
+        });
         Proxy.disconnect();
     }
     if(request.action == 'connect'){
