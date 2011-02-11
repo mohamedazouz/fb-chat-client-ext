@@ -22,6 +22,7 @@ var notification=function(options){
             checkTimeperiod:60,
             localStorageObject:'notificationObject',
             autoDelete:true,
+            createNew:true,
             notifySeeker:function(){
                 if(window.localStorage[this.localStorageObject]){
                     var ob=JSON.parse(window.localStorage[this.localStorageObject]);
@@ -52,6 +53,9 @@ var notification=function(options){
         fireNotification:function(type,title,msg,icon,uid,link,closeTime){
             switch (type){
                 case notifier.notificationTypes.webkit:{
+                    if(! options.createNew){
+                        notifier.webkitNotification.cancel();
+                    }
                     notifier.webkitNotification=webkitNotifications.createNotification(
                         (icon?icon:notifier.options.defaultIcon),  // icon url - can be relative
                         (title?title:''),  // notification title
@@ -64,6 +68,13 @@ var notification=function(options){
                     break;
                 }
                 case notifier.notificationTypes.html:{
+                    if(! options.createNew){
+                        chrome.extension.getViews({
+                            type:"notification"
+                        }).forEach(function(win){
+                            win.close();
+                        });
+                    }
                     var htmlPath=notifier.options.HTMLNotificationURL
                     +'?title='+encodeURIComponent(title?title:'')
                     +'&icon='+encodeURIComponent(icon?icon:notifier.options.defaultIcon)
@@ -171,7 +182,8 @@ util.extend=function(){
 var notifier=new notification({
     checkTimeperiod:'10',
     autoDelete:true,
-    localStorageObject:'notob'
+    localStorageObject:'notob',
+    createNew:false
 });
 //this will set the localstorage element which be fired in the notification.
 /*window.localStorage.notob=JSON.stringify({

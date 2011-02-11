@@ -153,14 +153,10 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
-            //            $("#sendMessage").click(function(){
-            //                //fbchatpopup.sendMessage();
-            //            });
-            $("#chat-text-box").bind("keypress",function(e){
-                if(e.keyCode == 13){
-                    fbchatpopup.sendMessage();
-                }
-            });
+        //            $("#sendMessage").click(function(){
+        //                //fbchatpopup.sendMessage();
+        //            });
+            
         },
         /**
          * update the conversation in case a new message has been received.
@@ -193,7 +189,7 @@ var fbchatPOPUP = function(){
                 msg:$('#chat-text-box').attr('value'),
                 to:window.localStorage.chatwindow
             }
-//            console.log("sending:"+JSON.stringify(message));
+            //            console.log("sending:"+JSON.stringify(message));
             chrome.extension.sendRequest({
                 'action':'sendmessage',
                 'message':message
@@ -209,7 +205,7 @@ var fbchatPOPUP = function(){
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
             for( z= 0; z< anim.length;z++){
-                msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>')
+                msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
             }
             var out="";
             if(color== 'blue'){
@@ -264,6 +260,11 @@ var fbchatPOPUP = function(){
                     $("#sendMessage").bind("click",function(){
                         fbchatpopup.sendMessage();
                     });
+                    $("#chat-text-box").bind("keypress",function(e){
+                        if(e.keyCode == 13){
+                            fbchatpopup.sendMessage();
+                        }
+                    });
                     $("#chat-text-box").attr('value','type your message here');
                     $("#chat-text-box").css('color','gray');
                 }else{
@@ -272,6 +273,7 @@ var fbchatPOPUP = function(){
                     $("#chat-text-box").attr('value',friend.name +' went offline');
                     $("#chat-text-box").css('color','#B5C0D8');
                     $("#sendMessage").unbind("click");
+                    $("#chat-text-box").unbind("keypress");
                 }
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
