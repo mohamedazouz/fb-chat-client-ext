@@ -123,14 +123,9 @@ var fbchatPOPUP = function(){
          * log out
          */
         logout:function(){
-            console.log('logging out');
-            for(i in window.localStorage){
-                delete window.localStorage[i]
-            }
-            window.localStorage.logged=false;
-            window.localStorage.connected=false;
-            chrome.browserAction.setIcon({
-                path:'icons/32x32_off.png'
+            //send to background to log out
+            chrome.extension.sendRequest({
+                'action':'logout'
             });
             window.close();
         },
