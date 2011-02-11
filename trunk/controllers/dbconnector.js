@@ -32,12 +32,6 @@ var fbchatDB=function(){
             });
         },
         /**
-         * fbchat error function.
-         */
-        onError: function(tx,error) {
-            console.log("Error occurred: ", error);
-        },
-        /**
          * insert friends into db
          */
         insertFriends:function(list,handler){
@@ -88,7 +82,7 @@ var fbchatDB=function(){
         /**
          * get a friend item with unique facebook id.
          */
-        getFriendByUID:function(uid,handler){
+        getFriendByUID:function(uid,handler,msg){
             var friends=[];
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("SELECT * FROM friends where uid=? ;",
@@ -97,7 +91,7 @@ var fbchatDB=function(){
                         for (i = 0; i < results.rows.length; i++) {
                             friends.push(util.clone(results.rows.item(i)));
                         }
-                        handler(friends.length == 0 ? null : friends[0] );
+                        handler(friends.length == 0 ? null : friends[0] ,msg);
                     });
             },
             fbchatdb.onError);
@@ -166,10 +160,16 @@ var fbchatDB=function(){
         inserChatMessage:function(message,handler){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("INSERT into chat_history (uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor) VALUES (?,?,?,?,?,?,?);",
-                    [message.uid,message.msg,message.sender_name,message.sender_pic,date_util.today(),date_util.now(),message.dircolor],
+                    [message.uid,message.msg,message.sender_name,message.sender_pic,message.msgdate?message.msgdate:date_util.today(),message.msgtime?message.msgtime:date_util.now(),message.dircolor],
                     handler(),
                     fbchatdb.onError);
             });
+        },
+        /**
+         * fbchat error function.
+         */
+        onError: function(tx,error) {
+            console.log("Error occurred: ", error);
         }
     }
     $(function(){

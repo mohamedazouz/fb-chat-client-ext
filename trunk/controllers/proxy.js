@@ -5,7 +5,7 @@ var Proxy={
     /**
      * proxy base url.
      */
-    baseURL:'http://196.221.179.119:8080/FBChatProxy',
+    baseURL:'http://41.178.64.38:8080/FBChatProxy',
     /**
      * first time login url.
      */
@@ -25,7 +25,7 @@ var Proxy={
     /**
      * the json file of user recent chat url.
      */
-    updateURL:'/chat/',
+    messagesURL:'/chat/',
     /**
      * sending a chat message url, param:to( the reciever id), msg( the message),from (user id).
      */
@@ -120,26 +120,61 @@ var Proxy={
     /**
      * get a list of online friends
      */
-    getOnlineFriends:function(handler){
+    getOnlineFriends:function(handler,failer){
         $.ajax({
             url:Proxy.baseURL+Proxy.onlineUsersURL,
             dataType:'json',
             success:function(list){
                 handler(list);
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown)
+                failer();
             }
         });
     },
     /**
      *
      */
-    getFriendsList:function(handler){
+    getFriendsList:function(handler,failer){
         $.ajax({
             url:Proxy.baseURL+Proxy.listOfUsersURL,
             dataType:'json',
             success:function(list){
                 handler(list);
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown)
+                failer();
             }
         });
+    },
+    getMessages:function(uid,handler,failer){
+        try{
+            $.ajax({
+                url:Proxy.baseURL+Proxy.messagesURL+uid+'.json',
+                dataType:'json',
+                cache:'false',
+                ifModified:'true',
+                statusCode:{
+                    200:function(msgs){
+                        console.log("200");
+                        console.log(JSON.stringify(msgs));
+                    },
+                    304:function(){
+                        console.log('304');
+                    }
+                },
+                complete:function(jqXHR, textStatus){
+                    if(jqXHR.status == 200){
+                        var msgs=JSON.parse(jqXHR.response);
+                        handler(msgs);
+                    }
+                }
+            });
+        }catch(e){
+            console.log(e);
+            failer();
+        }
     }
 }
-

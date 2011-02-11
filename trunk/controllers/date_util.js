@@ -9,6 +9,24 @@ var date_util={
         var todaystring=date.getFullYear()+'/'+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+'/'+(date.getDate()>9?date.getDate():'0'+date.getDate());
         return todaystring;
     },
+    /**
+     * return the date of given date as yyyy/mm/dd format.
+     * @param date instanse that get the the date form.
+     * @return string represents given date as yyyy/mm/dd.
+     */
+    getDayString:function(date){
+        var todaystring=date.getFullYear()+'/'+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+'/'+(date.getDate()>9?date.getDate():'0'+date.getDate());
+        return todaystring;
+    },
+    /**
+     * get hh:mm:ss am/pm represents the given date.
+     * @param date instanse that get the the date form.
+     * @return string represents given date as hh:mm:ss am/pm format
+     */
+    getDateHours:function(date){
+        var now=(date.getHours()%12 > 9 ? date.getHours()%12 : '0'+(date.getHours()%12))+':'+(date.getMinutes()>9?date.getMinutes():'0'+(date.getMinutes()))+':'+(date.getSeconds()>9?date.getSeconds():'0'+(date.getSeconds()))+' '+(date.getHours() > 12?'pm':'am');
+        return now;
+    },
     dayInWeek:function(dateString){
         //format yy/mm/dd
         var weekDays=['Su','Mo','Tu','We','Th','Fr','Sa'];

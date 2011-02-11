@@ -20,18 +20,72 @@ var fbchatBG=function(){
         /**
          * get the latest chat messages.
          */
-        checkForChat:function(){
+        receivingMessages:function(){
+            //send to the proxy to check for messages.
+            //if message is old discard it, else check for open popup if there is one send to it to show the new message.
+            //else send to show a notification.
+            var user=JSON.parse(window.localStorage.user);
+            Proxy.getMessages(user.uid, function(msgs){
+                if(! msgs){
+                    return;
+                }
+                var messageDate=new Date();
+                sendMessages=function(msgs){
+                    for(i=0;i<msgs.length;i++){
+                        var sender_uid=(msgs[i].from).substring(1,(msgs[i].from).indexOf("@"));
+                        fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
+                            messageDate.setTime(msg.time);
+                            //uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor
+                            var message={
+                                uid:sender_uid,
+                                msg:msg.msg,
+                                sender_name:friend.name,
+                                sender_pic:friend.pic_square,
+                                msgdate:date_util.getDayString(messageDate),
+                                msgtime:date_util.getDateHours(messageDate),
+                                dircolor:'white'
 
+                            }
+                            fbchatdb.inserChatMessage(message, function(){
+                                fbchatbg.showMSG(sender_uid);
+                            })
+                        },msgs[i]);
+                    }
+                }
+                if(! window.localStorage.lastMessage){
+                    sendMessages(msgs);
+                    window.localStorage.lastMessage = msgs[msgs.length -1].time;
+                }else{
+                    for(j=0;j<msgs.length;j++){
+                        if(window.localStorage.lastMessage < msgs[j].time){
+                            sendMessages(msgs[j]);
+                            window.localStorage.lastMessage = msgs[j].time;
+                        }
+                    }
+                }
+            }, function(){});
         },
-        liveUpdateOnlineFriends:function(){
+        /**
+         * run the interval check for online friends.
+         */
+        liveUpdates:function(){
+            //checking for new online friends. every 3 min.
             fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
+            // checking for new chat messages, every 2 sec.
+            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 4);
         },
+        /**
+         * updates friends status.
+         */
         updateFriendsStatus:function(){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
-            });
+            },function(){});
         },
+        /**
+         * connect to go online on facebook.
+         */
         connect:function(handler){
             var callbackParam={};
             Proxy.connect(function(usr){
@@ -54,7 +108,7 @@ var fbchatBG=function(){
                         window.localStorage.onlineFriends=callbackParam.onlineFriends;
                         
                         //___ updating friends and start to recieve messages.
-                        fbchatbg.liveUpdateOnlineFriends();
+                        fbchatbg.liveUpdates();
                         //____update connect icon.
                         chrome.browserAction.setIcon({
                             path:'/views/icons/32x32.png'
@@ -69,6 +123,9 @@ var fbchatBG=function(){
                                 win.fbchatpopup.disposableFunctions.afterConnectingSuccess(callbackParam);
                             });
                         }
+                    },function(){
+                        //___ set connected to be false
+                        window.localStorage.connected=false;
                     });
                 });
             },function(){
@@ -76,6 +133,31 @@ var fbchatBG=function(){
                 window.localStorage.connected=false;
             });
         },
+        /**
+         * send the uid to the popup to open the chat window.
+         * @param uid sender id.
+         */
+        showMSG:function(uid){
+            //get instanse of popup page.
+            var popup=chrome.extension.getViews({
+                type:"popup"
+            });
+            //check if there is popup pages is open or not.
+            if(popup.length != 0){
+                //if there is popup page is open send to show new msg.
+                popup.forEach(function(win){
+                    win.fbchatpopup.updateConversation(uid);
+                });
+            }else{
+                //show notification with new message.
+                fbchatdb.getMaxChatByUID(uid, 1, function(chatmsgs){
+                    notifier.fireNotification("html", chatmsgs[0].sender_name, chatmsgs[0].msg, chatmsgs[0].sender_pic,uid);
+                });
+            }
+        },
+        /**
+         * send a messages, and save it in the db.
+         */
         sendMessage:function(message,handler){
             var user=JSON.parse(window.localStorage.user);
             Proxy.sendMessage(message.to, message.msg,function(){
@@ -124,7 +206,7 @@ var fbchatbg=new fbchatBG();
  */
 function onRequest(request, sender, callback) {
     if(request.action=='getAuth'){
-        window.setTimeout("Proxy.Authenticate(0);", 1000 * 30);
+        window.setTimeout("Proxy.Authenticate(0);", 1000 * 10);
     }
     if(request.action == 'disconnect'){
         window.clearInterval(fbchatbg.friendsInterval);
