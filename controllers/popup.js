@@ -78,7 +78,22 @@ var fbchatPOPUP = function(){
                 staticlist=fbchatpopup.populateFriendsList(list,true);
                 window.localStorage.onlineFriends=staticlist;
                 fbchatpopup.setOnlineFriendsList(staticlist);
+                if(window.localStorage.chatwindow){
+                    fbchatpopup.openchatwindow(window.localStorage.chatwindow);
+                }
             },function(){});
+        },
+        /**
+         * update the online friends when the background send to update it.
+         * the background will call this method when the server responds with the online friend list.
+         */
+        updateOnlineFriendsFromBackGround:function(list){
+            var staticlist=fbchatpopup.populateFriendsList(list,true);
+            window.localStorage.onlineFriends=staticlist;
+            fbchatpopup.setOnlineFriendsList(staticlist);
+            if(window.localStorage.chatwindow){
+                fbchatpopup.openchatwindow(window.localStorage.chatwindow);
+            }
         },
         /**
          * setting the online friends from the localStorage or from paramters
@@ -90,6 +105,12 @@ var fbchatPOPUP = function(){
                 window.setTimeout('$("#online-friends").html(window.localStorage.onlineFriends);', 1000 );
             }
             
+        },
+        /**
+         * check if the active chat is online
+         */
+        checkActiveChatStatus:function(){
+
         },
         /**
          * disconnecting from chat.
@@ -336,7 +357,7 @@ var fbchatPOPUP = function(){
          */
         runIntervals:function(){
             fbchatpopup.updatetOnlineFriends();
-            fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
+        //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         }
     };
     $(function(){

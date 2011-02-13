@@ -73,12 +73,12 @@
                 {
                     id:10,
                     img:'chat-icons/cry.png',
-                    value:">:'("
+                    value:":'("
                 },
                 {
                     id:11,
                     img:'chat-icons/unsure.png',
-                    value:'>:/'
+                    value:':/'
                 },
                 {
                     id:12,
@@ -140,7 +140,7 @@
         <div class="news-box" style="width: 280px;border-radius: 3px;padding: 0 5px;margin-bottom: 5px;padding-bottom: 10px;float: left;">
             <div class="news-photo" id="imgparent" style="width: 74px;height: 53px;margin: 10px 0 0px 10px;float: left;margin-right: 10px;margin-left: 0px;">
                 <a id="link" href="" onclick="">
-                    <img id="img" alt="" src="" width="72" height="51" style="width:72px;height:51px;border:1px #4767a1 solid;">
+                    <img id="img" alt="" src="" width="50" height="50" alt="" style="width:72px;height:51px;border:1px #4767a1 solid;">
                 </a>
             </div>
             <div class="box-news-left" style="width: 195px;float: left;">
@@ -159,6 +159,7 @@
                 document.getElementById("imgparent").parentNode.removeChild(document.getElementById("imgparent"))
             }else{
                 document.getElementById("img").src=decodeURIComponent(getParameter('icon'));
+                document.getElementById("img").alt=decodeURIComponent(getParameter('title'));
                 console.log(decodeURIComponent(getParameter('icon')));
                 document.getElementById("link").href=decodeURIComponent(getParameter('link'))
             };
