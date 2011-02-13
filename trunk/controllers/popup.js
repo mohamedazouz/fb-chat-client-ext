@@ -8,17 +8,6 @@
  */
 var background=chrome.extension.getBackgroundPage();
 var proxy=background.Proxy;
-var POPUPConnectHandler=function(ob){
-    //populate list of all friends and save it in the localStorage
-    $("#friend-list").html(ob.friendlist);
-
-    //____ running the intervals
-    fbchatpopup.runIntervals();
-
-    $("#online-friends").html(ob.onlineFriends);
-    $('#notconnected').fadeOut();
-    $("#container").fadeIn('fast');
-}
 var fbchatPOPUP = function(){
     var fbchatpopup = {
         disposableFunctions:{
@@ -250,6 +239,7 @@ var fbchatPOPUP = function(){
             // opening a new chat tab.
             background.fbchatdb.getFriendByUID(uid, function(friend){
                 if(friend.online == 'true'){
+                    //setting online icon and enapling the text area.
                     $("#chat-buddy-img").attr('src','images/status_color.png');
                     $("#chat-text-box").attr('disabled',false);
 
@@ -268,10 +258,12 @@ var fbchatPOPUP = function(){
                     $("#chat-text-box").attr('value','type your message here');
                     $("#chat-text-box").css('color','gray');
                 }else{
+                    //setting offline user, disaple text area. writing use is offline.
                     $("#chat-buddy-img").attr('src','images/status_offline_color.png');
                     $("#chat-text-box").attr('disabled',true);
                     $("#chat-text-box").attr('value',friend.name +' went offline');
                     $("#chat-text-box").css('color','#B5C0D8');
+                    //removing send message from text box and send button.
                     $("#sendMessage").unbind("click");
                     $("#chat-text-box").unbind("keypress");
                 }
