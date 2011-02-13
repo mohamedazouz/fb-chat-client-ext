@@ -56,12 +56,12 @@ var anim=[
     {
         id:10,
         img:'chat-icons/cry.png',
-        value:">:'("
+        value:":'("
     },
     {
         id:11,
         img:'chat-icons/unsure.png',
-        value:'>:/'
+        value:':/'
     },
     {
         id:12,

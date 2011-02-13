@@ -72,7 +72,7 @@ var fbchatBG=function(){
             //checking for new online friends. every 3 min.
             fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
             // checking for new chat messages, every 2 sec.
-            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 2);
+            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 1);
         },
         /**
          * updates friends status.
@@ -81,6 +81,11 @@ var fbchatBG=function(){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
+                chrome.extension.getViews({
+                    type:"popup"
+                }).forEach(function(win){
+                    win.fbchatpopup.updateOnlineFriendsFromBackGround(list);
+                });
             },function(){});
         },
         /**
