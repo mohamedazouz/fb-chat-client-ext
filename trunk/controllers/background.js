@@ -52,7 +52,7 @@ var fbchatBG=function(){
                 }
                 if(! window.localStorage.lastMessage){
                     for(j=0;j<msgs.length;j++){
-                        sendMessages(msgs);
+                        sendMessages(msgs[j]);
                         window.localStorage.lastMessage = msgs[msgs.length -1].time;
                     }
                 }else{
