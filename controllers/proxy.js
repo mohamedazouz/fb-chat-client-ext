@@ -5,7 +5,7 @@ var Proxy={
     /**
      * proxy base url.
      */
-    baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    baseURL:'http://fbchat.activedd.com',
     /**
      * first time login url.
      */
