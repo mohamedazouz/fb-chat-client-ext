@@ -84,6 +84,7 @@ body {
     min-height:60px;
     padding:0 13px;
     color:#FFF;
+    word-wrap: break-word;
 }
 .w-chatbox-middle {
     background:url(../images/w_chat_box_middle.png) repeat-y;
@@ -143,7 +144,7 @@ body {
     left:-2px;
 }
 .current .talker-image-shadow {
-     background:url(../images/current.png) no-repeat;
+    background:url(../images/current.png) no-repeat;
 }
 .typing-area {
     background:url(../images/typing_BG.png) repeat-x;
@@ -359,28 +360,28 @@ body {
     background:transparent url(../images/right.png) no-repeat 0 0;
 }
 .emoticons-container{
-	position:absolute;
-	bottom:37px;
-	right:-18px;
-        display: none;
-	}
+    position:absolute;
+    bottom:37px;
+    right:-18px;
+    display: none;
+}
 .emoticons-top, .emoticons-bottom{
-	width:222px;
-	height:8px;
-	background:url(../images/emot_top.png) no-repeat;
-	}
+    width:222px;
+    height:8px;
+    background:url(../images/emot_top.png) no-repeat;
+}
 .emoticons-bottom{
-	height:21px;
-	background:url(../images/emot_bottom.png) no-repeat;
-	}
+    height:21px;
+    background:url(../images/emot_bottom.png) no-repeat;
+}
 .emoticons-middle{
-	width:216px;
-	border-right:3px solid #3b5998;
-	border-left:3px solid #3b5998;
-	background:#f1f1f1;
-	}
+    width:216px;
+    border-right:3px solid #3b5998;
+    border-left:3px solid #3b5998;
+    background:#f1f1f1;
+}
 .emoticons{
-	width:16px;
-	height:16px;
-	margin:2px;
-	}
+    width:16px;
+    height:16px;
+    margin:2px;
+}
