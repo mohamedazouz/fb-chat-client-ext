@@ -356,7 +356,7 @@ var fbchatPOPUP = function(){
          * running the intervals while popup is on.
          */
         runIntervals:function(){
-            fbchatpopup.updatetOnlineFriends();
+            //fbchatpopup.updatetOnlineFriends();
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         }
     };

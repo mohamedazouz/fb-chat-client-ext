@@ -81,6 +81,7 @@ var fbchatBG=function(){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
+                window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);
                 chrome.extension.getViews({
                     type:"popup"
                 }).forEach(function(win){
@@ -154,6 +155,18 @@ var fbchatBG=function(){
                     win.fbchatpopup.updateConversation(uid);
                 });
             }else{
+                //saving chat window as last message.
+                if(! window.localStorage.activeChat){
+                    window.localStorage.activeChat="[]";
+                }
+                fbchatdb.getFriendByUID(uid, function(friend){
+                    var activeChat=JSON.parse(window.localStorage.activeChat);
+                    if(util.inObjectArray(friend, activeChat,'uid') == -1){
+                        activeChat.push(friend);
+                        window.localStorage.activeChat=JSON.stringify(activeChat);
+                    }
+                    window.localStorage.chatwindow=friend.uid;
+                });
                 //show notification with new message.
                 fbchatdb.getMaxChatByUID(uid, 1, function(chatmsgs){
                     notifier.fireNotification("html", chatmsgs[0].sender_name, chatmsgs[0].msg, chatmsgs[0].sender_pic,uid);
@@ -216,6 +229,8 @@ function onRequest(request, sender, callback) {
     if(request.action == 'disconnect'){
         window.clearInterval(fbchatbg.friendsInterval);
         window.clearInterval(fbchatbg.ChatInterval);
+        delete window.localStorage.chatwindow;
+        delete window.localStorage.activeChat;
         Proxy.disconnect();
     }
     if(request.action == 'logout'){
