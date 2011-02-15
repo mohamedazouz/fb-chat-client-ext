@@ -158,10 +158,13 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
-        //            $("#sendMessage").click(function(){
-        //                //fbchatpopup.sendMessage();
-        //            });
-            
+            $('#about').click(function(){
+                $('#settings-top-menu-container').slideUp('slow');
+                $('#conversation-container').noticeMsg($('#noticeMessage').html(),{
+                    dur: 0,
+                    fade: 1000
+                })
+            });
         },
         /**
          * update the conversation in case a new message has been received.
@@ -356,7 +359,7 @@ var fbchatPOPUP = function(){
          * running the intervals while popup is on.
          */
         runIntervals:function(){
-            //fbchatpopup.updatetOnlineFriends();
+        //fbchatpopup.updatetOnlineFriends();
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         }
     };
