@@ -46,7 +46,7 @@ var fbchatBG=function(){
 
                         }
                         fbchatdb.inserChatMessage(message, function(){
-                            fbchatbg.showMSG(sender_uid);
+                            fbchatbg.showMSG(sender_uid,message);
                         })
                     },msg);
                 }
@@ -142,8 +142,9 @@ var fbchatBG=function(){
         /**
          * send the uid to the popup to open the chat window.
          * @param uid sender id.
+         * @param msg the message to show.
          */
-        showMSG:function(uid){
+        showMSG:function(uid,msg){
             //get instanse of popup page.
             var popup=chrome.extension.getViews({
                 type:"popup"
@@ -152,7 +153,7 @@ var fbchatBG=function(){
             if(popup.length != 0){
                 //if there is popup page is open send to show new msg.
                 popup.forEach(function(win){
-                    win.fbchatpopup.updateConversation(uid);
+                    win.fbchatpopup.updateConversation(uid,msg);
                 });
             }else{
                 //saving chat window as last message.
@@ -168,18 +169,15 @@ var fbchatBG=function(){
                     window.localStorage.chatwindow=friend.uid;
                 });
                 //show notification with new message.
-                fbchatdb.getMaxChatByUID(uid, 1, function(chatmsgs){
-                    notifier.fireNotification("html", chatmsgs[0].sender_name, chatmsgs[0].msg, chatmsgs[0].sender_pic,uid);
-                });
+                notifier.fireNotification("html", msg.sender_name, msg.msg, msg.sender_pic,msg.uid);
             }
         },
         /**
          * send a messages, and save it in the db.
          */
-        sendMessage:function(message,handler){
-            var user=JSON.parse(window.localStorage.user);
+        sendMessage:function(message){
             Proxy.sendMessage(message.to, message.msg,function(){
-                handler(user);
+                var user=JSON.parse(window.localStorage.user);
                 var msg={
                     uid:message.to,
                     msg:message.msg,

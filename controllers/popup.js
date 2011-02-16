@@ -91,9 +91,10 @@ var fbchatPOPUP = function(){
             var staticlist=fbchatpopup.populateFriendsList(list,true);
             window.localStorage.onlineFriends=staticlist;
             fbchatpopup.setOnlineFriendsList(staticlist);
-            if(window.localStorage.chatwindow){
-                fbchatpopup.openchatwindow(window.localStorage.chatwindow);
-            }
+        //check if the current chat window is online or offline.
+        //            if(window.localStorage.chatwindow){
+        //                fbchatpopup.openchatwindow(window.localStorage.chatwindow);
+        //            }
         },
         /**
          * setting the online friends from the localStorage or from paramters
@@ -169,9 +170,13 @@ var fbchatPOPUP = function(){
         /**
          * update the conversation in case a new message has been received.
          */
-        updateConversation:function(uid){
+        updateConversation:function(uid,msg){
             //check for opened chat windows, if there is open, notifiy by adding star on it.
-            fbchatpopup.openchatwindow(uid);
+            if(uid==window.localStorage.chatwindow){
+                $("#conversation-container").append(fbchatpopup.populateChatWindow(msg.msg, msg.dircolor, msg.sender_pic,msg.sender_name));
+            }else{
+                fbchatpopup.openchatwindow(uid);
+            }
         },
         /**
          * makes html for the online chat friends
@@ -190,28 +195,29 @@ var fbchatPOPUP = function(){
          */
         sendMessage:function(){
             if($('#chat-text-box').attr('value')== 'type your message here'){
-                console.log('not sinding')
                 return;
             }
             var message ={
                 msg:$('#chat-text-box').attr('value'),
                 to:window.localStorage.chatwindow
             }
-            //            console.log("sending:"+JSON.stringify(message));
+            $('#chat-text-box').attr('value','');
+            //updating conversation.
+            var me=JSON.parse(window.localStorage.user);
+            var out=fbchatpopup.populateChatWindow(message.msg, 'blue', me.pic_square, me.name);
+            $("#conversation-container").append(out);
+            window.scroll(0,150);
+            //send message via background.
             chrome.extension.sendRequest({
                 'action':'sendmessage',
                 'message':message
-            },function(user){
-                var out=fbchatpopup.populateChatWindow(message.msg, 'blue', user.pic_square, user.name);
-                $("#conversation-container").append(out);
-                $('#chat-text-box').attr('value','');
-                window.scroll(0,150);
             });
         },
         /**
          * generate the html for the chat window.
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
+            msg=""+msg;
             for( z= 0; z< anim.length;z++){
                 msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
             }
@@ -388,7 +394,13 @@ var fbchatPOPUP = function(){
                 "maxDots": 4
             });
         }else{
-            fbchatpopup.runIntervals();
+            //closing any opened notifications.
+            chrome.extension.getViews({
+                type:"notification"
+            }).forEach(function(win){
+                win.close();
+            });
+            //            fbchatpopup.runIntervals();
             //___ setting the online friends list
             fbchatpopup.setOnlineFriendsList();
             //___update friends list from localStorage
