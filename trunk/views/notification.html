@@ -138,17 +138,24 @@
     </head>
     <body>
         <div class="news-box" style="width: 280px;border-radius: 3px;padding: 0 5px;margin-bottom: 5px;padding-bottom: 10px;float: left;">
-            <div class="news-photo" id="imgparent" style="width: 74px;height: 53px;margin: 10px 0 0px 10px;float: left;margin-right: 10px;margin-left: 0px;">
+            <div id="imgparent" style="float:left;-webkit-border-radius:5px;width:50px !important;height:50px !important;margin:10px 3px 3px 3px;position:relative;">
                 <a id="link" href="" onclick="">
-                    <img id="img" alt="" src="" width="50" height="50" alt="" style="width:72px;height:51px;border:1px #4767a1 solid;">
+                    <img id="img" width="50" height="50" alt="">
                 </a>
+                <div style="position:absolute;width:54px;height:54px;background:url(images/user-shadow.png) no-repeat;top:-2px;left:-2px;"></div>
             </div>
-            <div class="box-news-left" style="width: 195px;float: left;">
+            <div style="width: 171px;position:relative;float:right;margin:3px 35px 6px 0;">
+                <div style="height:6px;width: 210px;background:url(images/b_chat_box_top.png);float:left;background-width:60%;"></div>
+                <div id="desc" style="width: 184px;background:url(images/b_chat_box_middle.png) repeat-y;min-height:60px;padding:0 13px;color:#FFF;word-wrap: break-word;float:left;"></div>
+                <div style="width: 210px;height:6px;background:url(images/b_chat_box_bottom.png);float:left;"></div>
+                <div style="background: url(images/b_chat_box_arrow.png) no-repeat;height: 26px;left: -13px;position: absolute;top: 13px;width: 16px;"></div>
+            </div>
+<!--            <div class="box-news-left" style="width: 195px;float: left;">
                 <div class="box-news-title" style="float: left;direction: ltr;text-align: left;width: 100%;margin-top: 10px;font-weight: bold;font-size: 13px;color: #4C4C4C;">
                     <a style="cursor:pointer;color:#000;text-decoration:none;" id="title" href="" onclick=""> </a>
                 </div>
                 <div id="desc" class="box-news-brief" style="float: left;text-align: left;direction: ltr;width: 100%;margin-top: 7px;font-weight: normal;font-size: 11px;color: #4C4C4C;word-wrap: break-word;">  </div>
-            </div>
+            </div>-->
             <div style="margin-top: 70px;">
                 <input type="text" size="30" id="messageBox"/>
                 <button id="enterButton">Send</button>
@@ -163,8 +170,8 @@
                 console.log(decodeURIComponent(getParameter('icon')));
                 document.getElementById("link").href=decodeURIComponent(getParameter('link'))
             };
-            document.getElementById("title").innerHTML=decodeURIComponent(getParameter('title'));
-            document.getElementById("title").href=decodeURIComponent(getParameter('link'));
+//            document.getElementById("title").innerHTML=decodeURIComponent(getParameter('title'));
+//            document.getElementById("title").href=decodeURIComponent(getParameter('link'));
             var msg=decodeURIComponent(getParameter('msg'));
             for( z= 0; z< anim.length;z++){
                 msg=util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
@@ -174,7 +181,6 @@
             if(closetime != 0){
                 window.setTimeout("window.close();",closetime * 1000);
             }
-            console.log(window.location.href);
             function sendMessage(){
                 var message ={
                     msg:document.getElementById("messageBox").value,
@@ -186,9 +192,8 @@
                 chrome.extension.sendRequest({
                     'action':'sendmessage',
                     'message':message
-                },function(){
-                    window.close();
                 });
+                window.close();
             }
             document.getElementById("enterButton").onclick=function(){
                 sendMessages();
