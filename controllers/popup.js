@@ -226,6 +226,7 @@ var fbchatPOPUP = function(){
             for( z= 0; z< anim.length;z++){
                 msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
             }
+            msg=background.util.replaceAll(msg, "\n", "<br>");
             var out="";
             if(color== 'blue'){
                 out+='<div class="conversation f me">';
@@ -286,7 +287,7 @@ var fbchatPOPUP = function(){
                         fbchatpopup.sendMessage();
                     });
                     $("#chat-text-box").bind("keypress",function(e){
-                        if(e.keyCode == 13){
+                        if(e.keyCode == 13 && ! $.specialKeys('shift')){
                             fbchatpopup.sendMessage();
                         }
                     });
