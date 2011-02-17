@@ -202,6 +202,11 @@ var fbchatPOPUP = function(){
                 to:window.localStorage.chatwindow
             }
             $('#chat-text-box').attr('value','');
+            //clearing the enter effict.
+            $("#sendMessage").focus();
+            window.setTimeout(function(){
+                $("#chat-text-box").focus();
+            }, 100);
             //updating conversation.
             var me=JSON.parse(window.localStorage.user);
             var out=fbchatpopup.populateChatWindow(message.msg, 'blue', me.pic_square, me.name);

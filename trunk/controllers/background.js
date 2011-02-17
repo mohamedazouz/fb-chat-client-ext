@@ -33,6 +33,9 @@ var fbchatBG=function(){
                 sendMessages=function(msg){
                     var sender_uid=(msg.from).substring(1,(msg.from).indexOf("@"));
                     fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
+                        if(friend.online=='false'){
+                            fbchatdb.setOnline([friend]);
+                        }
                         messageDate.setTime(msg.time);
                         //uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor
                         var message={
