@@ -66,6 +66,9 @@ $(document).ready(function() {
         }
     });
     $('.emoticons').click(function(){
+        if($("#chat-text-box").attr('disabled')=="true"){
+            return;
+        }
         if($("#chat-text-box").attr('value')=='type your message here'){
             $("#chat-text-box").attr('value',$(this).attr('value'));
         }else{
