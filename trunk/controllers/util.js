@@ -179,6 +179,24 @@ var util={
 
         // Return the modified object
         return target;
+    },
+    /**
+     * get a url form string sequence.
+     * @param str to seek the url throw.
+     * @return the url in the string.
+     */
+    getURL:function(str){
+        httpurl=str.indexOf("http://", 0);
+        httpsurl=str.indexOf("https://", 0);
+        if(httpurl ==-1 && httpsurl== -1){
+            return null;
+        }
+        if(httpsurl){
+            srturl=str.substring(httpurl, str.indexOf(" ", httpurl));
+        }else{
+            srturl=str.substring(httpsurl, str.indexOf(" ", httpsurl));
+        }
+        return srturl;
     }
 }
 //console.log(util.replaceAll('abcdefghiabc', "abc", "x"));

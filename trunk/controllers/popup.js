@@ -223,9 +223,15 @@ var fbchatPOPUP = function(){
          */
         populateChatWindow:function(msg,color,senderpic,sindername){
             msg=""+msg;
+            var urlinmsg=background.util.getURL(msg);
+            if(urlinmsg != null){
+                msg=msg.replace(urlinmsg, "<a style='cursor: pointer;' onclick='fbchatpopup.openURL(\""+urlinmsg+"\");'>"+urlinmsg+"</a>");
+                anim[11].value=":/ ";
+            }
             for( z= 0; z< anim.length;z++){
                 msg=background.util.replaceAll(msg, anim[z].value, '<img src="'+anim[z].img+'" width="16" height="16"/>');
             }
+            anim[11].value=":/";
             msg=background.util.replaceAll(msg, "\n", "<br>");
             var out="";
             if(color== 'blue'){
@@ -373,6 +379,10 @@ var fbchatPOPUP = function(){
         runIntervals:function(){
         //fbchatpopup.updatetOnlineFriends();
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
+        },
+        openURL:function(url,focas){
+            console.log(url);
+            background.extension.openURL(url, focas);
         }
     };
     $(function(){
