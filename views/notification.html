@@ -135,20 +135,60 @@
                 return retstr;
             }
         </script>
+         <style type="text/css">
+        .news-box{
+			width: 275px;
+			border-radius: 3px;
+			float: left;
+			padding-bottom:10px;
+			}
+			.message{
+				border:1px solid #8496ba;
+				height:29px;
+				width:202px;
+				float:left;
+				
+			}
+			.send{
+				width:68px;
+				height:29px;
+				background:url(images/notifacation-send.png) no-repeat;
+				border:0;
+				float:left;
+				margin-left:5px;
+			}
+			.talker{
+				color:#456db4;
+				width: 199px;
+				float:left;
+				margin-left:0px;
+				font:bold 10pt Tahoma, Geneva, sans-serif;
+				margin-top:10px;
+				}
+			.desc{
+				width: 199px;
+				min-height:20px;
+				color:#606060;
+				word-wrap: break-word;
+				float:left;
+				margin-left:0px;
+				font:12px Tahoma, Geneva, sans-serif;
+				}
+        </style>
     </head>
     <body>
-        <div class="news-box" style="width: 280px;border-radius: 3px;padding: 0 5px;margin-bottom: 5px;padding-bottom: 10px;float: left;">
-            <div id="imgparent" style="float:left;-webkit-border-radius:5px;width:50px !important;height:50px !important;margin:10px 3px 3px 3px;position:relative;">
-                <a id="link" href="" onclick="">
-                    <img id="img" width="50" height="50" alt="">
+        <div class="news-box">
+            <div id="imgparent" style="float:left;-webkit-border-radius:5px;width:50px !important;height:50px !important;margin:10px 3px 3px 1px;position:relative;border:2px solid #66b816;">
+                <a id="link" href="" onClick="">
+                    <img id="img" width="50" height="50" alt="" style="-webkit-border-radius:3px;">
                 </a>
-                <div style="position:absolute;width:54px;height:54px;background:url(images/user-shadow.png) no-repeat;top:-2px;left:-2px;"></div>
+                <!--<div style="position:absolute;width:54px;height:54px;background:url(images/user-shadow.png) no-repeat;top:-2px;left:-2px;"></div>-->
             </div>
             <div style="width: 171px;position:relative;float:right;margin:3px 35px 6px 0;">
-                <div style="height:6px;width: 210px;background:url(images/b_chat_box_top.png);float:left;background-width:60%;"></div>
-                <div id="desc" style="width: 184px;background:url(images/b_chat_box_middle.png) repeat-y;min-height:60px;padding:0 13px;color:#FFF;word-wrap: break-word;float:left;"></div>
-                <div style="width: 210px;height:6px;background:url(images/b_chat_box_bottom.png);float:left;"></div>
-                <div style="background: url(images/b_chat_box_arrow.png) no-repeat;height: 26px;left: -13px;position: absolute;top: 13px;width: 16px;"></div>
+                <div class="talker">Mohammed Henedy</div>
+                <div id="desc" class="desc"></div>
+                
+                
             </div>
 <!--            <div class="box-news-left" style="width: 195px;float: left;">
                 <div class="box-news-title" style="float: left;direction: ltr;text-align: left;width: 100%;margin-top: 10px;font-weight: bold;font-size: 13px;color: #4C4C4C;">
@@ -157,8 +197,8 @@
                 <div id="desc" class="box-news-brief" style="float: left;text-align: left;direction: ltr;width: 100%;margin-top: 7px;font-weight: normal;font-size: 11px;color: #4C4C4C;word-wrap: break-word;">  </div>
             </div>-->
             <div style="margin-top: 70px;">
-                <input type="text" size="30" id="messageBox"/>
-                <button id="enterButton">Send</button>
+                <input type="text" size="30" id="messageBox" class="message"/>
+                <button id="enterButton" class="send"></button>
             </div>
         </div>
         <script type="text/javascript">
