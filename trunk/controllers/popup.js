@@ -91,10 +91,6 @@ var fbchatPOPUP = function(){
             var staticlist=fbchatpopup.populateFriendsList(list,true);
             window.localStorage.onlineFriends=staticlist;
             fbchatpopup.setOnlineFriendsList(staticlist);
-        //check if the current chat window is online or offline.
-        //            if(window.localStorage.chatwindow){
-        //                fbchatpopup.openchatwindow(window.localStorage.chatwindow);
-        //            }
         },
         /**
          * setting the online friends from the localStorage or from paramters
@@ -270,7 +266,7 @@ var fbchatPOPUP = function(){
                 window.localStorage.activeChat="[]";
             }
             //collapsing the online friends.
-            $('#online-top-menu-container').slideUp('slow');
+            $('.top-menu-container').slideUp('slow');
 
             //___update chat windows.
             $("#conversation-container").Loadingdotdotdot({
@@ -284,31 +280,30 @@ var fbchatPOPUP = function(){
                     //setting online icon and enapling the text area.
                     $("#chat-buddy-img").attr('src','images/status_color.png');
                     $("#chat-text-box").attr('disabled',false);
+                    $("#offline-notify").hide();
+                    $("#conversation-container").css('height','376px');
 
-                    //unbind any previous click actions.
-                    $("#sendMessage").unbind("click");
-                    $("#chat-text-box").unbind("keypress");
-                    //bind new click actions.
-                    $("#sendMessage").bind("click",function(){
-                        fbchatpopup.sendMessage();
-                    });
-                    $("#chat-text-box").bind("keypress",function(e){
-                        if(e.keyCode == 13 && ! $.specialKeys('shift')){
-                            fbchatpopup.sendMessage();
-                        }
-                    });
-                    $("#chat-text-box").attr('value','type your message here');
-                    $("#chat-text-box").css('color','gray');
                 }else{
                     //setting offline user, disaple text area. writing use is offline.
                     $("#chat-buddy-img").attr('src','images/status_offline_color.png');
-                    $("#chat-text-box").attr('disabled',true);
-                    $("#chat-text-box").attr('value',friend.name +' went offline');
-                    $("#chat-text-box").css('color','#B5C0D8');
-                    //removing send message from text box and send button.
-                    $("#sendMessage").unbind("click");
-                    $("#chat-text-box").unbind("keypress");
+                    $("#offline-notify").show();
+                    $("#conversation-container").css('height','360px');
                 }
+
+                //unbind any previous click actions.
+                $("#sendMessage").unbind("click");
+                $("#chat-text-box").unbind("keypress");
+                //bind new click actions.
+                $("#sendMessage").bind("click",function(){
+                    fbchatpopup.sendMessage();
+                });
+                $("#chat-text-box").bind("keypress",function(e){
+                    if(e.keyCode == 13 && ! $.specialKeys('shift')){
+                        fbchatpopup.sendMessage();
+                    }
+                });
+                $("#chat-text-box").attr('value','type your message here');
+                $("#chat-text-box").css('color','gray');
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
                 if(background.util.inObjectArray(friend, activeChat,'uid') == -1){
@@ -332,6 +327,8 @@ var fbchatPOPUP = function(){
                 
                 //___update open chat box name
                 $("#chat-buddy-name").html(friend.name);
+                //for offline
+                $("#chat-buddy-name2").html(friend.name.substring(0, friend.name.indexOf(" ")));
                 $("#chat-buddy-name").attr('value',friend.uid);
                 $("#chat-buddy-img").show();
                 $("#closeChat").show();
@@ -354,6 +351,8 @@ var fbchatPOPUP = function(){
             if(activeChat.length == 0){
                 //clear the chat conversation.
                 $("#conversation-container").html("");
+                $("#offline-notify").hide();
+                $("#conversation-container").css('height','376px');
                 //___update open chat box name
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();

@@ -266,11 +266,11 @@ fbchatpopup.populateFriendsList=function(list,online){
     var out="";
     for(o =0; o< list.length; o++){
         out+='<div class="user-container f">';
-        out+='<div class="friend-image f">';
+        out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
         out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
         out+='<div class="friend-image-shadow"/>';
         out+='</div>';
-        out+='<div class="user-name f">'+list[o].name+'</div>';
+        out+='<div style="cursor:pointer;"onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="user-name f">'+list[o].name+'</div>';
         out+='<div class="group f"></div>';
         if(online){
             out+='<div><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';

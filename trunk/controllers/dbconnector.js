@@ -143,7 +143,7 @@ var fbchatDB=function(){
         getTodayChatByUID:function(uid,handler){
             var chat=[];
             fbchatdb.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM chat_history where uid=? AND msgdate =? ORDER BY msgtime ASC;",
+                tx.executeSql("SELECT * FROM chat_history where uid=? AND msgdate =?",
                     [uid,date_util.today()],
                     function(tx,results) {
                         for (i = 0; i < results.rows.length; i++) {

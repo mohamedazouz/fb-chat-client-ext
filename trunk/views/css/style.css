@@ -27,7 +27,7 @@ body {
 /* conversation box */
 .conversation-container {
     width:420px;
-    height:366px;
+    height:376px;
     overflow-y: auto;
     overflow-x: hidden;
 }
