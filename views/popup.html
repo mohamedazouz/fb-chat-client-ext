@@ -37,10 +37,15 @@ and open the template in the editor.
             <!-- chat buddy name -->
             <div id="chat-buddy" class="status-box f">
                 <div id="chat-buddy-img-div" style="float:left; margin:5px;"><img id="chat-buddy-img" src="images/status_color.png" width="21" height="21" alt="active" style="display: none;" /></div>
-                <strong id="chat-buddy-name" value=""></strong>
-                <div id="closeChat" style="float: right;margin-right: 10px;cursor: pointer;display: none;margin-top: 5px;">
+                <strong id="chat-buddy-name" style="float: left;" value=""></strong>
+                <div id="closeChat" style="float: right;margin-right: 10px;cursor: pointer;display: block;margin-top: 5px;">
                     <img src="images/close.png" alt="close"/>
                 </div>
+            </div>
+            <!-- offline notifier-->
+            <div id="offline-notify" style="display: none;color: #ffffff;width: 420px;margin-left: 6px;">
+                <strong id="chat-buddy-name2" style="float: left;" value=""></strong>
+                <div id="" style="float: left; font-size: 11px;margin-top: 2px;">&nbsp;is offline, Your messages will be sent to their inbox.</div>
             </div>
             <!-- conversations  -->
             <div id="conversation-container" class="conversation-container">
@@ -199,13 +204,13 @@ and open the template in the editor.
         </div>
 
 
-        <div id="notconnected" align="center" style="display: none; height:590px;"class="container">
-            <div id="" style="color: white;margin: 0 auto;margin-top: 279px;">
+        <div id="notconnected" align="center" style="display: none; height:600px;"class="container">
+            <div id="" style="color: white;margin: 0 auto;margin-top: 284px;">
                 you are disconnected, <a style="cursor: pointer;color: #F5EE94;" id="connect">connect ?</a>
             </div>
         </div>
-        <div id="loadingdiv" align="center" style="display: none; height:590px;"class="container">
-            <div id="loadindots" style="color: white;color: white;margin: 0 auto;margin-top: 279px;float: left;margin-left: 178px;">
+        <div id="loadingdiv" align="center" style="display: none; height:600px;"class="container">
+            <div id="loadindots" style="color: white;color: white;margin: 0 auto;margin-top: 284px;float: left;margin-left: 178px;">
             </div>
         </div>
         <div id="noticeMessage" style="display: none;">
