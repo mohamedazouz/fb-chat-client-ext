@@ -76,6 +76,16 @@ $(document).ready(function() {
         }
 
     });
+    //friends Filter
+    window.setTimeout(function(){
+        $("input#friendsFilter").quicksearch("div#friend-list div.user-container");
+        $("input#onlineFilter").quicksearch("div#online-top-menu-container div.user-container");
+        $("#clearonline , #clearfriends").click(function(){
+            $("input#friendsFilter ,input#onlineFilter").val("");
+            $("input#friendsFilter ,input#onlineFilter").trigger("keyup");
+        })
+    }, 1200)
+
     // users slider
     var currentPosition = 0;
     var slideWidth = 50;

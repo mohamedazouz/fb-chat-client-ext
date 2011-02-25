@@ -15,6 +15,7 @@ and open the template in the editor.
         <script type="text/javascript" src="js/jquery.loadingdotdotdot.js"></script>
         <script type="text/javascript" src="js/noticemessage/jquery.noticeMsg.js"></script>
         <script type="text/javascript" src="js/specialkeys.js"></script>
+        <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
         <script type="text/javascript" src="../controllers/popup.js"></script>
     </head>
     <body>
@@ -136,6 +137,8 @@ and open the template in the editor.
 
         <!-- top menu -->
         <div id="online-top-menu-container" class="top-menu-container">
+            <input type="text" id="onlineFilter" style="margin-left: 13px;" placeholder="Friends on Chat" autofocus/>
+            <a id="clearonline" style="cursor: pointer;color: white;margin-left: 5px;">clear</a>
             <div id="online-friends" class="users-list f">
                 <!--<div class="user-container f">
                         <div class="friend-image f">
@@ -157,6 +160,8 @@ and open the template in the editor.
             <div id="online-friends-top-menu-footer" class="top-menu-footer"></div>
         </div>
         <div id="friendlist-top-menu-container" class="top-menu-container">
+            <input type="text" id="friendsFilter" style="margin-left: 13px;" placeholder="Friends on Chat" autofocus/>
+            <a id="clearfriends" style="cursor: pointer;color: white;margin-left: 5px;">clear</a>
             <div id="friend-list" class="users-list f">
 
                 <!--<div class="user-container f">

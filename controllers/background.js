@@ -265,7 +265,7 @@ var fbchatpopup={};
 fbchatpopup.populateFriendsList=function(list,online){
     var out="";
     for(o =0; o< list.length; o++){
-        out+='<div class="user-container f">';
+        out+='<div id="user" class="user-container f">';
         out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
         out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
         out+='<div class="friend-image-shadow"/>';
