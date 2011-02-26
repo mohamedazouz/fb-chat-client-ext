@@ -76,6 +76,7 @@ var fbchatPOPUP = function(){
             var staticlist=null;
             background.fbchatdb.getOnlineFriends(function(list){
                 staticlist=fbchatpopup.populateFriendsList(list,true);
+                window.localStorage.onlineFriendsCount=list.length;
                 window.localStorage.onlineFriends=staticlist;
                 fbchatpopup.setOnlineFriendsList(staticlist);
                 if(window.localStorage.chatwindow){
@@ -89,6 +90,7 @@ var fbchatPOPUP = function(){
          */
         updateOnlineFriendsFromBackGround:function(list){
             var staticlist=fbchatpopup.populateFriendsList(list,true);
+            window.localStorage.onlineFriendsCount=list.length;
             window.localStorage.onlineFriends=staticlist;
             fbchatpopup.setOnlineFriendsList(staticlist);
         },
@@ -101,7 +103,9 @@ var fbchatPOPUP = function(){
             }else{
                 window.setTimeout('$("#online-friends").html(window.localStorage.onlineFriends);', 1000 );
             }
-            
+            if(window.localStorage.onlineFriendsCount){
+                $("#online-users").html('Online Friends ('+window.localStorage.onlineFriendsCount+')');
+            }
         },
         /**
          * check if the active chat is online
@@ -415,7 +419,6 @@ var fbchatPOPUP = function(){
             }).forEach(function(win){
                 win.close();
             });
-            //            fbchatpopup.runIntervals();
             //___ setting the online friends list
             fbchatpopup.setOnlineFriendsList();
             //___update friends list from localStorage
@@ -432,6 +435,7 @@ var fbchatPOPUP = function(){
                 $("#slideshow, .user-pointer").show();
                 fbchatpopup.disposableFunctions.fixSlider();
             }else{
+                $('#online-top-menu-container').slideDown('slow');
                 $("#conversation-container").html("");
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();

@@ -85,6 +85,7 @@ var fbchatBG=function(){
             Proxy.getOnlineFriends(function(list){
                 fbchatdb.setOnline(list);
                 window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);
+                window.localStorage.onlineFriendsCount=list.length;
                 chrome.extension.getViews({
                     type:"popup"
                 }).forEach(function(win){
@@ -115,7 +116,7 @@ var fbchatBG=function(){
                         //___ tern back the list to the popup,update list of friends, shows the container and hide the connect page.
                         callbackParam.onlineFriends=fbchatpopup.populateFriendsList(list,true);
                         window.localStorage.onlineFriends=callbackParam.onlineFriends;
-                        
+                        window.localStorage.onlineFriendsCount=list.length;
                         //___ updating friends and start to recieve messages.
                         fbchatbg.liveUpdates();
                         //____update connect icon.
