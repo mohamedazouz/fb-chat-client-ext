@@ -174,7 +174,11 @@ var fbchatPOPUP = function(){
         updateConversation:function(uid,msg){
             //check for opened chat windows, if there is open, notifiy by adding star on it.
             if(uid==window.localStorage.chatwindow){
-                $("#conversation-container").append(fbchatpopup.populateChatWindow(msg.msg, msg.dircolor, msg.sender_pic,msg.sender_name));
+                $("#focusButton").before(fbchatpopup.populateChatWindow(msg.msg, msg.dircolor, msg.sender_pic,msg.sender_name));
+                $("#focusButton").focus();
+                window.setTimeout(function(){
+                    $("#chat-text-box").focus();
+                },100);
             }else{
                 //don't open the new window just highlight the friend icon.
                 var elem = document.getElementById("friend-"+uid);
@@ -217,7 +221,11 @@ var fbchatPOPUP = function(){
             //updating conversation.
             var me=JSON.parse(window.localStorage.user);
             var out=fbchatpopup.populateChatWindow(message.msg, 'blue', me.pic_square, me.name);
-            $("#conversation-container").append(out);
+            $("#focusButton").before(out);
+            $("#focusButton").focus();
+            window.setTimeout(function(){
+                $("#chat-text-box").focus();
+            },100);
             window.scroll(0,150);
             //send message via background.
             chrome.extension.sendRequest({
@@ -340,8 +348,11 @@ var fbchatPOPUP = function(){
                         chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].sender_pic,chat[i].sender_name);
                     }
                     $("#conversation-container").html(chatContainer);
-                    $("#conversation-container").append('<button style="height: 0px;padding: 0px;width: 0px;" id="focusButton"></button>');
+                    $("#conversation-container").append('<button class="focusButton" id="focusButton"></button>');
                     $("#focusButton").focus();
+                    window.setTimeout(function(){
+                        $("#chat-text-box").focus();
+                    },100);
                 });
                 
                 //___update open chat box name
@@ -381,11 +392,11 @@ var fbchatPOPUP = function(){
                 fbchatpopup.openchatwindow(activeChat[activeChat.length -1].uid);
             }
             //removing the icon from down chat slider.
-//            var chatSlider="";
-//            for(i = 0;i<activeChat.length; i++){
-//                chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
-//            }
-//            $("#slidesContainer").html(chatSlider);
+            //            var chatSlider="";
+            //            for(i = 0;i<activeChat.length; i++){
+            //                chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
+            //            }
+            //            $("#slidesContainer").html(chatSlider);
             $("#friend-"+uid).parent().remove();
             fbchatpopup.disposableFunctions.fixSlider();
         },
