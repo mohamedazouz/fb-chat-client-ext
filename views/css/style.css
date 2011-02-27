@@ -146,6 +146,20 @@ body {
 .current .talker-image-shadow {
     background:url(../images/current.png) no-repeat;
 }
+.active .talker-image-shadow {
+    background:url(../images/active.png) no-repeat;
+}
+.notification{
+
+    background: #ff0000;
+    border: 1px solid #7b0000;
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 39px;
+    left: -1px;
+    z-index: 10;
+}
 .typing-area {
     background:url(../images/typing_BG.png) repeat-x;
     width:420px;
@@ -186,14 +200,14 @@ body {
     border-top: 6px solid #324E88;
     position: relative;
 }
-.user-pointer{
+/*.user-pointer{
     width: 23px;
     height: 11px;
     background: url(../images/user-pointer.png) no-repeat;
     position: absolute;
     top: 0;
     left: 57px;
-}
+}*/
 /* ------------ Top Menu ------------ */
 
 .top-menu-container {
