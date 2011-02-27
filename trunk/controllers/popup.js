@@ -70,6 +70,7 @@ var fbchatPOPUP = function(){
         },
         /**
          * update online friends popup
+         * @ignore
          */
         updatetOnlineFriends:function(){
             console.log('updating frinds:'+(new Date()).getMinutes())
@@ -175,7 +176,13 @@ var fbchatPOPUP = function(){
             if(uid==window.localStorage.chatwindow){
                 $("#conversation-container").append(fbchatpopup.populateChatWindow(msg.msg, msg.dircolor, msg.sender_pic,msg.sender_name));
             }else{
-                fbchatpopup.openchatwindow(uid);
+                //don't open the new window just highlight the friend icon.
+                var elem = document.getElementById("friend-"+uid);
+                if(elem){
+                    $("#friend-"+uid).append('<div class="notification"></div>');
+                }else{
+                    fbchatpopup.openchatwindow(uid);
+                }
             }
         },
         /**
@@ -183,7 +190,7 @@ var fbchatPOPUP = function(){
          */
         addToChatFriends:function(friend){
             var out='<div class="slide">';
-            out+='<div onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
+            out+='<div id="friend-'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
             out+='<img width="50" height="50" alt="'+friend.name+'" src="'+friend.pic_square+'" >';
             out+='<div class="talker-image-shadow"></div>';
             out+='</div>';
@@ -265,6 +272,8 @@ var fbchatPOPUP = function(){
          * opening a chat window with the friend of the uid.
          */
         openchatwindow:function(uid){
+            //removing notification image.
+            $('#friend-'+uid).children(".notification").remove();
             //adding chat to the activechat in localStorage.
             if(! window.localStorage.activeChat){
                 window.localStorage.activeChat="[]";
@@ -318,6 +327,10 @@ var fbchatPOPUP = function(){
                     fbchatpopup.disposableFunctions.fixSlider();
                     $("#slideshow, .user-pointer").show();
                 }
+                //adding active class to active chat window icon.
+                $(".active").removeClass("active");
+                $("#friend-"+uid).addClass("active");
+                //save the current chat window friend id.
                 window.localStorage.chatwindow=friend.uid;
                 
                 background.fbchatdb.getTodayChatByUID(uid, function(chat){
@@ -327,6 +340,8 @@ var fbchatPOPUP = function(){
                         chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].sender_pic,chat[i].sender_name);
                     }
                     $("#conversation-container").html(chatContainer);
+                    $("#conversation-container").append('<button style="height: 0px;padding: 0px;width: 0px;" id="focusButton"></button>');
+                    $("#focusButton").focus();
                 });
                 
                 //___update open chat box name
@@ -366,15 +381,13 @@ var fbchatPOPUP = function(){
                 fbchatpopup.openchatwindow(activeChat[activeChat.length -1].uid);
             }
             //removing the icon from down chat slider.
-            var chatSlider="";
-            for(i = 0;i<activeChat.length; i++){
-                chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
-            }
-            $("#slidesContainer").html(chatSlider);
+//            var chatSlider="";
+//            for(i = 0;i<activeChat.length; i++){
+//                chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
+//            }
+//            $("#slidesContainer").html(chatSlider);
+            $("#friend-"+uid).parent().remove();
             fbchatpopup.disposableFunctions.fixSlider();
-            if(activeChat.length ==0){
-                $("#slideshow, .user-pointer").hide();
-            }
         },
         /**
          * running the intervals while popup is on.
