@@ -408,3 +408,12 @@ body {
     padding-left: 10px;
     outline: none;
 }
+.focusButton{
+    margin:0;
+    padding:0;
+    height:0;
+    width:100%;
+    background: none;
+    border-color:none;
+    outline:0;
+}
