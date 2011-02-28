@@ -1,0 +1,25 @@
+body{
+	margin:0;
+	padding:0;
+	}
+.f{
+	float:left;
+	}
+.f-r{
+	float:right;
+	}
+.main-container{
+	width:960px;
+	margin:0 auto;
+	padding-top:50px;
+	}	
+.list {
+	width:425px;
+	margin-top: 25px;
+	}
+.list li{
+	color:#456db4;
+	font-size:18px;
+	font-family:Arial, Helvetica, sans-serif;
+	line-height: 30px;
+	}
