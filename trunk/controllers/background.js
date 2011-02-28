@@ -18,6 +18,18 @@ var fbchatBG=function(){
         ChatInterval:null,
         popup:{},
         /**
+         * play new message sound
+         */
+        createAlert:function(){
+            var audio=document.createElement("audio");
+            audio.setAttribute("src", "sound/beep-28.mp3");
+            document.body.appendChild(audio);
+            audio.play();
+            window.setTimeout(function(){
+                $(audio).remove();
+            }, 2000);
+        },
+        /**
          * get the latest chat messages.
          */
         receivingMessages:function(){
@@ -31,6 +43,7 @@ var fbchatBG=function(){
                 }
                 var messageDate=new Date();
                 sendMessages=function(msg){
+                    fbchatbg.createAlert();
                     var sender_uid=(msg.from).substring(1,(msg.from).indexOf("@"));
                     fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
                         if(friend.online=='false'){
