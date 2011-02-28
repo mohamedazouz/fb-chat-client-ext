@@ -8,6 +8,7 @@ and open the template in the editor.
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/rtl.css" />        
         <link rel="stylesheet" type="text/css" href="js/noticemessage/jquery.noticeMsg.css" />
         <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/popup.js"></script>
@@ -37,9 +38,9 @@ and open the template in the editor.
 
             <!-- chat buddy name -->
             <div id="chat-buddy" class="status-box f">
-                <div id="chat-buddy-img-div" style="float:left; margin:5px;"><img id="chat-buddy-img" src="images/status_color.png" width="21" height="21" alt="active" style="display: none;" /></div>
-                <strong id="chat-buddy-name" style="float: left;" value=""></strong>
-                <div id="closeChat" style="float: right;margin-right: 10px;cursor: pointer;display: block;margin-top: 5px;">
+                <div id="chat-buddy-img-div" class="status-box-image"><img id="chat-buddy-img" src="images/status_color.png" width="21" height="21" alt="active" style="display: none;" /></div>
+                <strong id="chat-buddy-name" class="f" value=""></strong>
+                <div id="closeChat" class="f-r closeChat">
                     <img src="images/close.png" alt="close"/>
                 </div>
             </div>
@@ -185,21 +186,21 @@ and open the template in the editor.
             <div id="friendlist-friends-arrow" class="arrow f"></div>
             <div id="friendlist-friends-top-menu-footer" class="top-menu-footer"></div>
         </div>
-        <div id="settings-top-menu-container" class="top-menu-container" style="height: 172px;width: 160px;float: right;left: 260px;">
+        <div id="settings-top-menu-container" class="top-menu-container settings-menu f-r" >
             <div id="settings-menu" class="users-list f" style="height: 156px;width: 160px;">
 
-                <div class="user-container f"style="margin-left: 0px;">
-                    <div id="disconnect" class="user-name f" style="margin-left: 50px;margin-top: 8px;cursor: pointer;">
+                <div class="user-container f" style="width: 135px;">
+                    <div id="disconnect" class="user-name f user-name-settings">
                         Disconnect
                     </div>
                 </div>
-                <div class="user-container f" style="margin-left: 0px;">
-                    <div id="logout" class="user-name f" style=" margin-left: 62px;margin-top: 8px;cursor: pointer;">
+                <div class="user-container f" style="width: 135px;">
+                    <div id="logout" class="user-name f user-name-settings">
                         Logout
                     </div>
                 </div>
-                <div class="user-container f" >
-                    <div id="about" class="user-name f" style="margin-left: 50px;margin-top: 8px;cursor: pointer;">
+                <div class="user-container f" style="width: 135px; ">
+                    <div id="about" class="user-name f user-name-settings">
                         About
                     </div>
                 </div>
@@ -225,20 +226,20 @@ and open the template in the editor.
                 <div style="margin-left: 25px;">
                     Developed and Maintained by
                     <div>
-                        <a style="cursor: pointer;" onclick="background.extension.openURL('http://www.activedd.com', true);">Active Digital Development</a>
+                        <a style="cursor: pointer;" onClick="background.extension.openURL('http://www.activedd.com', true);">Active Digital Development</a>
                     </div>
                 </div>
                 <div style="margin-left: 10px;">
-                    <a style="cursor: pointer;" onclick="background.extension.openURL('http://twitter.com/#!/progmania', false);">Gamal Shaban</a>
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/progmania', false);">Gamal Shaban</a>
                 </div>
                 <div style="margin-left: 10px;">
-                    <a style="cursor: pointer;" onclick="background.extension.openURL('http://twitter.com/#!/m_aliazouz', false);">Mohamed Azouz</a>
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/m_aliazouz', false);">Mohamed Azouz</a>
                 </div>
                 <div style="margin-left: 10px;">
-                    <a style="cursor: pointer;" onclick="background.extension.openURL('http://twitter.com/#!/abokhalil83', false);">Ahmed Khalil</a>
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/abokhalil83', false);">Ahmed Khalil</a>
                 </div>
                 <div style="margin-left: 10px;">
-                    <a style="cursor: pointer;" onclick="background.extension.openURL('http://twitter.com/#!/Flashawy', false);">Ali Muhammad Ali</a>
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/Flashawy', false);">Ali Muhammad Ali</a>
                 </div>
             </div>
         </div>
