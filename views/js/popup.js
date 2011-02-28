@@ -103,7 +103,6 @@ $(document).ready(function() {
         'float' : 'left',
         'width' : slideWidth
     });
-    console.log("here:"+numberOfSlides)
     // Set #slideInner width equal to total width of all slides
     $('#slideInner').css('width', slideWidth * numberOfSlides);
 

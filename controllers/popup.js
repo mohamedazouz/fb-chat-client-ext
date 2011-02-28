@@ -33,7 +33,7 @@ var fbchatPOPUP = function(){
             },
             appendToSlider:function(slide){
                 if(! slide){
-                    $('#slideInner').css('width', (50 *  $('.slide').length)+50);
+                    $('#slideInner').css('width', (50 *  $('.slide').length)+100);
                     return;
                 }
                 var slideInner=document.getElementById("slideInner");
@@ -47,7 +47,7 @@ var fbchatPOPUP = function(){
                     'float' : 'left',
                     'width' : 50
                 });
-                $("#slideInner").css('width', (50 *  $('.slide').length)+50);
+                $("#slideInner").css('width', (50 *  $('.slide').length)+100);
                 $("#slideshow").show();
             }
         },
