@@ -18,6 +18,15 @@ body {
     width:420px;
     height: 31px;
 }
+.status-box-image{
+	float:left;
+	margin:5px;
+	}
+.closeChat{
+	margin-right: 10px;
+	cursor: pointer;
+	margin-top: 5px;
+	}
 .f {
     float:left;
 }
@@ -416,4 +425,13 @@ body {
     background: none;
     border-color:none;
     outline:0;
+}
+.settings-menu{
+height: 172px;
+width: 160px !important;
+left: 260px;
+padding: 0 !important;
+}
+.user-name-settings {
+	margin-top: 8px;cursor: pointer;width:100%; text-align:center;
 }
