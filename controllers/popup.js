@@ -31,17 +31,24 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();
             },
-            fixSlider:function(){
-                // Wrap all .slides with #slideInner div
-                $('.slide')
-                .wrapAll('<div id="slideInner"></div>')
-                // Float left to display horizontally, readjust .slides width
-                .css({
+            appendToSlider:function(slide){
+                if(! slide){
+                    $('#slideInner').css('width', (50 *  $('.slide').length)+50);
+                    return;
+                }
+                var slideInner=document.getElementById("slideInner");
+                if(slideInner){
+                    $(slideInner).append(slide);
+                }else{
+                    $("#slidesContainer").append(slide);
+                    $('.slide').wrapAll('<div id="slideInner"></div>');
+                }
+                $('.slide').css({
                     'float' : 'left',
                     'width' : 50
                 });
-                // Set #slideInner width equal to total width of all slides
-                $('#slideInner').css('width', 50 *  $('.slide').length);
+                $("#slideInner").css('width', (50 *  $('.slide').length)+50);
+                $("#slideshow").show();
             }
         },
         friendsInterval:null,
@@ -331,9 +338,9 @@ var fbchatPOPUP = function(){
                     activeChat.push(friend);
                     window.localStorage.activeChat=JSON.stringify(activeChat);
                     //appending the frined icon to the slider of chat friends.
-                    $("#slidesContainer").append(fbchatpopup.addToChatFriends(friend));
-                    fbchatpopup.disposableFunctions.fixSlider();
-                    $("#slideshow, .user-pointer").show();
+                    //                    $("#slidesxContainer").append(fbchatpopup.addToChatFriends(friend));
+                    fbchatpopup.disposableFunctions.appendToSlider(fbchatpopup.addToChatFriends(friend));
+                    
                 }
                 //adding active class to active chat window icon.
                 $(".active").removeClass("active");
@@ -398,7 +405,7 @@ var fbchatPOPUP = function(){
             //            }
             //            $("#slidesContainer").html(chatSlider);
             $("#friend-"+uid).parent().remove();
-            fbchatpopup.disposableFunctions.fixSlider();
+            fbchatpopup.disposableFunctions.appendToSlider();
         },
         /**
          * running the intervals while popup is on.
@@ -454,10 +461,10 @@ var fbchatPOPUP = function(){
                 // check for other chat to apppend to the slider.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
                 for(j=0; j < activeChat.length; j++){
-                    $("#slidesContainer").append(fbchatpopup.addToChatFriends(activeChat[j]));
+                    //                    $("#slideInner").append(fbchatpopup.addToChatFriends(activeChat[j]));
+                    fbchatpopup.disposableFunctions.appendToSlider(fbchatpopup.addToChatFriends(activeChat[j]));
                 }
-                $("#slideshow, .user-pointer").show();
-                fbchatpopup.disposableFunctions.fixSlider();
+                $("#slideshow").show();
             }else{
                 $('#online-top-menu-container').slideDown('slow');
                 $("#conversation-container").html("");
