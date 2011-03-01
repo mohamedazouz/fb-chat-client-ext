@@ -479,6 +479,11 @@ var fbchatPOPUP = function(){
                 "maxDots": 4
             });
         }else{
+            //clearing the badge text.
+            window.localStorage.unreadMSGS=0;
+            chrome.browserAction.setBadgeText({
+                text:""
+            });
             //closing any opened notifications.
             chrome.extension.getViews({
                 type:"notification"
