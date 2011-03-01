@@ -39,6 +39,7 @@ body {
     height:376px;
     overflow-y: auto;
     overflow-x: hidden;
+    background: #324E88;
 }
 .conversation-container::-webkit-scrollbar {
     width: 12px;
@@ -308,13 +309,17 @@ body {
     width:41px !important;
     height:41px !important;
 }
-.friend-image-shadow {
+.friend-image-shadow,.friend-image-offline  {
     position:absolute;
     width:45px;
     height:45px;
     background:url(../images/friends-list-shadow.png) no-repeat;
     top:-2px;
     left:-2px;
+}
+.friend-image-offline{
+
+   background:url(../images/friends-list-offline.png) no-repeat;
 }
 .group {
     color:#7f9fee;
