@@ -22,7 +22,7 @@ var fbchatBG=function(){
          */
         createAlert:function(){
             var audio=document.createElement("audio");
-            audio.setAttribute("src", "sound/beep-28.mp3");
+            audio.setAttribute("src", "sound/47_ti-na.mp3");
             document.body.appendChild(audio);
             audio.play();
             window.setTimeout(function(){
@@ -313,3 +313,19 @@ fbchatpopup.populateFriendsList=function(list,online){
     }
     return out;
 };
+
+/*
+ //run when the user changes his status from idle to active.
+chrome.idle.onStateChanged.addListener(function(newState) {
+    console.log("2ser "+newState+" on:"+new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds());
+});
+// run every 1 min to check the user active or idle.
+window.setInterval(function(){
+    chrome.idle.queryState(15, function(stat){
+        if(stat == 'idle'){
+            //do something about idle state.
+        }
+        console.log("1user "+stat+" on:"+new Date().getHours()+":"+new Date().getMinutes()+":"+new Date().getSeconds());
+    });
+},1000 * 60 )
+*/
