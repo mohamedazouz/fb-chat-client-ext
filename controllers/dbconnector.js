@@ -189,7 +189,7 @@ var fbchatDB=function(){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("DELETE FROM chat_history where uid=?",
                     [uid],
-                    handler());
+                    hanlder);
             },
             fbchatdb.onError);
         },

@@ -28,25 +28,43 @@ var fbchatOptions=function(){
                 out+='</li>';
             }
             return out;
-        }
-    };
-    $(function(){
-        if(window.localStorage.connected =='false'){
-            $("friends").html('u have to connect first');
-        }else{
+        },
+        domEvents:function(){
+            $("#clearhsitory").click(function(){
+                background.fbchatdb.clearChat(this.value,function(){
+                    $("#clearhsitory").hide();
+                    $("#chatHistroy").html('');
+                });
+            });
+            $("#lang").change(function(){
+                window.localStorage.lang=this.value;
+            });
+            $('#lang-'+window.localStorage.lang).attr('selected', 'true');
+        },
+        loadFriendsChatHistory:function(){
             background.fbchatdb.getAllFriends(function(list){
                 $("#friends").html(fbchatoptions.createFriendList(list));
                 $("ul#friends li").click(function(){
                     $("#clearhsitory").attr('value',this.id);
                     background.fbchatdb.getChatByUID(this.id, function(chat){
+                        if(chat.length ==0){
+                            $("#chatHistroy").html('no chat histroy for this user');
+                            return;
+                        }
                         $("#chatHistroy").html(fbchatoptions.createChatHistory(chat));
+                        $("#clearhsitory").show();
                     });
                 })
             });
         }
-        $("#clearhsitory").click(function(){
-            background.fbchatdb.clearChat(this.value,function(){});
-        });
+    };
+    $(function(){
+        if(window.localStorage.connected =='false'){
+            $("body").html('<br><center><h3>you have to connect first and reload the page</h3></center>');
+            return;
+        }
+        fbchatoptions.loadFriendsChatHistory();
+        fbchatoptions.domEvents();
     });
     return fbchatoptions;
 }

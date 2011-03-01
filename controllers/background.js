@@ -222,7 +222,7 @@ var fbchatBG=function(){
         }
 
         fbchatbg.popup.logged=JSON.parse(window.localStorage.logged);
-        
+        window.localStorage.lang='en';
     });
     
     return fbchatbg;

@@ -8,7 +8,6 @@ and open the template in the editor.
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" type="text/css" href="css/style.css" />
-<!--        <link rel="stylesheet" type="text/css" href="css/rtl.css" />        -->
         <link rel="stylesheet" type="text/css" href="js/noticemessage/jquery.noticeMsg.css" />
         <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="js/popup.js"></script>
@@ -18,18 +17,19 @@ and open the template in the editor.
         <script type="text/javascript" src="js/specialkeys.js"></script>
         <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
         <script type="text/javascript" src="../controllers/popup.js"></script>
+        <script type="text/javascript" src="../controllers/locals.js"></script>
     </head>
     <body>
         <div id="container" class="container">
 
             <div id="online-users" class="online-users f">
                 <img alt="Online Friends" src="images/online-user.png" width="16" height="12" />
-                Online Friends
+                <div id="onlineFriends" local="onlineFriends">Online Friends</div>
             </div>
 
             <div id="friends-list" class="friends-list f">
                 <img alt="Friend Lists" src="images/fr-list.png" width="13" height="13" />
-                Friend Lists
+                <div local="friendList">Friend Lists</div>
             </div>
 
             <div id="settings" class="settings f">
