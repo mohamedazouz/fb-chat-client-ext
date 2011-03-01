@@ -188,7 +188,7 @@ var fbchatDB=function(){
         clearChat:function(uid,hanlder){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("DELETE FROM chat_history where uid=?",
-                    [],
+                    [uid],
                     handler());
             },
             fbchatdb.onError);
