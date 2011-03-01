@@ -11,12 +11,18 @@ and open the template in the editor.
         <script type="text/javascript" src="../controllers/options.js"></script>
     </head>
     <body>
+        <label>Extension Language:
+            <select id="lang">
+                <option id="lang-ar" value="ar">Arabic</option>
+                <option id="lang-en" value="en">English</option>
+            </select>
+        </label>
         <div style="max-height: 300px;min-width: 100px;float: left" id="">
             <ul id="friends">
             </ul>
         </div>
         <div style="max-height: 300px;min-width: 100px;float: left" id="">
-            <button id="clearhsitory">cleare</button>
+            <button id="clearhsitory" style="display: none;">clear</button>
             <ul id="chatHistroy">
             </ul>
         </div>

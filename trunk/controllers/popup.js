@@ -49,6 +49,22 @@ var fbchatPOPUP = function(){
                 });
                 $("#slideInner").css('width', (50 *  $('.slide').length)+100);
                 $("#slideshow").show();
+            },
+            setLocals:function(){
+                var lang=window.localStorage.lang;
+                if(lang == 'ar'){
+                    var link=document.createElement("link");
+                    link.setAttribute("href", "css/rtl.css");
+                    link.setAttribute("rel", "stylesheet");
+                    link.setAttribute("type", "text/css");
+                    $('head').append(link);
+                }
+                $("*").each(function(){
+                    var local=$(this).attr("local");
+                    if(local != null){
+                        $(this).text((fbchatlocals[lang])[local]);
+                    }
+                });
             }
         },
         friendsInterval:null,
@@ -112,7 +128,11 @@ var fbchatPOPUP = function(){
                 window.setTimeout('$("#online-friends").html(window.localStorage.onlineFriends);', 1000 );
             }
             if(window.localStorage.onlineFriendsCount){
-                $("#online-users").html('Online Friends ('+window.localStorage.onlineFriendsCount+')');
+                if($('#onlineFriends').text().indexOf("(") == -1){
+                    $("#onlineFriends").text($('#onlineFriends').text()+' ('+window.localStorage.onlineFriendsCount+')');
+                }else{
+                    $("#onlineFriends").text($('#onlineFriends').text().substr(0, $('#onlineFriends').text().indexOf("(")-1)+' ('+window.localStorage.onlineFriendsCount+')');
+                }
             }
         },
         /**
@@ -420,6 +440,8 @@ var fbchatPOPUP = function(){
         }
     };
     $(function(){
+        //setting locals
+        fbchatpopup.disposableFunctions.setLocals();
         //______check if user is logged to application on facebook or not. if not user will  be redirected to facebook to authenticate application.
         if(! JSON.parse(window.localStorage.logged)){
             background.extension.openURL(proxy.baseURL+proxy.loginURL, true);

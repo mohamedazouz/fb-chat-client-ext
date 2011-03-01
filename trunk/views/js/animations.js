@@ -107,5 +107,10 @@ var anim=[
         id:20,
         img:'chat-icons/smile.png',
         value:':)'
+    },
+    {
+        id:21,
+        img:'chat-icons/tongue.png',
+        value:':P'
     }
 ]
