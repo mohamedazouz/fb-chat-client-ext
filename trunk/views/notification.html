@@ -232,6 +232,10 @@
                     'action':'sendmessage',
                     'message':message
                 });
+                window.localStorage.unreadMSGS=0;
+                chrome.browserAction.setBadgeText({
+                    text:""
+                });
                 window.close();
             }
             document.getElementById("enterButton").onclick=function(){

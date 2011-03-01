@@ -30,6 +30,19 @@ var fbchatBG=function(){
             }, 2000);
         },
         /**
+         * changes the badge text when a new message received.
+         */
+        changeBadge:function(){
+            if(! window.localStorage.unreadMSGS){
+                window.localStorage.unreadMSGS=0;
+            }
+            var unread=parseInt(window.localStorage.unreadMSGS)+1;
+            window.localStorage.unreadMSGS=unread;
+            chrome.browserAction.setBadgeText({
+                text:""+(unread)
+            });
+        },
+        /**
          * get the latest chat messages.
          */
         receivingMessages:function(){
@@ -43,7 +56,6 @@ var fbchatBG=function(){
                 }
                 var messageDate=new Date();
                 sendMessages=function(msg){
-                    fbchatbg.createAlert();
                     var sender_uid=(msg.from).substring(1,(msg.from).indexOf("@"));
                     fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
                         if(friend.online=='false'){
@@ -162,6 +174,8 @@ var fbchatBG=function(){
          * @param msg the message to show.
          */
         showMSG:function(uid,msg){
+            //fire the nes message alert.
+            fbchatbg.createAlert();
             //get instanse of popup page.
             var popup=chrome.extension.getViews({
                 type:"popup"
@@ -173,6 +187,8 @@ var fbchatBG=function(){
                     win.fbchatpopup.updateConversation(uid,msg);
                 });
             }else{
+                //update the badge text.
+                fbchatbg.changeBadge();
                 //saving chat window as last message.
                 if(! window.localStorage.activeChat){
                     window.localStorage.activeChat="[]";
