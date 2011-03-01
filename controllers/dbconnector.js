@@ -80,6 +80,23 @@ var fbchatDB=function(){
             fbchatdb.onError);
         },
         /**
+         * returns a list of all friends.
+         */
+        getAllFriends:function(handler){
+            var friends=[];
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("SELECT * FROM friends;",
+                    [],
+                    function(tx,results) {
+                        for (i = 0; i < results.rows.length; i++) {
+                            friends.push(util.clone(results.rows.item(i)));
+                        }
+                        handler(friends);
+                    });
+            },
+            fbchatdb.onError);
+        },
+        /**
          * get a friend item with unique facebook id.
          */
         getFriendByUID:function(uid,handler,msg){
@@ -164,6 +181,17 @@ var fbchatDB=function(){
                     handler(),
                     fbchatdb.onError);
             });
+        },
+        /**
+         * clear chat histroy for a user.
+         */
+        clearChat:function(uid,hanlder){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("DELETE FROM chat_history where uid=?",
+                    [],
+                    handler());
+            },
+            fbchatdb.onError);
         },
         /**
          * fbchat error function.
