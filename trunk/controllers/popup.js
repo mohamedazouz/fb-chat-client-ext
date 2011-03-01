@@ -61,8 +61,13 @@ var fbchatPOPUP = function(){
                 }
                 $("*").each(function(){
                     var local=$(this).attr("local");
-                    if(local != null){
-                        $(this).text((fbchatlocals[lang])[local]);
+                    if(local != null && local != undefined){
+                        try{
+                            $(this).text((fbchatlocals[lang])[local]);
+                        }catch(e){
+                            console.log(e);
+                        }
+                        
                     }
                 });
             }
@@ -443,12 +448,20 @@ var fbchatPOPUP = function(){
         //setting locals
         fbchatpopup.disposableFunctions.setLocals();
         //______check if user is logged to application on facebook or not. if not user will  be redirected to facebook to authenticate application.
-        if(! JSON.parse(window.localStorage.logged)){
+        if(window.localStorage.logged == 'false'){
             background.extension.openURL(proxy.baseURL+proxy.loginURL, true);
             chrome.extension.sendRequest({
                 'action':'getAuth'
             });
+            window.localStorage.logged = 'logging';
             window.close();
+        }else if(window.localStorage.logged == 'logging'){
+            $('#container').hide();
+            $("#logging").fadeIn('fast');
+            window.setTimeout(function(){
+                window.location.reload();
+            }, 1000 * 5);
+            return;
         }
 
         //_____check if user is connected or not, if not shows you are not connected.
@@ -495,7 +508,7 @@ var fbchatPOPUP = function(){
                 $("#closeChat").hide();
             }
         }
-        
+
         fbchatpopup.setClickEventActions();
 
     });

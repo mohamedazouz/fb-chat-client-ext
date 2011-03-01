@@ -216,7 +216,9 @@ var fbchatBG=function(){
         if(! window.localStorage.logged){
             window.localStorage.logged=false;
         }
-
+        if(! window.localStorage.lang){
+            window.localStorage.lang='en';
+        }
         if(! JSON.parse(window.localStorage.connected)){
             fbchatbg.popup.container=$("#notconnected").html();
         }
@@ -239,7 +241,9 @@ var fbchatbg=new fbchatBG();
  */
 function onRequest(request, sender, callback) {
     if(request.action=='getAuth'){
-        window.setTimeout("Proxy.Authenticate(0);", 1000 * 10);
+        window.setTimeout(function(){
+            Proxy.Authenticate(0);
+        }, 1000 * 5);
     }
     if(request.action == 'disconnect'){
         window.clearInterval(fbchatbg.friendsInterval);
