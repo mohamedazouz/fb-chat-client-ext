@@ -17,7 +17,7 @@ var fbchatlocals={
     en:{
         "onlineFriends":"Online Friends",
         "friendList":"Friend Lists",
-        "offlineUserChat":"&nbsp;is offline, Your messages will be sent to their inbox.",
+        "offlineUserChat":" is offline, Your messages will be sent to their inbox.",
         "DefautlTextAreaValue":"type your message here",
         "clearField":"clear",
         "disconnect":"Disconnect",

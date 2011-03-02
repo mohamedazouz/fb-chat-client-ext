@@ -361,7 +361,6 @@ var fbchatPOPUP = function(){
                         fbchatpopup.sendMessage();
                     }
                 });
-                console.log((fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']);
                 $("#chat-text-box").attr('value',(fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/);
                 $("#chat-text-box").css('color','gray');
                 //checking the chat in active chat.
