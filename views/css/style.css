@@ -40,7 +40,8 @@ body {
     height:376px;
     overflow-y: auto;
     overflow-x: hidden;
-    background: #324E88;
+    background: #868E9B;
+    /*border-bottom: 1px solid #4A515C;*/
 }
 .conversation-container::-webkit-scrollbar {
     width: 12px;
@@ -159,6 +160,8 @@ body {
 }
 .active .talker-image-shadow {
     background:url(../images/active.png) no-repeat;
+    top: -16px;
+    height: 68px;
 }
 .notification{
     background: #ff0000;
@@ -208,7 +211,7 @@ body {
 .slider-container{
     width:100%;
     height:70px;
-    border-top: 6px solid #666666;
+    border-top: 6px solid #324e88;
     position: relative;
 }
 /*.user-pointer{
@@ -346,16 +349,16 @@ body {
 /* ------------ slider ------------ */
 
 #slideshow {
-    margin:15 auto;
+    /*margin:15 auto;*/
     width: 395px;
-
     position:relative;
 }
 #slideshow #slidesContainer {
-    margin:0 auto;
+    margin:0 0 0 40px;
     width: 335px;
     overflow:auto; /* allow scrollbar */
     position:relative;
+    padding-top: 14px;
 }
 #slideshow #slidesContainer .slide {
     margin-right: 2px;
@@ -379,13 +382,13 @@ body {
     cursor: pointer;
 }
 #leftControl {
-    top:9px;
-    left:0;
+    top:26px;
+    left: 10px;
     background:transparent url(../images/left.png) no-repeat 0 0;
 }
 #rightControl {
-    top:9px;
-    right:0;
+    top:26px;
+    right:-10px;
     background:transparent url(../images/right.png) no-repeat 0 0;
 }
 .emoticons-container{
