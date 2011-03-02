@@ -17,6 +17,16 @@ var fbchatBG=function(){
         friendsInterval:null,
         ChatInterval:null,
         popup:{},
+        getNavigatorLang:function(){
+            var lang=window.navigator.language;
+            if(lang.indexOf("ar")!= -1){
+                return 'ar';
+            }else if(lang.indexOf("en")!= -1){
+                return 'en';
+            }else{
+                return 'en';
+            }
+        },
         /**
          * play new message sound
          */
@@ -233,14 +243,12 @@ var fbchatBG=function(){
             window.localStorage.logged=false;
         }
         if(! window.localStorage.lang){
-            window.localStorage.lang='en';
+            window.localStorage.lang=fbchatbg.getNavigatorLang();
         }
         if(! JSON.parse(window.localStorage.connected)){
             fbchatbg.popup.container=$("#notconnected").html();
         }
 
-        fbchatbg.popup.logged=JSON.parse(window.localStorage.logged);
-        window.localStorage.lang='en';
     });
     
     return fbchatbg;
