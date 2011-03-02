@@ -32,17 +32,17 @@ $(document).ready(function() {
     });
     //typeing area.
     $('.typing-box').mouseover(function(){
-        if(this.value == 'type your message here'){
+        if(this.value == (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/){
             this.value='';
         }
     }).mouseout(function(){
         if(this.value == ''){
             //use i18n later for message
-            this.value='type your message here';
+            this.value=(fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/;
             $(this).css('color','gray');
         }
     }).keydown(function(){
-        if(this.value == 'type your message here'){
+        if(this.value == (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/){
             this.value='';
         }else{
             $(this).css('color','#B5C0D8');
@@ -69,7 +69,7 @@ $(document).ready(function() {
         if($("#chat-text-box").attr('disabled')=="true"){
             return;
         }
-        if($("#chat-text-box").attr('value')=='type your message here'){
+        if($("#chat-text-box").attr('value')==(fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/){
             $("#chat-text-box").attr('value',$(this).attr('value'));
         }else{
             $("#chat-text-box").attr('value', $("#chat-text-box").attr('value')+$(this).attr('value'));

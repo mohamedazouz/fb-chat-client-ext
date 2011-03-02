@@ -47,7 +47,7 @@ and open the template in the editor.
             <!-- offline notifier-->
             <div id="offline-notify" style="display: none;color: #ffffff;width: 420px;margin-left: 6px;">
                 <strong id="chat-buddy-name2" style="float: left;" value=""></strong>
-                <div id="" style="float: left; font-size: 11px;margin-top: 2px;">&nbsp;is offline, Your messages will be sent to their inbox.</div>
+                <div id="" style="float: left; font-size: 11px;margin-top: 2px;" local="offlineUserChat">&nbsp;is offline, Your messages will be sent to their inbox.</div>
             </div>
             <!-- conversations  -->
             <div id="conversation-container" class="conversation-container">
@@ -102,7 +102,7 @@ and open the template in the editor.
             </div>
             <!-- typing area -->
             <div class="typing-area f">
-                <textarea id="chat-text-box" name="" cols="" rows="" class="typing-box f" style="color: gray;" >type your message here</textarea>
+                <textarea id="chat-text-box" name="" cols="" rows="" class="typing-box f" style="color: gray;" local="DefautlTextAreaValue" >type your message here</textarea>
                 <div class="icons f">
                     <div class="emoticons-container">
                         <div class="emoticons-top f"></div>
@@ -140,7 +140,7 @@ and open the template in the editor.
         <!-- top menu -->
         <div id="online-top-menu-container" class="top-menu-container">
             <input type="text" id="onlineFilter"  placeholder="Friends on Chat" autofocus class="quick-search"/>
-            <a id="clearonline" style="cursor: pointer;color: white;margin-left: 5px;">clear</a>
+            <a id="clearonline" style="cursor: pointer;color: white;margin-left: 5px;" local="clearField" >clear</a>
             <div id="online-friends" class="users-list f">
                 <!--<div class="user-container f">
                         <div class="friend-image f">
@@ -163,7 +163,7 @@ and open the template in the editor.
         </div>
         <div id="friendlist-top-menu-container" class="top-menu-container">
             <input type="text" id="friendsFilter"  placeholder="Search Friends" autofocus class="quick-search"/>
-            <a id="clearfriends" style="cursor: pointer;color: white;margin-left: 5px;">clear</a>
+            <a id="clearfriends" style="cursor: pointer;color: white;margin-left: 5px;" local="clearField">clear</a>
             <div id="friend-list" class="users-list f">
 
                 <!--<div class="user-container f">
@@ -187,20 +187,25 @@ and open the template in the editor.
             <div id="friendlist-friends-top-menu-footer" class="top-menu-footer"></div>
         </div>
         <div id="settings-top-menu-container" class="top-menu-container settings-menu f-r" >
-            <div id="settings-menu" class="users-list f" style="height: 156px;width: 160px;">
+            <div id="settings-menu" class="users-list f" style="height: 208px;width: 160px;">
 
                 <div class="user-container f" style="width: 135px;">
-                    <div id="disconnect" class="user-name f user-name-settings">
+                    <div id="disconnect" class="user-name f user-name-settings" local="disconnect">
                         Disconnect
                     </div>
                 </div>
                 <div class="user-container f" style="width: 135px;">
-                    <div id="logout" class="user-name f user-name-settings">
+                    <div id="logout" class="user-name f user-name-settings" local="logout">
                         Logout
                     </div>
                 </div>
                 <div class="user-container f" style="width: 135px; ">
-                    <div id="about" class="user-name f user-name-settings">
+                    <div id="options" class="user-name f user-name-settings" local="settings">
+                        Settings
+                    </div>
+                </div>
+                <div class="user-container f" style="width: 135px; ">
+                    <div id="about" class="user-name f user-name-settings" local="about">
                         About
                     </div>
                 </div>

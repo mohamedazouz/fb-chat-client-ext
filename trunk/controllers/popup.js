@@ -130,7 +130,9 @@ var fbchatPOPUP = function(){
             if(staticlist != null && staticlist != ""){
                 $("#online-friends").html(staticlist);
             }else{
-                window.setTimeout('$("#online-friends").html(window.localStorage.onlineFriends);', 1000 );
+                window.setTimeout(function(){
+                    $("#online-friends").html(window.localStorage.onlineFriends);
+                }, 1000 );
             }
             if(window.localStorage.onlineFriendsCount){
                 if($('#onlineFriends').text().indexOf("(") == -1){
@@ -199,6 +201,9 @@ var fbchatPOPUP = function(){
                     fade: 1000
                 })
             });
+            $("#options").click(function(){
+                fbchatpopup.openURL(chrome.extension.getURL('views/options.html'), true);
+            });
         },
         /**
          * update the conversation in case a new message has been received.
@@ -237,7 +242,8 @@ var fbchatPOPUP = function(){
          * send a message from popup.
          */
         sendMessage:function(){
-            if($('#chat-text-box').attr('value')== 'type your message here'){
+            console.log((fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']);
+            if($('#chat-text-box').attr('value')== (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue'] /*'type your message here'*/){
                 return;
             }
             var message ={
@@ -355,7 +361,8 @@ var fbchatPOPUP = function(){
                         fbchatpopup.sendMessage();
                     }
                 });
-                $("#chat-text-box").attr('value','type your message here');
+                console.log((fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']);
+                $("#chat-text-box").attr('value',(fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/);
                 $("#chat-text-box").css('color','gray');
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
@@ -440,7 +447,6 @@ var fbchatPOPUP = function(){
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         },
         openURL:function(url,focas){
-            console.log(url);
             background.extension.openURL(url, focas);
         }
     };
