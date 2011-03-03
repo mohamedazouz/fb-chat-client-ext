@@ -271,7 +271,7 @@ var fbchatBG=function(){
          */
         sendMessage:function(message){
             Proxy.sendMessage(message.to, message.msg,function(resp){
-                if(resp.error){
+                if(resp && resp.error){
                     fbchatbg.disconnect();
                     window.localStorage.connected=false;
                     //setting icon to offline
