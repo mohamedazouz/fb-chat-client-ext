@@ -36,10 +36,19 @@ var fbchatOptions=function(){
                     $("#chatHistroy").html('');
                 });
             });
+            $("#clearAllHistory").click(function(){
+                background.fbchatdb.clearAllChatHistory(function(){
+                    $("#chatHistroy").html('');
+                });
+            });
             $("#lang").change(function(){
                 window.localStorage.lang=this.value;
             });
+            $("#shownotifications").change(function(){
+                window.localStorage.allowNotifications=this.value;
+            });
             $('#lang-'+window.localStorage.lang).attr('selected', 'true');
+            $('#shwnotif-'+window.localStorage.allowNotifications).attr('selected', 'true');
         },
         loadFriendsChatHistory:function(){
             background.fbchatdb.getAllFriends(function(list){
