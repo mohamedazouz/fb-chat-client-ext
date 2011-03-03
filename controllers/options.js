@@ -30,25 +30,28 @@ var fbchatOptions=function(){
             return out;
         },
         domEvents:function(){
-            $("#clearhsitory").click(function(){
+            /*$("#clearhsitory").click(function(){
                 background.fbchatdb.clearChat(this.value,function(){
                     $("#clearhsitory").hide();
                     $("#chatHistroy").html('');
                 });
-            });
-            $("#clearAllHistory").click(function(){
+            });*/
+            /*$("#clearAllHistory").click(function(){
                 background.fbchatdb.clearAllChatHistory(function(){
                     $("#chatHistroy").html('');
                 });
-            });
+            });*/
             $("#lang").change(function(){
                 window.localStorage.lang=this.value;
             });
-            $("#shownotifications").change(function(){
-                window.localStorage.allowNotifications=this.value;
+            $("#shwnotif").change(function(){
+                window.localStorage.allowNotifications=this.checked;
             });
-            $('#lang-'+window.localStorage.lang).attr('selected', 'true');
-            $('#shwnotif-'+window.localStorage.allowNotifications).attr('selected', 'true');
+            $("#playsounds").change(function(){
+                window.localStorage.playSounds=this.checked
+            });
+            $('#playsounds').attr('checked',JSON.parse(window.localStorage.playSounds));
+            $('#shwnotif').attr('checked', JSON.parse(window.localStorage.allowNotifications));
         },
         loadFriendsChatHistory:function(){
             background.fbchatdb.getAllFriends(function(list){
@@ -72,7 +75,7 @@ var fbchatOptions=function(){
             $("body").html('<br><center><h3>you have to connect first and reload the page</h3></center>');
             return;
         }
-        fbchatoptions.loadFriendsChatHistory();
+        //fbchatoptions.loadFriendsChatHistory();
         fbchatoptions.domEvents();
     });
     return fbchatoptions;
