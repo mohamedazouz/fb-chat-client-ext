@@ -49,13 +49,14 @@ var Proxy={
         count=parseInt(count);
         if(count == 59){
             window.localStorage.logged=false;
+            return;
         }
         try{
             $.ajax({
                 url:Proxy.baseURL+Proxy.checkAuthURL,
                 dataType:'json',
                 success:function(res){
-                    if(! res.sessionkey && count < 60){
+                    if((! res || ! res.sessionkey) && count < 60){
                         window.setTimeout(function(){
                             Proxy.Authenticate(count+1);
                         }, 1000 * 2);
