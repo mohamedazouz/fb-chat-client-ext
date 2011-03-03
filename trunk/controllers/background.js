@@ -28,7 +28,7 @@ var fbchatBG=function(){
                 window.localStorage.allowNotifications = true;
             }
             if(! window.localStorage.playSounds){
-                window.localStorage.allowNotifications = true;
+                window.localStorage.playSounds = true;
             }
         },
         getNavigatorLang:function(){
@@ -245,7 +245,7 @@ var fbchatBG=function(){
                 popup.forEach(function(win){
                     win.fbchatpopup.updateConversation(uid,msg);
                 });
-            }else if(window.localStorage.allowNotifications == 'true'){
+            }else{
                 //update the badge text.
                 fbchatbg.changeBadge();
                 //saving chat window as last message.
@@ -261,7 +261,9 @@ var fbchatBG=function(){
                     window.localStorage.chatwindow=friend.uid;
                 });
                 //show notification with new message.
-                notifier.fireNotification("html", msg.sender_name, msg.msg, msg.sender_pic,msg.uid);
+                if(window.localStorage.allowNotifications == 'true'){
+                    notifier.fireNotification("html", msg.sender_name, msg.msg, msg.sender_pic,msg.uid);
+                }
             }
         },
         /**

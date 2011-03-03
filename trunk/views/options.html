@@ -9,9 +9,10 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="../controllers/options.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/option-page.css" />
     </head>
     <body>
-        <button id="clearAllHistory">clear All history for all Users</button>
+        <!--<button id="clearAllHistory">clear All history for all Users</button>
         <label>Extension Language:
             <select id="lang">
                 <option id="lang-ar" value="ar">Arabic</option>
@@ -32,6 +33,71 @@ and open the template in the editor.
             <button id="clearhsitory" style="display: none;">clear</button>
             <ul id="chatHistroy">
             </ul>
+        </div>-->
+        <div class="container">
+            <div>
+                <img src="images/options-logo.png" width="278" height="29" alt="Facebook Chat" />
+            </div>
+            <div class="f">
+                <div class="strips"></div>
+                <div class="options-content">
+                    <span class="title f">Chat</span>
+                    <div class="options-container f">
+                        <!--<div class="bottom-line f">
+                            <label class="f label">
+                                Auto - clear for chat history
+                            </label>
+                            <label class="f-r check-container">
+                                <input name="" type="checkbox" value="" class="choose"  />
+                            </label>
+                        </div>-->
+                        <div class="bottom-line f">
+                            <label class="f label">
+                                Play notification sound
+                            </label>
+                            <label class="f-r check-container">
+                                <input name="" id="playsounds" type="checkbox" value=""  class="choose" />
+                            </label>
+                        </div>
+                    </div>
+                    <span class="title f">Notifications </span>
+                    <div class="options-container f">
+                        <div class="bottom-line f">
+                            <label class="f label">
+                                Show desktop notification
+                            </label>
+                            <label class="f-r check-container">
+                                <input name="" id="shwnotif" type="checkbox" value="" class="choose"  />
+                            </label>
+                        </div>
+                        <!--<div class="bottom-line f">
+                            <label class="f label">
+                                Turn on notification sound
+                            </label>
+                            <label class="f-r check-container">
+                                <input name="" type="checkbox" value="" class="choose"  />
+                            </label>
+                        </div>-->
+                    </div>
+                    <span class="title f">General</span>
+                    <div class="options-container f">
+                        <label class="f label">
+                            Extension Language.
+                        </label>
+                        <select id="lang" class="f-r language">
+                            <option id="lang-en" value="en">English</option>
+                            <option id="lang-ar" value="ar">Arabic</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <input name="" type="submit" value="Do not Save" class="f-r no-save"/>
+                <input name="" type="submit" value="Save" class="f-r save"/>
+
+
+
+            </div>
         </div>
     </body>
 </html>
