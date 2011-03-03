@@ -41,8 +41,10 @@ var fbchatOptions=function(){
                     $("#chatHistroy").html('');
                 });
             });*/
+            $("#lang-"+window.localStorage.lang).attr("selected", true);
             $("#lang").change(function(){
                 window.localStorage.lang=this.value;
+                window.location.reload();
             });
             $("#shwnotif").change(function(){
                 window.localStorage.allowNotifications=this.checked;
@@ -52,6 +54,9 @@ var fbchatOptions=function(){
             });
             $('#playsounds').attr('checked',JSON.parse(window.localStorage.playSounds));
             $('#shwnotif').attr('checked', JSON.parse(window.localStorage.allowNotifications));
+            $("#save").click(function(){
+                fbchatoptions.save();
+            });
         },
         loadFriendsChatHistory:function(){
             background.fbchatdb.getAllFriends(function(list){
@@ -68,9 +73,37 @@ var fbchatOptions=function(){
                     });
                 })
             });
+        },
+        save:function(){
+            $("#saved").fadeIn("slow");
+            window.setTimeout(function(){
+                $("#saved").fadeOut("slow");
+            },1500);
+        },
+        setLocals:function(){
+            var lang=window.localStorage.lang;
+            if(lang == 'ar'){
+                var link=document.createElement("link");
+                link.setAttribute("href", "css/option-rtl.css");
+                link.setAttribute("rel", "stylesheet");
+                link.setAttribute("type", "text/css");
+                $('head').append(link);
+            }
+            $("*").each(function(){
+                var local=$(this).attr("local");
+                if(local != null && local != undefined){
+                    try{
+                        $(this).text((fbchatlocals[lang])[local]);
+                    }catch(e){
+                        console.log(e);
+                    }
+
+                }
+            });
         }
     };
     $(function(){
+        fbchatoptions.setLocals();
         if(window.localStorage.connected =='false'){
             $("body").html('<br><center><h3>you have to connect first and reload the page</h3></center>');
             return;
