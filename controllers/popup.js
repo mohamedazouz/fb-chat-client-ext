@@ -104,6 +104,11 @@ var fbchatPOPUP = function(){
             console.log('updating frinds:'+(new Date()).getMinutes())
             var staticlist=null;
             background.fbchatdb.getOnlineFriends(function(list){
+                if(list.error){
+                    fbchatpopup.disconnect();
+                    console.log(list.error);
+                    return;
+                }
                 staticlist=fbchatpopup.populateFriendsList(list,true);
                 window.localStorage.onlineFriendsCount=list.length;
                 window.localStorage.onlineFriends=staticlist;
