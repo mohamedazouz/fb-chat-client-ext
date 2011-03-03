@@ -132,6 +132,16 @@ var fbchatBG=function(){
         updateFriendsStatus:function(){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
+                if(list.error){
+                    fbchatbg.disconnect();
+                    window.localStorage.connected=false;
+                    //setting icon to offline
+                    chrome.browserAction.setIcon({
+                        path:'/views/icons/32x32_off.png'
+                    });
+                    console.log(list.error);
+                    return;
+                }
                 fbchatdb.setOnline(list);
                 window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);
                 window.localStorage.onlineFriendsCount=list.length;
@@ -151,12 +161,32 @@ var fbchatBG=function(){
                 //saving user data.
                 window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
+                    if(list.error){
+                        bchatbg.disconnect();
+                        window.localStorage.connected=false;
+                        //setting icon to offline
+                        chrome.browserAction.setIcon({
+                            path:'/views/icons/32x32_off.png'
+                        });
+                        console.log(list.error);
+                        return;
+                    }
                     fbchatdb.insertFriends(list, function(list){
                         //populate list of all friends and save it in the localStorage
                         callbackParam.friendlist=fbchatpopup.populateFriendsList(list);
                         window.localStorage.friendList=callbackParam.friendlist;
                     });
                     Proxy.getOnlineFriends(function(list){
+                        if(list.error){
+                            fbchatbg.disconnect();
+                            window.localStorage.connected=false;
+                            //setting icon to offline
+                            chrome.browserAction.setIcon({
+                                path:'/views/icons/32x32_off.png'
+                            });
+                            console.log(list.error);
+                            return;
+                        }
                         //___ set connected to be true
                         window.localStorage.connected=true;
                         //___update online friends.
@@ -238,7 +268,17 @@ var fbchatBG=function(){
          * send a messages, and save it in the db.
          */
         sendMessage:function(message){
-            Proxy.sendMessage(message.to, message.msg,function(){
+            Proxy.sendMessage(message.to, message.msg,function(resp){
+                if(resp.error){
+                    fbchatbg.disconnect();
+                    window.localStorage.connected=false;
+                    //setting icon to offline
+                    chrome.browserAction.setIcon({
+                        path:'/views/icons/32x32_off.png'
+                    });
+                    console.log(resp.error);
+                    return;
+                }
                 var user=JSON.parse(window.localStorage.user);
                 var msg={
                     uid:message.to,
@@ -249,6 +289,13 @@ var fbchatBG=function(){
                 }
                 fbchatdb.inserChatMessage(msg,function(){});
             });
+        },
+        disconnect:function(){
+            window.clearInterval(fbchatbg.friendsInterval);
+            window.clearInterval(fbchatbg.ChatInterval);
+            delete window.localStorage.chatwindow;
+            delete window.localStorage.activeChat;
+            Proxy.disconnect();
         }
     };
 
@@ -283,11 +330,7 @@ function onRequest(request, sender, callback) {
         }, 1000 * 5);
     }
     if(request.action == 'disconnect'){
-        window.clearInterval(fbchatbg.friendsInterval);
-        window.clearInterval(fbchatbg.ChatInterval);
-        delete window.localStorage.chatwindow;
-        delete window.localStorage.activeChat;
-        Proxy.disconnect();
+        fbchatbg.disconnect();
     }
     if(request.action == 'logout'){
         window.clearInterval(fbchatbg.friendsInterval);

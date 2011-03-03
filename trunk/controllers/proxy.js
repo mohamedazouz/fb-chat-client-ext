@@ -115,7 +115,7 @@ var Proxy={
             url:Proxy.baseURL+Proxy.disconnectURL,
             dataType:'json',
             success:function(){
-                console.log('disconnecting');
+                console.log('disconnected');
             }
         });
     },
@@ -131,8 +131,10 @@ var Proxy={
             },
             dataType:'json',
             type:'POST',
-            success:handler
-        })
+            success:function(res){
+                handler(res);
+            }
+        });
     },
     /**
      * get a list of online friends
