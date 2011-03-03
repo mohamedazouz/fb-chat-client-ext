@@ -6,7 +6,7 @@ var Proxy={
      * proxy base url.
      */
     baseURL:'http://fbchat.activedd.com',
-//    baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    //    baseURL:'http://41.178.64.38:8080/FBChatProxy',
     /**
      * first time login url.
      */
@@ -47,24 +47,39 @@ var Proxy={
             count=0;
         }
         count=parseInt(count);
-        $.ajax({
-            url:Proxy.baseURL+Proxy.checkAuthURL,
-            dataType:'json',
-            success:function(res){
-                if(! res.sessionkey && count < 60){
-                    window.setTimeout("Proxy.Authenticate("+(count+1)+")", 1000 * 5);
-                }else{
-                    window.localStorage.sessionKey=res.sessionkey;
-                    window.localStorage.logged=true;
-                    fbchatbg.popup.logged=true;
+        if(count == 59){
+            window.localStorage.logged=false;
+        }
+        try{
+            $.ajax({
+                url:Proxy.baseURL+Proxy.checkAuthURL,
+                dataType:'json',
+                success:function(res){
+                    if(! res.sessionkey && count < 60){
+                        window.setTimeout(function(){
+                            Proxy.Authenticate(count+1);
+                        }, 1000 * 2);
+                    }else{
+                        window.localStorage.sessionKey=res.sessionkey;
+                        window.localStorage.logged=true;
+                        fbchatbg.popup.logged=true;
+                        fbchatbg.setExtensionSettings();
+                    }
+                },
+                error:function(){
+                    if(count < 60){
+                        window.setTimeout(function(){
+                            Proxy.Authenticate(count+1);
+                        }, 1000 * 2);
+                    }
                 }
-            },
-            error:function(){
-                if(count < 60){
-                    window.setTimeout("Proxy.Authenticate("+(count+1)+")", 1000 * 5);
-                }
-            }
-        });
+            });
+        }catch (e){
+            window.setTimeout(function(){
+                Proxy.Authenticate(count+1);
+            }, 1000 * 2);
+        }
+        
     },
     /**
      * go online :).

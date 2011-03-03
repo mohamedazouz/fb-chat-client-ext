@@ -242,7 +242,6 @@ var fbchatPOPUP = function(){
          * send a message from popup.
          */
         sendMessage:function(){
-            console.log((fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']);
             if($('#chat-text-box').attr('value')== (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue'] /*'type your message here'*/){
                 return;
             }
@@ -429,12 +428,6 @@ var fbchatPOPUP = function(){
             }else{
                 fbchatpopup.openchatwindow(activeChat[activeChat.length -1].uid);
             }
-            //removing the icon from down chat slider.
-            //            var chatSlider="";
-            //            for(i = 0;i<activeChat.length; i++){
-            //                chatSlider+=fbchatpopup.addToChatFriends(activeChat[i]);
-            //            }
-            //            $("#slidesContainer").html(chatSlider);
             $("#friend-"+uid).parent().remove();
             fbchatpopup.disposableFunctions.appendToSlider();
         },
@@ -445,6 +438,9 @@ var fbchatPOPUP = function(){
         //fbchatpopup.updatetOnlineFriends();
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         },
+        /**
+         * open a new tab with the given url.
+         */
         openURL:function(url,focas){
             background.extension.openURL(url, focas);
         }

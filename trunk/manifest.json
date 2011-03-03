@@ -14,5 +14,5 @@
         "default_title": "Facebook Chat",
         "popup": "views/popup.html"
     },
-    "permissions": [ "http://fbchat.activedd.com/*" ,"notifications","idle"]
+    "permissions": [ "http://fbchat.activedd.com/*" ,"notifications","idle","tabs"]
 }

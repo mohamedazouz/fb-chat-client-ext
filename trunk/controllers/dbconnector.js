@@ -194,6 +194,17 @@ var fbchatDB=function(){
             fbchatdb.onError);
         },
         /**
+         * clear chat histroy for all users.
+         */
+        clearAllChatHistory:function(hanlder){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("DELETE FROM chat_history;",
+                    [],
+                    hanlder);
+            },
+            fbchatdb.onError);
+        },
+        /**
          * fbchat error function.
          */
         onError: function(tx,error) {

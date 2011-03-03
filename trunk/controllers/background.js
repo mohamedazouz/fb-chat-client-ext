@@ -17,6 +17,20 @@ var fbchatBG=function(){
         friendsInterval:null,
         ChatInterval:null,
         popup:{},
+        /**
+         * sets the extension settings.
+         */
+        setExtensionSettings:function(){
+            if(! window.localStorage.lang){
+                window.localStorage.lang=fbchatbg.getNavigatorLang();
+            }
+            if(! window.localStorage.allowNotifications){
+                window.localStorage.allowNotifications = true;
+            }
+            if(! window.localStorage.playSounds){
+                window.localStorage.allowNotifications = true;
+            }
+        },
         getNavigatorLang:function(){
             var lang=window.navigator.language;
             if(lang.indexOf("ar")!= -1){
@@ -172,6 +186,9 @@ var fbchatBG=function(){
                         //___ set connected to be false
                         window.localStorage.connected=false;
                     });
+                },function(){
+                    //___ set connected to be false
+                    window.localStorage.connected=false;
                 });
             },function(){
                 //___ set connected to be false
@@ -185,7 +202,9 @@ var fbchatBG=function(){
          */
         showMSG:function(uid,msg){
             //fire the nes message alert.
-            fbchatbg.createAlert();
+            if(window.localStorage.playSounds == 'true'){
+                fbchatbg.createAlert();
+            }
             //get instanse of popup page.
             var popup=chrome.extension.getViews({
                 type:"popup"
@@ -196,7 +215,7 @@ var fbchatBG=function(){
                 popup.forEach(function(win){
                     win.fbchatpopup.updateConversation(uid,msg);
                 });
-            }else{
+            }else if(window.localStorage.allowNotifications == 'true'){
                 //update the badge text.
                 fbchatbg.changeBadge();
                 //saving chat window as last message.
@@ -242,13 +261,7 @@ var fbchatBG=function(){
         if(! window.localStorage.logged){
             window.localStorage.logged=false;
         }
-        if(! window.localStorage.lang){
-            window.localStorage.lang=fbchatbg.getNavigatorLang();
-        }
-        if(! JSON.parse(window.localStorage.connected)){
-            fbchatbg.popup.container=$("#notconnected").html();
-        }
-
+        fbchatbg.setExtensionSettings();
     });
     
     return fbchatbg;
@@ -337,3 +350,16 @@ window.setInterval(function(){
     });
 },1000 * 60 )
 */
+
+/**
+ * adding Listener to window close to send to the proxy to disconnect from chat.
+ */
+chrome.windows.onRemoved.addListener(function(windowId) {
+    chrome.windows.getAll({},function(windowlist){
+        if(windowlist.length == 0){
+            if(window.localStorage.connected == 'true'){
+                Proxy.disconnect();
+            }
+        }
+    });
+});
