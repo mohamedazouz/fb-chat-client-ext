@@ -280,9 +280,11 @@ body {
     padding:10px;
     margin-right:1px;
     cursor:pointer;
+	border:1px solid #FFF;
 }
 .activeOnlineFriends{
 	background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
+	color:#FFF;
 	}
 .friends-list, .settings, .activeFriendsList {
     width:152px;
@@ -295,6 +297,7 @@ body {
 }
 .activeFriendsList{
 	background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
+	color:#FFF;
 	}
 .settings {
     width:48px;
