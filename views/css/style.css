@@ -272,8 +272,8 @@ body {
     cursor:pointer;
 }
 .online-users, .activeOnlineFriends {
-    width:154px;
-    height:21px;
+    width:152px;
+    height:19px;
     /*background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));*/
 	background: -webkit-gradient(linear, left top, left bottom, from(#edeff4), to(#dbdce0));
     color:#212121;
