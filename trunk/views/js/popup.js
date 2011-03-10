@@ -5,21 +5,29 @@
 $(document).ready(function() {
     // online friends slider
     $('#online-users').click(function() {
+        $('.activeFriendsList').removeClass('activeFriendsList');
         $('#online-top-menu-container').slideToggle('slow');
+        $(this).toggleClass('activeOnlineFriends');
         $('#friendlist-top-menu-container').slideUp('slow');
         $('#settings-top-menu-container').slideUp('slow');
     });
     $('#online-friends-arrow , #online-friends-top-menu-footer').click(function() {
         $('#online-top-menu-container').slideUp('slow');
+        $('.activeOnlineFriends').removeClass('activeOnlineFriends');
+        $('.activeFriendsList').removeClass('activeFriendsList');
     });
     //friend list slider
     $('#friends-list').click(function(){
+        $('.activeOnlineFriends').removeClass('activeOnlineFriends');
         $('#friendlist-top-menu-container').slideToggle('slow');
+        $(this).toggleClass("activeFriendsList");
         $('#online-top-menu-container').slideUp('slow');
         $('#settings-top-menu-container').slideUp('slow');
     });
     $('#friendlist-friends-arrow , #friendlist-friends-top-menu-footer').click(function() {
         $('#friendlist-top-menu-container').slideUp('slow');
+        $('.activeOnlineFriends').removeClass('activeOnlineFriends');
+        $('.activeFriendsList').removeClass('activeFriendsList');
     });
     //settings slider
     $('#settings').click(function(){
@@ -28,6 +36,8 @@ $(document).ready(function() {
         $('#friendlist-top-menu-container').slideUp('slow');
     });
     $('#settings-arrow , #settings-top-menu-footer').click(function() {
+        $('.activeOnlineFriends').removeClass('activeOnlineFriends');
+        $('.activeFriendsList').removeClass('activeFriendsList');
         $('#settings-top-menu-container').slideUp('slow');
     });
     //typeing area.
