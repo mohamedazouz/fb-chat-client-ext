@@ -124,12 +124,12 @@ var fbchatBG=function(){
             //checking for new online friends. every 3 min.
             fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
             // checking for new chat messages, every 2 sec.
-            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 1);
+            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 2);
         },
         /**
          * updates friends status.
          */
-        updateFriendsStatus:function(){
+        updateFriendsStatus:function(handler){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 if(list.error){
@@ -143,6 +143,12 @@ var fbchatBG=function(){
                     return;
                 }
                 fbchatdb.setOnline(list);
+                //updating the friend list
+                window.setTimeout(function(){
+                    fbchatdb.getAllFriends(function(list){
+                        window.localStorage.friendList=fbchatpopup.populateFriendsList(list);
+                    });
+                }, 1000);
                 window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);
                 window.localStorage.onlineFriendsCount=list.length;
                 chrome.extension.getViews({
@@ -150,12 +156,19 @@ var fbchatBG=function(){
                 }).forEach(function(win){
                     win.fbchatpopup.updateOnlineFriendsFromBackGround(list);
                 });
-            },function(){});
+                if(handler){
+                    handler();
+                }
+            },function(){
+                fbchatbg.disconnect();
+            });
         },
         /**
          * connect to go online on facebook.
          */
         connect:function(handler){
+            //changing the status of the connection to be connecting.
+            window.localStorage.connected = 'connecting';
             var callbackParam={};
             Proxy.connect(function(usr){
                 //saving user data.
@@ -191,7 +204,12 @@ var fbchatBG=function(){
                         window.localStorage.connected=true;
                         //___update online friends.
                         fbchatdb.setOnline(list);
-                        
+                        //updating the friend list.
+                        window.setTimeout(function(){
+                            fbchatdb.getAllFriends(function(list){
+                                window.localStorage.friendList=fbchatpopup.populateFriendsList(list);
+                            });
+                        }, 1000);
                         //___ tern back the list to the popup,update list of friends, shows the container and hide the connect page.
                         callbackParam.onlineFriends=fbchatpopup.populateFriendsList(list,true);
                         window.localStorage.onlineFriends=callbackParam.onlineFriends;
@@ -368,12 +386,24 @@ fbchatpopup.populateFriendsList=function(list,online){
         out+='<div id="user" class="user-container f">';
         out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
         out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
-        out+='<div class="friend-image-shadow"/>';
+        if(online){
+            out+='<div class="friend-image-shadow"/>';
+        }else{
+            if(list[o].online && list[o].online=='true'){
+                out+='<div class="friend-image-shadow"/>';
+            }else{
+                out+='<div class="friend-image-offline"/>';
+            }
+        }
         out+='</div>';
         out+='<div style="cursor:pointer;"onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="user-name f">'+list[o].name+'</div>';
         out+='<div class="group f"></div>';
         if(online){
             out+='<div><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
+        }else{
+            if(list[o].online && list[o].online=='true'){
+                out+='<div><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
+            }
         }
         out+='</div>';
     }
@@ -399,6 +429,7 @@ window.setInterval(function(){
 /**
  * adding Listener to window close to send to the proxy to disconnect from chat.
  */
+/*
 chrome.windows.onRemoved.addListener(function(windowId) {
     chrome.windows.getAll({},function(windowlist){
         if(windowlist.length == 0){
@@ -408,3 +439,4 @@ chrome.windows.onRemoved.addListener(function(windowId) {
         }
     });
 });
+*/

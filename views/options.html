@@ -9,6 +9,7 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
         <script type="text/javascript" src="../controllers/options.js"></script>
+        <script type="text/javascript" src="../controllers/locals.js"></script>
         <link rel="stylesheet" type="text/css" href="css/option-page.css" />
     </head>
     <body>
@@ -41,7 +42,7 @@ and open the template in the editor.
             <div class="f">
                 <div class="strips"></div>
                 <div class="options-content">
-                    <span class="title f">Chat</span>
+                    <span class="title f" local="chat">Chat</span>
                     <div class="options-container f">
                         <!--<div class="bottom-line f">
                             <label class="f label">
@@ -52,7 +53,7 @@ and open the template in the editor.
                             </label>
                         </div>-->
                         <div class="bottom-line f">
-                            <label class="f label">
+                            <label class="f label" local="playsound">
                                 Play notification sound
                             </label>
                             <label class="f-r check-container">
@@ -60,10 +61,10 @@ and open the template in the editor.
                             </label>
                         </div>
                     </div>
-                    <span class="title f">Notifications </span>
+                    <span class="title f" local="notifications">Notifications </span>
                     <div class="options-container f">
                         <div class="bottom-line f">
-                            <label class="f label">
+                            <label class="f label" local="shownotifications">
                                 Show desktop notification
                             </label>
                             <label class="f-r check-container">
@@ -79,14 +80,14 @@ and open the template in the editor.
                             </label>
                         </div>-->
                     </div>
-                    <span class="title f">General</span>
+                    <span class="title f" local="gensettings">General Settings</span>
                     <div class="options-container f">
-                        <label class="f label">
+                        <label class="f label" local="extlang">
                             Extension Language.
                         </label>
                         <select id="lang" class="f-r language">
-                            <option id="lang-en" value="en">English</option>
-                            <option id="lang-ar" value="ar">Arabic</option>
+                            <option id="lang-en" value="en" local="eng">English</option>
+                            <option id="lang-ar" value="ar" local="ara">Arabic</option>
                         </select>
                     </div>
                 </div>
@@ -94,7 +95,7 @@ and open the template in the editor.
 
                 <!--                <input name="" type="submit" value="Do not Save" class="f-r no-save"/>-->
                 <input id="save" type="button" value="Save" class="f-r save"/>
-                <span id="saved" class="saved-span">Settings saved</span>
+                <span id="saved" class="saved-span" local="savesetting">Settings saved</span>
 
 
             </div>

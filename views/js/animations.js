@@ -112,5 +112,20 @@ var anim=[
         id:21,
         img:'chat-icons/tongue.png',
         value:':P'
+    },
+    {
+        id:22,
+        img:'chat-icons/pacman.png',
+        value:':V'
+    },
+    {
+        id:23,
+        img:'chat-icons/grin.png',
+        value:':d'
+    },
+    {
+        id:24,
+        img:'chat-icons/gasp.png',
+        value:':o'
     }
 ]

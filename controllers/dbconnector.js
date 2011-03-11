@@ -35,13 +35,16 @@ var fbchatDB=function(){
          * insert friends into db
          */
         insertFriends:function(list,handler){
+            for(i=0;i < list.length; i++){
+                fbchatdb.insertFriend(list[i], (i == list.length -1) ? handler:null ,{list:list});
+            }
+        },
+        insertFriend:function(friend,handler,pathob){
             fbchatdb.db.transaction(function(tx) {
-                for(i=0; i< list.length; i++){
-                    tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
-                        [list[i].uid,list[i].name,list[i].pic_square,false],
-                        handler(list),
-                        fbchatdb.onError);
-                }
+                tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
+                [friend.uid,friend.name,friend.pic_square,false],
+                handler?handler(pathob.list):null,
+                fbchatdb.onError);
             });
         },
         /**
