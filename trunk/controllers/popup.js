@@ -58,6 +58,9 @@ var fbchatPOPUP = function(){
                     link.setAttribute("rel", "stylesheet");
                     link.setAttribute("type", "text/css");
                     $('head').append(link);
+                    $("#offline-notify").children('*').each(function(){
+                        $(this).css("float", 'right');
+                    });
                 }
                 $("*").each(function(){
                     var local=$(this).attr("local");
@@ -84,7 +87,6 @@ var fbchatPOPUP = function(){
          * fired when clicking on connect.
          */
         connect:function(){
-            window.localStorage.connected = 'connecting';
             //___loading dots #loadindots
             $("#notconnected").hide();
             $("#loadingdiv").show();
@@ -330,7 +332,8 @@ var fbchatPOPUP = function(){
             }
             //collapsing the online friends.
             $('.top-menu-container').slideUp('slow');
-
+            $('.activeOnlineFriends').removeClass('activeOnlineFriends');
+            $('.activeFriendsList').removeClass('activeFriendsList');
             //___update chat windows.
             $("#conversation-container").Loadingdotdotdot({
                 "speed": 400,
@@ -373,7 +376,6 @@ var fbchatPOPUP = function(){
                     activeChat.push(friend);
                     window.localStorage.activeChat=JSON.stringify(activeChat);
                     //appending the frined icon to the slider of chat friends.
-                    //                    $("#slidesxContainer").append(fbchatpopup.addToChatFriends(friend));
                     fbchatpopup.disposableFunctions.appendToSlider(fbchatpopup.addToChatFriends(friend));
                     
                 }
@@ -512,7 +514,7 @@ var fbchatPOPUP = function(){
                 }
                 $("#slideshow").show();
             }else{
-                $('#online-top-menu-container').slideDown('slow');
+                $('#online-users').trigger("click");
                 $("#conversation-container").html("");
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();

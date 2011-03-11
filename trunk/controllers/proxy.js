@@ -6,7 +6,7 @@ var Proxy={
      * proxy base url.
      */
     baseURL:'http://fbchat.activedd.com',
-//      baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    //      baseURL:'http://41.178.64.38:8080/FBChatProxy',
     /**
      * first time login url.
      */
@@ -65,6 +65,13 @@ var Proxy={
                         window.localStorage.logged=true;
                         fbchatbg.popup.logged=true;
                         fbchatbg.setExtensionSettings();
+                        fbchatbg.connect(function(){
+                            chrome.extension.getViews({
+                                type:"popup"
+                            }).forEach(function(win){
+                                win.fbchatpopup.disposableFunctions.afterConnectingSuccess(callbackParam);
+                            });
+                        });
                     }
                 },
                 error:function(){
@@ -144,7 +151,17 @@ var Proxy={
             url:Proxy.baseURL+Proxy.onlineUsersURL,
             dataType:'json',
             success:function(list){
+                delete window.localStorage.errorConnecting;
                 handler(list);
+            },
+            complete:function(jqXHR, textStatus){
+                if(jqXHR && jqXHR.status == 404){
+                    if(window.localStorage.errorConnecting){
+                        fbchatbg.disconnect();
+                    }else{
+                        window.localStorage.errorConnecting=1;
+                    }
+                }
             },
             error:function(jqXHR, textStatus, errorThrown){
                 console.log(errorThrown)
@@ -185,7 +202,7 @@ var Proxy={
                     }
                 },
                 complete:function(jqXHR, textStatus){
-                    if(jqXHR.status == 200){
+                    if(jqXHR && jqXHR.status == 200){
                         var msgs=JSON.parse(jqXHR.response);
                         handler(msgs);
                     }
