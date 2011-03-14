@@ -25,7 +25,11 @@ var fbchatlocals={
         "DefautlTextAreaValue":"قم بكتابة رسالتك هنا",
         "chat":"المحادثات",
         "notifications":"التنبيهات",
-        "gensettings":"إعدادات عامة"
+        "gensettings":"إعدادات عامة",
+        "urdisconnected":" أنت الآن غير متصل ",
+        "connect2":" إتصل ؟",
+        "connecting":"جاري الاتصال",
+        "loading":"جاري التحميل"
     },
     en:{
         "onlineFriends":"Online Friends",
@@ -49,7 +53,11 @@ var fbchatlocals={
         "DefautlTextAreaValue":"type your message here",
         "chat":"Chat",
         "notifications":"Notifications",
-        "gensettings":"General"
+        "gensettings":"General",
+        "urdisconnected":"you are disconnected, ",
+        "connect2":"connect ?",
+        "connecting":"connecting",
+        "loading":"loading"
     }
 }
 
