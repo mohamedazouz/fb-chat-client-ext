@@ -70,6 +70,10 @@ var fbchatBG=function(){
          * get the latest chat messages.
          */
         receivingMessages:function(){
+            if(window.localStorage.connected == 'false'){
+                console.log('fokak');
+                return;
+            }
             //send to the proxy to check for messages.
             //if message is old discard it, else check for open popup if there is one send to it to show the new message.
             //else send to show a notification.
@@ -122,9 +126,13 @@ var fbchatBG=function(){
          */
         liveUpdates:function(){
             //checking for new online friends. every 3 min.
-            fbchatbg.friendsInterval=window.setInterval("fbchatbg.updateFriendsStatus()", 1000 * 60 * 3);
+            fbchatbg.friendsInterval=window.setInterval(function(){
+                fbchatbg.updateFriendsStatus();
+            }, 1000 * 60 * 3);
             // checking for new chat messages, every 2 sec.
-            fbchatbg.ChatInterval=window.setInterval("fbchatbg.receivingMessages()", 1000 * 2);
+            fbchatbg.ChatInterval=window.setInterval(function(){
+                fbchatbg.receivingMessages();
+            }, 1000 * 2);
         },
         /**
          * updates friends status.
@@ -310,11 +318,30 @@ var fbchatBG=function(){
                 fbchatdb.inserChatMessage(msg,function(){});
             });
         },
+        /**
+         * disconnecting from chat.
+         */
         disconnect:function(){
             window.clearInterval(fbchatbg.friendsInterval);
             window.clearInterval(fbchatbg.ChatInterval);
             delete window.localStorage.chatwindow;
             delete window.localStorage.activeChat;
+            Proxy.disconnect();
+        },
+        /**
+         * logging out from application and disconnecting from chat.
+         */
+        logout:function(){
+            window.clearInterval(fbchatbg.friendsInterval);
+            window.clearInterval(fbchatbg.ChatInterval);
+            for(i in window.localStorage){
+                delete window.localStorage[i]
+            }
+            window.localStorage.logged=false;
+            window.localStorage.connected=false;
+            chrome.browserAction.setIcon({
+                path:'/views/icons/32x32_off.png'
+            });
             Proxy.disconnect();
         }
     };
@@ -325,7 +352,7 @@ var fbchatBG=function(){
             path:'/views/icons/32x32_off.png'
         });
         window.localStorage.connected=false;
-        if(! window.localStorage.logged){
+        if(! window.localStorage.logged || window.localStorage.logged == 'logging'){
             window.localStorage.logged=false;
         }
         fbchatbg.setExtensionSettings();
@@ -353,17 +380,7 @@ function onRequest(request, sender, callback) {
         fbchatbg.disconnect();
     }
     if(request.action == 'logout'){
-        window.clearInterval(fbchatbg.friendsInterval);
-        window.clearInterval(fbchatbg.ChatInterval);
-        for(i in window.localStorage){
-            delete window.localStorage[i]
-        }
-        window.localStorage.logged=false;
-        window.localStorage.connected=false;
-        chrome.browserAction.setIcon({
-            path:'/views/icons/32x32_off.png'
-        });
-        Proxy.disconnect();
+        fbchatbg.logout();
     }
     if(request.action == 'connect'){
         fbchatbg.connect(callback);
