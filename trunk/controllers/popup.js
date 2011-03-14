@@ -62,19 +62,18 @@ var fbchatPOPUP = function(){
                         $(this).css("float", 'right');
                     });
                 }
-                $("*").each(function(){
-                    var local=$(this).attr("local");
-                    if(local != null && local != undefined){
-                        try{
+                try{
+                    $("*").each(function(){
+                        var local=$(this).attr("local");
+                        if(local != null && local != undefined){
                             $(this).text((fbchatlocals[lang])[local]);
-                        }catch(e){
-                            console.log(e);
                         }
-                        
-                    }
-                });
-                $("#onlineFilter").attr('placeholder',fbchatlocals[lang].friendsonchat);
-                $("#friendsFilter").attr('placeholder',fbchatlocals[lang].searchfriens);
+                    });
+                    $("#onlineFilter").attr('placeholder',fbchatlocals[lang].friendsonchat);
+                    $("#friendsFilter").attr('placeholder',fbchatlocals[lang].searchfriens);
+                }catch(e){
+                    console.log(e);
+                }
             }
         },
         friendsInterval:null,
@@ -457,6 +456,8 @@ var fbchatPOPUP = function(){
     $(function(){
         //setting locals
         fbchatpopup.disposableFunctions.setLocals();
+        console.log(window.localStorage.logged == 'false');
+        console.log(window.localStorage.logged);
         //______check if user is logged to application on facebook or not. if not user will  be redirected to facebook to authenticate application.
         if(window.localStorage.logged == 'false'){
             background.extension.openURL(proxy.baseURL+proxy.loginURL, true);
