@@ -73,6 +73,8 @@ var fbchatPOPUP = function(){
                         
                     }
                 });
+                $("#onlineFilter").attr('placeholder',fbchatlocals[lang].friendsonchat);
+                $("#friendsFilter").attr('placeholder',fbchatlocals[lang].searchfriens);
             }
         },
         friendsInterval:null,
