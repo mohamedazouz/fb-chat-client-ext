@@ -71,7 +71,6 @@ var fbchatBG=function(){
          */
         receivingMessages:function(){
             if(window.localStorage.connected == 'false'){
-                console.log('fokak');
                 return;
             }
             //send to the proxy to check for messages.
