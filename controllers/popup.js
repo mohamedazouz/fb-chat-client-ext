@@ -93,7 +93,8 @@ var fbchatPOPUP = function(){
             $("#loadingdiv").show();
             $("#loadindots").Loadingdotdotdot({
                 "speed": 400,
-                "maxDots": 4
+                "maxDots": 4,
+                "message":fbchatlocals[window.localStorage.lang].connecting
             });
             chrome.extension.sendRequest({
                 'action':'connect'
@@ -339,7 +340,7 @@ var fbchatPOPUP = function(){
             $("#conversation-container").Loadingdotdotdot({
                 "speed": 400,
                 "maxDots": 4,
-                "message":"loading"
+                "message":fbchatlocals[window.localStorage.lang].loading
             });
             // opening a new chat tab.
             background.fbchatdb.getFriendByUID(uid, function(friend){
@@ -456,8 +457,6 @@ var fbchatPOPUP = function(){
     $(function(){
         //setting locals
         fbchatpopup.disposableFunctions.setLocals();
-        console.log(window.localStorage.logged == 'false');
-        console.log(window.localStorage.logged);
         //______check if user is logged to application on facebook or not. if not user will  be redirected to facebook to authenticate application.
         if(window.localStorage.logged == 'false'){
             background.extension.openURL(proxy.baseURL+proxy.loginURL, true);
@@ -487,7 +486,8 @@ var fbchatPOPUP = function(){
             $("#loadingdiv").fadeIn();
             $("#loadindots").Loadingdotdotdot({
                 "speed": 400,
-                "maxDots": 4
+                "maxDots": 4,
+                "message":fbchatlocals[window.localStorage.lang].connecting
             });
         }else{
             //clearing the badge text.
