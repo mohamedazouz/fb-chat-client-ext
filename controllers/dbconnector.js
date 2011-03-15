@@ -36,15 +36,34 @@ var fbchatDB=function(){
          */
         insertFriends:function(list,handler){
             for(i=0;i < list.length; i++){
-                fbchatdb.insertFriend(list[i], (i == list.length -1) ? handler:null ,{list:list});
+                fbchatdb.insertFriend(list[i], (i == list.length -1) ? handler:null ,{
+                    list:list
+                });
             }
+        },
+        /**
+         * clearing the database.
+         */
+        clearDB:function(){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("DELETE FROM friends;",[],null,fbchatdb.onError);
+                tx.executeSql("DELETE FROM chat_history;",[],null,fbchatdb.onError);
+            });
+        },
+        /**
+         * clearing friends table.
+         */
+        cleareFriends:function(){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("DELETE FROM friends;",[],null,fbchatdb.onError);
+            });
         },
         insertFriend:function(friend,handler,pathob){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
-                [friend.uid,friend.name,friend.pic_square,false],
-                handler?handler(pathob.list):null,
-                fbchatdb.onError);
+                    [friend.uid,friend.name,friend.pic_square,false],
+                    handler?handler(pathob.list):null,
+                    fbchatdb.onError);
             });
         },
         /**
