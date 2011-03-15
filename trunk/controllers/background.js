@@ -325,6 +325,7 @@ var fbchatBG=function(){
             window.clearInterval(fbchatbg.ChatInterval);
             delete window.localStorage.chatwindow;
             delete window.localStorage.activeChat;
+            fbchatdb.cleareFriends();
             Proxy.disconnect();
         },
         /**
@@ -341,6 +342,7 @@ var fbchatBG=function(){
             chrome.browserAction.setIcon({
                 path:'/views/icons/32x32_off.png'
             });
+            fbchatdb.clearDB();
             Proxy.disconnect();
         }
     };

@@ -63,18 +63,13 @@ var notification=function(options){
                         );
                     notifier.webkitNotification.show();
                     if(closeTime != null && closeTime !== 0){
-                        window.setTimeout("notifier.webkitNotification.cancel();", closeTime * 1000);
+                        window.setTimeout(function(){
+                            notifier.webkitNotification.cancel();
+                        }, closeTime * 1000);
                     }
                     break;
                 }
                 case notifier.notificationTypes.html:{
-                    if(! options.createNew){
-                        chrome.extension.getViews({
-                            type:"notification"
-                        }).forEach(function(win){
-                            win.close();
-                        });
-                    }
                     var htmlPath=notifier.options.HTMLNotificationURL
                     +'?title='+encodeURIComponent(title?title:'')
                     +'&icon='+encodeURIComponent(icon?icon:notifier.options.defaultIcon)
@@ -83,7 +78,21 @@ var notification=function(options){
                     +'&closeafter='+encodeURIComponent(closeTime?closeTime:'0')
                     +'&uid='+encodeURIComponent(uid?uid:'');
                     notifier.HTMLNotification = webkitNotifications.createHTMLNotification(htmlPath);
-                    notifier.HTMLNotification.show();
+                    var notifications= chrome.extension.getViews({
+                        type:"notification"
+                    });
+                    if(! options.createNew){
+                        notifications.forEach(function(win){
+                            win.close();
+                        });
+                    }
+                    if(notifications.length != 0){
+                        window.setTimeout(function(){
+                            notifier.HTMLNotification.show();
+                        }, 10);
+                    }else{
+                        notifier.HTMLNotification.show();
+                    }
                     break;
                 }
             }
