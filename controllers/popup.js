@@ -370,7 +370,7 @@ var fbchatPOPUP = function(){
                         fbchatpopup.sendMessage();
                     }
                 });
-                $("#chat-text-box").attr('value',(fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue']/*'type your message here'*/);
+                $("#chat-text-box").attr('value',(fbchatlocals[window.localStorage.lang]).DefautlTextAreaValue);
                 $("#chat-text-box").css('color','gray');
                 //checking the chat in active chat.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
@@ -388,10 +388,15 @@ var fbchatPOPUP = function(){
                 window.localStorage.chatwindow=friend.uid;
                 
                 background.fbchatdb.getTodayChatByUID(uid, function(chat){
+                    var user=JSON.parse(window.localStorage.user);
                     $("#conversation-container").Loadingdotdotdot("stop");
                     var chatContainer="";
                     for(i=0; i< chat.length; i++){
-                        chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].sender_pic,chat[i].sender_name);
+                        if(chat[i].dircolor=='blue'){
+                            chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, user.pic_square,user.name);
+                        }else{
+                            chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].pic_square,chat[i].name);
+                        }
                     }
                     $("#conversation-container").html(chatContainer);
                     $("#conversation-container").append('<button class="focusButton" id="focusButton"></button>');
