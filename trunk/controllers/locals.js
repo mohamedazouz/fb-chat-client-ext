@@ -40,7 +40,7 @@ var fbchatlocals={
         "about":"About",
         "searchfriens":"Search Friends",
         "friendsonchat":"Friends on chat",
-        "disconnect":"Disconnect",
+        "disconnect":"Go Offline",
         "send":"Send",
         "settings":"Settings",
         "extlang":"Extension Language",
@@ -54,8 +54,8 @@ var fbchatlocals={
         "chat":"Chat",
         "notifications":"Notifications",
         "gensettings":"General",
-        "urdisconnected":"you are disconnected, ",
-        "connect2":"connect ?",
+        "urdisconnected":"you are offline, ",
+        "connect2":"go online now?",
         "connecting":"connecting",
         "loading":"loading"
     }
