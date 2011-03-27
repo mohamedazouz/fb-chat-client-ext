@@ -88,6 +88,7 @@ var fbchatOptions=function(){
                 link.setAttribute("rel", "stylesheet");
                 link.setAttribute("type", "text/css");
                 $('head').append(link);
+                $("#op-logo").attr('src','images/options-logo_ar.png')
             }
             $("*").each(function(){
                 var local=$(this).attr("local");
