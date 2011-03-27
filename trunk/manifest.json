@@ -1,7 +1,7 @@
-{
-    "name":"Facebook Chat",
+﻿{
+    "name":"FB Chat | دردشة الفيس بوك",
     "version": "1.0",
-    "description": "Chat with your buddies chrome chrome",
+    "description": "دردش مع أصحابك اللي على الفيس بوك | Chat with your friends on Facebook",
     "background_page": "views/background.html",
     "options_page": "views/options.html",
     "icons":{
