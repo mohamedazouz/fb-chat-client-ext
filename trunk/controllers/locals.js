@@ -29,7 +29,8 @@ var fbchatlocals={
         "urdisconnected":" أنت الآن غير متصل ",
         "connect2":" إتصل ؟",
         "connecting":"جاري الاتصال",
-        "loading":"جاري التحميل"
+        "loading":"جاري التحميل",
+        "savebutton":"حفظ"
     },
     en:{
         "onlineFriends":"Online Friends",
@@ -57,7 +58,8 @@ var fbchatlocals={
         "urdisconnected":"you are offline, ",
         "connect2":"go online now?",
         "connecting":"connecting",
-        "loading":"loading"
+        "loading":"loading",
+        "savebutton":"Save"
     }
 }
 

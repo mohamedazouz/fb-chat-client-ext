@@ -240,7 +240,7 @@ var fbchatPOPUP = function(){
          */
         addToChatFriends:function(friend){
             var out='<div class="slide">';
-            out+='<div id="friend-'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current">';
+            out+='<div id="friend-'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current" title="'+friend.name+'">';
             out+='<img width="50" height="50" alt="'+friend.name+'" src="'+friend.pic_square+'" >';
             out+='<div class="talker-image-shadow"></div>';
             out+='</div>';
