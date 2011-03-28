@@ -11,6 +11,7 @@ var proxy=background.Proxy;
 var fbchatPOPUP = function(){
     var fbchatpopup = {
         disposableFunctions:{
+            chats:0,
             afterConnectingSuccess:function(ob){
                 //stoping the loader.
                 $("#loadindots").Loadingdotdotdot("stop");
@@ -32,22 +33,30 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-img").hide();
             },
             appendToSlider:function(slide){
-                if(! slide){
-                    $('#slideInner').css('width', (50 *  $('.slide').length)+100);
-                    return;
-                }
-                var slideInner=document.getElementById("slideInner");
-                if(slideInner){
-                    $(slideInner).append(slide);
+                if(slide){
+                    fbchatpopup.disposableFunctions.chats++;
                 }else{
-                    $("#slidesContainer").append(slide);
-                    $('.slide').wrapAll('<div id="slideInner"></div>');
+                    fbchatpopup.disposableFunctions.chats--;
                 }
-                $('.slide').css({
-                    'float' : 'left',
-                    'width' : 50
-                });
-                $("#slideInner").css('width', (50 *  $('.slide').length)+100);
+                var divSlide=Math.floor(fbchatpopup.disposableFunctions.chats/6)+1;
+                if((fbchatpopup.disposableFunctions.chats%6) == 1){
+                    var li=document.createElement("li");
+                    var div=document.createElement("div");
+                    div.setAttribute("class", "content");
+                    div.setAttribute("id", "content-"+divSlide);
+                    li.appendChild(div);
+                    document.getElementById("slidesContainer").appendChild(li);
+                }
+                if(slide){
+                    $("#slidesContainer li").last().children('div').append(slide);
+                }else{
+                    $("#slidesContainer").children('li').each(function(e){
+                        console.log(this.childNodes[0].length)
+                        if(this.childNodes[0].childNodes.length ==0){
+                            $(this).remove();
+                        }
+                    });
+                }
                 $("#slideshow").show();
             },
             setLocals:function(){
@@ -239,12 +248,10 @@ var fbchatPOPUP = function(){
          * makes html for the online chat friends
          */
         addToChatFriends:function(friend){
-            var out='<div class="slide">';
-            out+='<div id="friend-'+friend.uid+'" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" class="slider-image f current" title="'+friend.name+'">';
-            out+='<img width="50" height="50" alt="'+friend.name+'" src="'+friend.pic_square+'" >';
-            out+='<div class="talker-image-shadow"></div>';
-            out+='</div>';
-            out+='</div>';
+            var out='<span class="talker-image" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" title="'+friend.name+'">';
+            out+='<img id="friend-'+friend.uid+'" alt="'+friend.name+'" src="'+friend.pic_square+'" />';
+            out+='<span class="talker-active"></span>';
+            out+='</span>';
             return out;
         },
         /**
@@ -517,7 +524,7 @@ var fbchatPOPUP = function(){
                 // check for other chat to apppend to the slider.
                 var activeChat=JSON.parse(window.localStorage.activeChat);
                 for(j=0; j < activeChat.length; j++){
-                    //                    $("#slideInner").append(fbchatpopup.addToChatFriends(activeChat[j]));
+                    //here
                     fbchatpopup.disposableFunctions.appendToSlider(fbchatpopup.addToChatFriends(activeChat[j]));
                 }
                 $("#slideshow").show();

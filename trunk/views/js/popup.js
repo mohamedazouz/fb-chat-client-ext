@@ -96,6 +96,12 @@ $(document).ready(function() {
         })
     }, 1200)
 
+
+    //new slider.
+    $(".slider").easySlider();
+
+    //old slider
+    /*
     // users slider
     var currentPosition = 0;
     var slideWidth = 50;
@@ -153,4 +159,5 @@ $(document).ready(function() {
             $('#rightControl').show()
         }
     }
+    */
 });
