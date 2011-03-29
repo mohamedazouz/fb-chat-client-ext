@@ -31,6 +31,7 @@ img {
 	float: left;
 	margin: 0px 3px;
 	margin-top: 15px;
+        cursor: pointer;
 }
 .talker-image img {
 	-webkit-border-radius: 4px;
@@ -43,7 +44,7 @@ img {
 	height: 54px;
 	width: 55px;
 }
-.talker-active {
+.active {
 	background:url(../images/active.png) no-repeat 0 0;
 	position: absolute;
 	top: -16px;

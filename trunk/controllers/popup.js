@@ -288,7 +288,7 @@ var fbchatPOPUP = function(){
             msg=""+msg;
             var urlinmsg=background.util.getURL(msg);
             if(urlinmsg != null){
-                msg=msg.replace(urlinmsg, "<a style='cursor: pointer;' onclick='fbchatpopup.openURL(\""+urlinmsg+"\");'>"+urlinmsg+"</a>");
+                msg=msg.replace(urlinmsg, "<a style='cursor: pointer;text-decoration: underline;' onclick='fbchatpopup.openURL(\""+urlinmsg+"\");'>"+urlinmsg+"</a>");
                 anim[11].value=":/ ";
             }
             for( z= 0; z< anim.length;z++){
