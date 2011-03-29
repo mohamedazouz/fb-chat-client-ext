@@ -20,11 +20,10 @@ body {
     position:relative;
 }
 .clear-history{
-    position: absolute;
-    top: 4px;
-    right: 35px;
-    display: none;
+	float:right;
+	display: none;
     cursor: pointer;
+	margin: 4px;
 }
 .status-box-image{
     float:left;
