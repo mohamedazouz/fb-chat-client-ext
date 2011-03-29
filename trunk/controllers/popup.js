@@ -51,7 +51,6 @@ var fbchatPOPUP = function(){
                     $("#slidesContainer li").last().children('div').append(slide);
                 }else{
                     $("#slidesContainer").children('li').each(function(e){
-                        console.log(this.childNodes[0].length)
                         if(this.childNodes[0].childNodes.length ==0){
                             $(this).remove();
                         }
@@ -212,6 +211,9 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
+            $('#clearHistory').click(function(){
+                fbchatpopup.clearChatHistory($(this).attr('value'));
+            });
             $("#options").click(function(){
                 fbchatpopup.openURL(chrome.extension.getURL('views/options.html'), true);
             });
@@ -243,7 +245,7 @@ var fbchatPOPUP = function(){
         addToChatFriends:function(friend){
             var out='<span class="talker-image" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" title="'+friend.name+'">';
             out+='<img id="friend-'+friend.uid+'" alt="'+friend.name+'" src="'+friend.pic_square+'" />';
-            out+='<span class="talker-shadow"></span>';
+            out+='<span id="frshadow-'+friend.uid+'" class="talker-shadow"></span>';
             out+='</span>';
             return out;
         },
@@ -383,7 +385,7 @@ var fbchatPOPUP = function(){
                 }
                 //adding active class to active chat window icon.
                 $(".active").removeClass("active");
-                $("#friend-"+uid).addClass("active");
+                $("#frshadow-"+uid).addClass("active");
                 //save the current chat window friend id.
                 window.localStorage.chatwindow=friend.uid;
                 
@@ -413,7 +415,9 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-name").attr('value',friend.uid);
                 $("#chat-buddy-img").show();
                 $("#closeChat").show();
+                $("#clearHistory").show();
                 $("#closeChat").attr('value',friend.uid);
+                $("#clearHistory").attr('value',friend.uid);
             });
         },
         /**
@@ -438,12 +442,21 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();
                 $("#closeChat").hide();
+                $("#clearHistory").hide();
                 delete window.localStorage.chatwindow;
             }else{
                 fbchatpopup.openchatwindow(activeChat[activeChat.length -1].uid);
             }
             $("#friend-"+uid).parent().remove();
             fbchatpopup.disposableFunctions.appendToSlider();
+        },
+        /**
+         * clear chat window history for a user.
+         */
+        clearChatHistory:function(uid){
+            background.fbchatdb.clearChat(uid,function(){
+                $("#conversation-container").html('<button class="focusButton" id="focusButton"></button>');
+            });
         },
         /**
          * running the intervals while popup is on.
@@ -527,6 +540,7 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();
                 $("#closeChat").hide();
+                $("#clearHistory").hide();
             }
         }
 
