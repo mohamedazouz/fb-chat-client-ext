@@ -191,12 +191,22 @@ var util={
         if(httpurl ==-1 && httpsurl== -1){
             return null;
         }
-        if(httpsurl){
-            srturl=str.substring(httpurl, str.indexOf(" ", httpurl));
+        if(httpsurl != -1){
+            strurl=str.substr(httpsurl, URLLength(str,httpsurl));
         }else{
-            srturl=str.substring(httpsurl, str.indexOf(" ", httpsurl));
+            strurl=str.substr(httpurl, URLLength(str,httpurl));
         }
-        return srturl;
+        function URLLength(string,urlPos){
+            var Length=0;
+            for(i=urlPos;i<string.length;i++){
+                Length++;
+                if(string.charAt(i)==' '|| string.charAt(i) == "\n"){
+                    i=string.length;
+                }
+            }
+            return Length;
+        }
+        return strurl;
     }
 }
 //console.log(util.replaceAll('abcdefghiabc', "abc", "x"));
