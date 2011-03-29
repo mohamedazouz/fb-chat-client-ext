@@ -212,13 +212,6 @@ var fbchatPOPUP = function(){
             $('#closeChat').click(function(){
                 fbchatpopup.closeChatWindow($(this).attr('value'));
             });
-            $('#about').click(function(){
-                $('#settings-top-menu-container').slideUp('slow');
-                $('#conversation-container').noticeMsg($('#noticeMessage').html(),{
-                    dur: 0,
-                    fade: 1000
-                })
-            });
             $("#options").click(function(){
                 fbchatpopup.openURL(chrome.extension.getURL('views/options.html'), true);
             });
@@ -250,7 +243,7 @@ var fbchatPOPUP = function(){
         addToChatFriends:function(friend){
             var out='<span class="talker-image" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" title="'+friend.name+'">';
             out+='<img id="friend-'+friend.uid+'" alt="'+friend.name+'" src="'+friend.pic_square+'" />';
-            out+='<span class="talker-active"></span>';
+            out+='<span class="talker-shadow"></span>';
             out+='</span>';
             return out;
         },
