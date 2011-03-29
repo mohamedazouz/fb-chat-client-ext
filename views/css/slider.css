@@ -49,7 +49,7 @@ img{border: 0;}
 .talker-active{
     background:url(../images/active.png) no-repeat 0 0;
     position: absolute;
-    top: -17px;
+    top: -16px;
     left: -2px;
     height: 67px;
     width: 53px;
