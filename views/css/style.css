@@ -17,13 +17,15 @@ body {
     color:#FFF;
     width:420px;
     height: 31px;
-	position:relative;
+    position:relative;
 }
 .clear-history{
-	position: absolute;
-	top: 4px;
-	right: 35px;
-	}
+    position: absolute;
+    top: 4px;
+    right: 35px;
+    display: none;
+    cursor: pointer;
+}
 .status-box-image{
     float:left;
     margin:5px;
@@ -269,17 +271,17 @@ body {
     width:152px;
     height:19px;
     /*background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));*/
-	background: -webkit-gradient(linear, left top, left bottom, from(#edeff4), to(#dbdce0));
+    background: -webkit-gradient(linear, left top, left bottom, from(#edeff4), to(#dbdce0));
     color:#212121;
     padding:10px;
     margin-right:1px;
     cursor:pointer;
-	border:1px solid #FFF;
+    border:1px solid #FFF;
 }
 .activeOnlineFriends{
-	background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
-	color:#FFF;
-	}
+    background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
+    color:#FFF;
+}
 .friends-list, .settings, .activeFriendsList {
     width:152px;
     height:19px;
@@ -290,9 +292,9 @@ body {
     cursor:pointer;
 }
 .activeFriendsList{
-	background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
-	color:#FFF;
-	}
+    background: -webkit-gradient(linear, left top, left bottom, from(#5f85d6), to(#3a5896));
+    color:#FFF;
+}
 .settings {
     width:48px;
     margin-left:1px;
@@ -327,7 +329,7 @@ body {
 }
 .friend-image-offline{
 
-   background:url(../images/friends-list-offline.png) no-repeat;
+    background:url(../images/friends-list-offline.png) no-repeat;
 }
 .group {
     color:#7f9fee;
