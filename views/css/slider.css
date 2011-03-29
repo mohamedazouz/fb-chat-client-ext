@@ -1,7 +1,7 @@
 .slider-container{
     margin:0 auto;
     position:relative;
-    width:340px;
+    width:100%;
     background:#AFB8C9;
 }
 img{border: 0;}
@@ -16,19 +16,20 @@ img{border: 0;}
 }
 .slider li{
     overflow: hidden;
-    width: 340px;
+    width:420px;
 }
 .content{
     margin: 0 auto;
-    width: 330px;
+    width: 336px;
+	overflow:hidden;
 
 }
-.talker-image{
+.content .talker-image{
     height: 50px;
     width: 50px;
     position: relative;
     float: left;
-    margin-right: 5px;
+    margin: 0px 3px;
     margin-top: 15px;
 
 
@@ -69,7 +70,7 @@ img{border: 0;}
     top:27px;
 }
 #nextBtn{
-    left:340px;
+    left:382px;
 }
 #prevBtn a, #nextBtn a{
     display:block;
