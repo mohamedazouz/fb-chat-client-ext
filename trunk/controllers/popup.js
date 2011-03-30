@@ -62,6 +62,9 @@ var fbchatPOPUP = function(){
                 $('#sliderContainer').slider.append(slide);
                 $("#slideshow").show();
             },
+            removeFromSlider:function(slide){
+                $('#sliderContainer').slider.remove(slide);
+            },
             setLocals:function(){
                 var lang=window.localStorage.lang;
                 if(lang == 'ar'){
@@ -458,8 +461,8 @@ var fbchatPOPUP = function(){
             }else{
                 fbchatpopup.openchatwindow(activeChat[activeChat.length -1].uid);
             }
-            $("#friend-"+uid).parent().remove();
-            fbchatpopup.disposableFunctions.appendToSlider();
+            
+            fbchatpopup.disposableFunctions.removeFromSlider($("#friend-"+uid).parent()[0]);
         },
         /**
          * clear chat window history for a user.
