@@ -32,7 +32,7 @@ var fbchatPOPUP = function(){
                 $("#chat-buddy-name").html("");
                 $("#chat-buddy-img").hide();
             },
-            appendToSlider:function(slide){
+            _appendToSlider:function(slide){
                 if(slide){
                     fbchatpopup.disposableFunctions.chats++;
                 }else{
@@ -56,6 +56,10 @@ var fbchatPOPUP = function(){
                         }
                     });
                 }
+                $("#slideshow").show();
+            },
+            appendToSlider:function(slide){
+                $('#sliderContainer').slider.append(slide);
                 $("#slideshow").show();
             },
             setLocals:function(){
@@ -233,7 +237,7 @@ var fbchatPOPUP = function(){
                 //don't open the new window just highlight the friend icon.
                 var elem = document.getElementById("friend-"+uid);
                 if(elem){
-                    $("#friend-"+uid).append('<div class="notification"></div>');
+                    $("#friend-"+uid).after('<div class="notification"></div>');
                 }else{
                     fbchatpopup.openchatwindow(uid);
                 }
@@ -242,10 +246,17 @@ var fbchatPOPUP = function(){
         /**
          * makes html for the online chat friends
          */
-        addToChatFriends:function(friend){
+        _addToChatFriends:function(friend){
             var out='<span class="talker-image" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" title="'+friend.name+'">';
             out+='<img id="friend-'+friend.uid+'" alt="'+friend.name+'" src="'+friend.pic_square+'" />';
             out+='<span id="frshadow-'+friend.uid+'" class="talker-shadow"></span>';
+            out+='</span>';
+            return out;
+        },
+        addToChatFriends:function(friend){
+            var out='<span class="talker-image" onclick="fbchatpopup.openchatwindow(\''+friend.uid+'\')" title="'+friend.name+'">';
+            out+='<img id="friend-'+friend.uid+'" alt="'+friend.name+'" src="'+friend.pic_square+'" />';
+            out+='<div id="frshadow-'+friend.uid+'" class="talker-shadow"></div>';
             out+='</span>';
             return out;
         },
@@ -329,7 +340,7 @@ var fbchatPOPUP = function(){
          */
         openchatwindow:function(uid){
             //removing notification image.
-            $('#friend-'+uid).children(".notification").remove();
+            $('#friend-'+uid).siblings(".notification").remove();
             //adding chat to the activechat in localStorage.
             if(! window.localStorage.activeChat){
                 window.localStorage.activeChat="[]";
