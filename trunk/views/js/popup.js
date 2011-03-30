@@ -98,7 +98,7 @@ $(document).ready(function() {
 
 
     //new slider.
-    $(".slider").easySlider();
+    $("#slidesContainer").slider({maxItems:4});
 
     //old slider
     /*
