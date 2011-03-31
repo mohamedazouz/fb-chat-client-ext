@@ -129,6 +129,14 @@ body {
     background: url(../images/w_chat_box_arrow.png) no-repeat;
     left: 291px;
 }
+.talker-image-container{
+    
+    padding: 15px 45px;
+}
+.talker-image-container .talker-image{
+
+    margin: 0 1px;;
+}
 .talker-image {
     width:54px;
     height:54px;
@@ -209,6 +217,7 @@ body {
     border-top: 6px solid #324e88;
     position: relative;
 }
+
 /*.user-pointer{
     width: 23px;
     height: 11px;
