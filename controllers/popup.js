@@ -240,11 +240,17 @@ var fbchatPOPUP = function(){
                 //don't open the new window just highlight the friend icon.
                 var elem = document.getElementById("friend-"+uid);
                 if(elem){
-                    $("#friend-"+uid).after('<div class="notification"></div>');
+                    fbchatpopup.addRedNotification(uid);
                 }else{
                     fbchatpopup.openchatwindow(uid);
                 }
             }
+        },
+        /**
+         * creates a red icon on the user in the slider
+         */
+        addRedNotification:function(uid){
+            $("#friend-"+uid).after('<div class="notification"></div>');
         },
         /**
          * makes html for the online chat friends
@@ -267,11 +273,13 @@ var fbchatPOPUP = function(){
          * send a message from popup.
          */
         sendMessage:function(){
-            if($('#chat-text-box').attr('value')== (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue'] /*'type your message here'*/){
+            var text=$.trim($('#chat-text-box').val());
+            if(text == (fbchatlocals[window.localStorage.lang])['DefautlTextAreaValue'] /*'type your message here'*/
+                || text == ''){
                 return;
             }
             var message ={
-                msg:$('#chat-text-box').attr('value'),
+                msg:text,
                 to:window.localStorage.chatwindow
             }
             $('#chat-text-box').attr('value','');
@@ -547,6 +555,17 @@ var fbchatPOPUP = function(){
                     //here
                     fbchatpopup.disposableFunctions.appendToSlider(fbchatpopup.addToChatFriends(activeChat[j]));
                 }
+                //adding new unread notification to the slider.
+                if(! window.localStorage.newChat){
+                    window.localStorage.newChat='[]';
+                }
+                var newChat=JSON.parse(window.localStorage.newChat);
+                for(g in newChat){
+                    if(newChat[g] != window.localStorage.chatwindow){
+                        fbchatpopup.addRedNotification(newChat[g]);
+                    }
+                }
+                window.localStorage.newChat = '[]';
                 $("#slideshow").show();
             }else{
                 $('#online-users').trigger("click");
