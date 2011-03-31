@@ -264,6 +264,13 @@ var fbchatBG=function(){
             var popup=chrome.extension.getViews({
                 type:"popup"
             });
+            //update new chat array
+            if(! window.localStorage.newChat){
+                window.localStorage.newChat='[]';
+            }
+            var newChat=JSON.parse(window.localStorage.newChat);
+            newChat.push(uid);
+            window.localStorage.newChat=JSON.stringify(newChat);
             //check if there is popup pages is open or not.
             if(popup.length != 0){
                 //if there is popup page is open send to show new msg.

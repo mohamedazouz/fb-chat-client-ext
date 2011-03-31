@@ -134,7 +134,7 @@ body {
     padding: 15px 40px;
 }
 .talker-image-container .talker-image{
-
+    cursor: pointer;
     margin: 0 1px;;
 }
 .talker-image {
