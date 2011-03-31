@@ -73,9 +73,6 @@ body {
 
     direction: ltr;
 }
-#slideshow #slidescontainer{
-    margin: 0 0 0 75px;
-}
 #slideshow #slidescontainer .slide{
 
     margin-right: -2px;
