@@ -6,7 +6,7 @@ var fbchatlocals={
     ar:{
         "onlineFriends":"الأصدقاء المتصلين",
         "friendList":"قائمة الأصدقاء",
-        "offlineUserChat":"  غير موجود الان رسائلك ستصل اية صندوق البريد الخاص بة",
+        "offlineUserChat":"غير موجود الأن, رسائلك ستصل إليه في صندوق البريد الخاص به",
         "clearField":"إمسح",
         "logout":"سجل الخروج",
         "about":"عن الاضافة",
