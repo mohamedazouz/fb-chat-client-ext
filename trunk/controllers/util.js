@@ -169,7 +169,7 @@ var util={
                         // Never move original objects, clone them
                         target[ name ] = jQuery.extend( deep, clone, copy );
 
-                    // Don't bring in undefined values
+                        // Don't bring in undefined values
                     } else if ( copy !== undefined ) {
                         target[ name ] = copy;
                     }
@@ -186,16 +186,6 @@ var util={
      * @return the url in the string.
      */
     getURL:function(str){
-        httpurl=str.indexOf("http://", 0);
-        httpsurl=str.indexOf("https://", 0);
-        if(httpurl ==-1 && httpsurl== -1){
-            return null;
-        }
-        if(httpsurl != -1){
-            strurl=str.substr(httpsurl, URLLength(str,httpsurl));
-        }else{
-            strurl=str.substr(httpurl, URLLength(str,httpurl));
-        }
         function URLLength(string,urlPos){
             var Length=0;
             for(i=urlPos;i<string.length;i++){
@@ -206,7 +196,30 @@ var util={
             }
             return Length;
         }
-        return strurl;
+        function getHttp(str){
+            httpurl=str.indexOf("http://", 0);
+            httpsurl=str.indexOf("https://", 0);
+            if(httpurl ==-1 && httpsurl== -1){
+                return null;
+            }
+            var strurl;
+            if(httpsurl != -1){
+                strurl=str.substr(httpsurl, URLLength(str,httpsurl));
+            }else{
+                strurl=str.substr(httpurl, URLLength(str,httpurl));
+            }
+            return strurl;
+            
+        }
+        function getWWW(str){
+            wwwurl=str.indexOf('www.', 0);
+            if (wwwurl == -1){
+                return null;
+            }
+            return str.substr(wwwurl,URLLength(str, wwwurl));
+        }
+        var url= getHttp(str);
+        return url==null? getWWW(str):url;
     }
 }
 //console.log(util.replaceAll('abcdefghiabc', "abc", "x"));
