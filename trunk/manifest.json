@@ -1,4 +1,4 @@
-﻿{
+{
     "name":"FB Chat | دردشة الفيس بوك",
     "version": "1.1",
     "description": "تواصل مع أصدقائك الموجودين على الفيس بوك | Chat with your friends on Facebook",
@@ -14,5 +14,5 @@
         "default_title": "Facebook Chat",
         "popup": "views/popup.html"
     },
-    "permissions": [ /*"http://fbchat.activedd.com/*" */"http://*/*","notifications"]
+    "permissions": [ "http://fbchat.activedd.com/*","notifications"]
 }
