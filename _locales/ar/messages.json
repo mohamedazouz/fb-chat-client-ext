@@ -1,0 +1,14 @@
+{//ar
+    "extName":{
+        "message":"FB Chat | دردشة الفيس بوك",
+        "description":"extension title."
+    },
+    "extDescription":{
+        "message":"تواصل مع أصدقائك الموجودين على الفيس بوك | Chat with your friends on Facebook",
+        "description":"extension description"
+    },
+    "extTitle":{
+        "message":"Facebook Chat",
+        "description":"extension title"
+    }
+}

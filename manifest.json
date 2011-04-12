@@ -1,9 +1,10 @@
 {
-    "name":"FB Chat | دردشة الفيس بوك",
+    "name":"__MSG_extName__",
     "version": "1.1",
-    "description": "تواصل مع أصدقائك الموجودين على الفيس بوك | Chat with your friends on Facebook",
+    "description": "__MSG_extDescription__",
     "background_page": "views/background.html",
     "options_page": "views/options.html",
+    "default_locale":"ar",
     "icons":{
         "48": "views/icons/facebookchat.png",
         "128": "views/icons/128x128.png",
@@ -11,7 +12,7 @@
     },
     "browser_action": {
         "default_icon": "views/icons/32x32_off.png",
-        "default_title": "Facebook Chat",
+        "default_title": "__MSG_extTitle__",
         "popup": "views/popup.html"
     },
     "permissions": [ "http://fbchat.activedd.com/*","notifications"]
