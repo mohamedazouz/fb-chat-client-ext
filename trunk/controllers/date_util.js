@@ -3,19 +3,26 @@
  * and open the template in the editor.
  */
 var date_util={
-    today:function(){
+    today:function(separator){
+        if(! separator){
+            separator = '/'
+        }
         //format yy/mm/dd
         var date=new Date();
-        var todaystring=date.getFullYear()+'/'+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+'/'+(date.getDate()>9?date.getDate():'0'+date.getDate());
+        var todaystring=date.getFullYear()+separator+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+separator+(date.getDate()>9?date.getDate():'0'+date.getDate());
         return todaystring;
     },
     /**
      * return the date of given date as yyyy/mm/dd format.
      * @param date instanse that get the the date form.
+     * @param separator separator for dates.
      * @return string represents given date as yyyy/mm/dd.
      */
-    getDayString:function(date){
-        var todaystring=date.getFullYear()+'/'+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+'/'+(date.getDate()>9?date.getDate():'0'+date.getDate());
+    getDayString:function(date,separator){
+        if(! separator){
+            separator = '/'
+        }
+        var todaystring=date.getFullYear()+separator+((date.getMonth()+1)>9?(date.getMonth()+1):'0'+(date.getMonth()+1))+separator+(date.getDate()>9?date.getDate():'0'+date.getDate());
         return todaystring;
     },
     /**
