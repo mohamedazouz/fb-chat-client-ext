@@ -6,7 +6,7 @@ var fbchatlocals={
     ar:{
         "onlineFriends":"الأصدقاء المتصلين",
         "friendList":"قائمة الأصدقاء",
-        "offlineUserChat":"غير موجود الأن, رسائلك ستصل إليه في صندوق البريد الخاص به",
+        "offlineUserChat":" غير متصل الآن، رسائلك ستصل إليه في صندوق البريد الخاص به، إذا كنتم تستخدمون نظام الرسائل الجديد.",
         "clearField":"إمسح",
         "logout":"سجل الخروج",
         "about":"عن الاضافة",
@@ -35,7 +35,7 @@ var fbchatlocals={
     en:{
         "onlineFriends":"Online Friends",
         "friendList":"Friends List",
-        "offlineUserChat":" is offline, Your messages will be sent to their inbox.",
+        "offlineUserChat":" is offline, your messages will be sent to their inbox, if you both are using the new messages system.",
         "clearField":"clear",
         "logout":"Logout",
         "about":"About",
