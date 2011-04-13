@@ -73,9 +73,8 @@ var fbchatPOPUP = function(){
                     link.setAttribute("rel", "stylesheet");
                     link.setAttribute("type", "text/css");
                     $('head').append(link);
-                    $("#offline-notify").children('*').each(function(){
-                        $(this).css("float", 'right');
-                    });
+                    $("#offline-notify").css('margin-right','10px');
+                    $("#offline-notify").css('margin-left','0px');
                 }
                 try{
                     $("*").each(function(){
@@ -379,7 +378,7 @@ var fbchatPOPUP = function(){
                     //setting offline user, disaple text area. writing use is offline.
                     $("#chat-buddy-img").attr('src','images/status_offline_color.png');
                     $("#offline-notify").show();
-                    $("#conversation-container").css('height','360px');
+                    $("#conversation-container").css('height','348px');
                 }
 
                 //unbind any previous click actions.
