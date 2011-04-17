@@ -221,7 +221,7 @@ var fbchatPOPUP = function(){
                 fbchatpopup.clearChatHistory($(this).attr('value'));
             });
             $("#options").click(function(){
-                fbchatpopup.openURL(chrome.extension.getURL('views/options.html'), true);
+                chrome.extension.openOptionPage()
             });
         },
         /**
