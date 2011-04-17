@@ -48,11 +48,7 @@
             var prevA=document.createElement('a');
             $(prevA).html('prev');
             prevBtn.appendChild(prevA);
-            if(options.dir == 'ltr'){
-                obj.before(prevBtn);
-            }else{
-                obj.after(prevBtn);
-            }
+            obj.before(prevBtn);
             $(prevBtn).css('cursor','pointer');
 
             //next button
@@ -63,11 +59,7 @@
             var nextA=document.createElement('a');
             nextBtn.appendChild(nextA);
             $(nextA).html('next');
-            if(options.dir == 'ltr'){
-                obj.after(nextBtn);
-            }else{
-                obj.before(nextBtn);
-            }
+            obj.after(nextBtn);
             $(nextBtn).css('cursor','pointer');
 
             //showing only items as maxItems
@@ -78,18 +70,11 @@
 
             //set next and prev actions
             $(nextBtn).click(function(){
-                if(options.dir == 'ltr')
-                    SliderActions.doNext();
-                else
-                    SliderActions.doPrev();
+                SliderActions.doNext();
             });
 
             $(prevBtn).click(function(){
-                if(options.dir == 'ltr')
-                    SliderActions.doPrev();
-                else{
-                    SliderActions.doNext();
-                }
+                SliderActions.doPrev();
             });
 
             //usable funtions.
