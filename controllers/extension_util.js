@@ -11,6 +11,12 @@ var extension={
             url:url,
             selected:focus
         });
+    },
+    openOptionPage:function(){
+        chrome.tabs.create({
+            url:chrome.extension.getURL('views/options.html'),
+            selected:true
+        });
     }
 }
 
