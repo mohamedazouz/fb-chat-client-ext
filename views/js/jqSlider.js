@@ -32,7 +32,8 @@
             nextId: 		'nextBtn',
             nextText: 		'Next',
             nextClass:          'nextBtn',
-            maxItems:           6
+            maxItems:           6,
+            dir:                'ltr'
         }
         options = $.extend(defaults, options);
         this.each(function(){
@@ -47,7 +48,11 @@
             var prevA=document.createElement('a');
             $(prevA).html('prev');
             prevBtn.appendChild(prevA);
-            obj.before(prevBtn);
+            if(options.dir == 'ltr'){
+                obj.before(prevBtn);
+            }else{
+                obj.after(prevBtn);
+            }
             $(prevBtn).css('cursor','pointer');
 
             //next button
@@ -58,7 +63,11 @@
             var nextA=document.createElement('a');
             nextBtn.appendChild(nextA);
             $(nextA).html('next');
-            obj.after(nextBtn);
+            if(options.dir == 'ltr'){
+                obj.after(nextBtn);
+            }else{
+                obj.before(nextBtn);
+            }
             $(nextBtn).css('cursor','pointer');
 
             //showing only items as maxItems
@@ -69,25 +78,18 @@
 
             //set next and prev actions
             $(nextBtn).click(function(){
-                t=obj.children('span:visible')[0];
-                s=obj.children('span:visible')[obj.children('span:visible').length-1];
-                $(t).hide();
-                $(s).next('span').show();
-                if($(s).next('span').next('span').length ==0){
-                    $(nextBtn).hide();
-                }
-                $(prevBtn).show();
+                if(options.dir == 'ltr')
+                    SliderActions.doNext();
+                else
+                    SliderActions.doPrev();
             });
 
             $(prevBtn).click(function(){
-                t=obj.children('span:visible')[0];
-                s=obj.children('span:visible')[obj.children('span:visible').length-1];
-                $(s).hide();
-                $(t).prev('span').show();
-                if($(t).prev('span').prev('span').length == 0){
-                    $(prevBtn).hide();
+                if(options.dir == 'ltr')
+                    SliderActions.doPrev();
+                else{
+                    SliderActions.doNext();
                 }
-                $(nextBtn).show();
             });
 
             //usable funtions.
@@ -128,6 +130,28 @@
                 $(el).remove();
                 setSliderButtons();
                 fixedShown();
+            }
+
+            var SliderActions={};
+            SliderActions.doNext = function(){
+                t=obj.children('span:visible')[0];
+                s=obj.children('span:visible')[obj.children('span:visible').length-1];
+                $(t).hide();
+                $(s).next('span').show();
+                if($(s).next('span').next('span').length ==0){
+                    $(nextBtn).hide();
+                }
+                $(prevBtn).show();
+            }
+            SliderActions.doPrev = function(){
+                t=obj.children('span:visible')[0];
+                s=obj.children('span:visible')[obj.children('span:visible').length-1];
+                $(s).hide();
+                $(t).prev('span').show();
+                if($(t).prev('span').prev('span').length == 0){
+                    $(prevBtn).hide();
+                }
+                $(nextBtn).show();
             }
         });
     };
