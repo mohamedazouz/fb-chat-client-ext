@@ -96,9 +96,12 @@ $(document).ready(function() {
         })
     }, 1200)
 
-
+    var dir='ltr';
+    if(window.localStorage.lang == 'ar'){
+        dir='rtl'
+    }
     //new slider.
-    $("#slidesContainer").slider({maxItems:6});
+    $("#slidesContainer").slider({maxItems:6,dir:dir});
 
     //old slider
     /*
