@@ -37,6 +37,10 @@ body {
     margin-right: 15px;
 
 }
+.users-list{
+    float: right;
+    width: 370px;
+}
 .friend-image {
     margin-left: 7px;
     margin-right:0;
