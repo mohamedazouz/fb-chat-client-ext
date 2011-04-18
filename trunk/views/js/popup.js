@@ -96,15 +96,80 @@ $(document).ready(function() {
         })
     }, 1200)
 
-    var dir='ltr';
+    var dir='left';
     if(window.localStorage.lang == 'ar'){
-        dir='rtl'
+        dir='rigth'
     }
     //new slider.
-    $("#slidesContainer").slider({maxItems:6,dir:dir});
+    //    $("#slidesContainer").slider({maxItems:6,dir:dir});
 
-    //old slider
-    /*
+    function getAddOptions(slide,items) {
+        var i = slide,
+        p = "end"//$("select[name=s_position]").val(),
+        o = true//$("select[name=s_order]").val(),
+        d = 0;//$("select[name=s_deviation]").val();
+
+        if (o == "false")	o = false;
+        if (o == "true")	o = true;
+
+        if (items)	return [i, p, o, d];
+        else		return [p, o, d];
+    }
+    function getRemoveOptions(slide) {
+        index=0;
+        $(slide).parent('#slidesContainer').children().each(function(i){
+            if(this == slide){
+                index=i;
+            }
+        })
+        p = index;
+        o = true//$("select[name=s_order]").val(),
+        d = 0;//$("select[name=s_deviation]").val();
+
+        if (o == "false")	o = false;
+        if (o == "true")	o = true;
+        return [p, o, d];
+    }
+    fbchatpopup.addFriendToSlider=function(slide){
+        var arr = getAddOptions(slide,true);
+        $("#slidesContainer").trigger("insertItem", arr);
+    }
+
+    fbchatpopup.removeFriendFromSlider=function(slide){
+        var arr = getRemoveOptions(slide);
+        console.log(arr)
+        $("#slidesContainer").trigger("removeItem", arr);
+    }
+    
+    $("#slidesContainer").carouFredSel({
+        direction   : dir,
+        circular    : false,
+        auto        : false,
+        infinite    : false,
+        prev        : {
+            button : "#slider_prev",
+            key    : "left",
+            onEnd  : function(){
+                $(this.button).hide();
+            },
+            onAfter:function(){
+                $("#slider_next").show();
+            }
+        },
+        next       : {
+            button : "#slider_next",
+            key	: "right",
+            onEnd:function(){
+                $(this.button).hide();
+            },
+            onAfter:function(){
+                $("#slider_prev").show();
+            }
+        }
+    });
+
+//old slider
+/*
     // users slider
     var currentPosition = 0;
     var slideWidth = 50;
