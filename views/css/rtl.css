@@ -30,6 +30,9 @@ body {
 .w-chatbox{
     float: right;
 }
+.friend-image{
+    float: right;
+}
 .user-container {
     margin-right: 15px;
 
