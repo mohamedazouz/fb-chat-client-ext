@@ -59,11 +59,11 @@ var fbchatPOPUP = function(){
                 $("#slideshow").show();
             },
             appendToSlider:function(slide){
-                $('#sliderContainer').slider.append(slide);
+                fbchatpopup.addFriendToSlider(slide);
                 $("#slideshow").show();
             },
             removeFromSlider:function(slide){
-                $('#sliderContainer').slider.remove(slide);
+                fbchatpopup.removeFriendFromSlider(slide);
             },
             setLocals:function(){
                 var lang=window.localStorage.lang;
