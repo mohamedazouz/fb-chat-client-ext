@@ -145,7 +145,8 @@ $(document).ready(function() {
         circular    : false,
         auto        : false,
         infinite    : false,
-        items:6,
+        items       : 6,
+        width       : 400,
         prev        : {
             button : "#slider_prev",
             key    : "left",
