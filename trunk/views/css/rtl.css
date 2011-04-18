@@ -4,9 +4,9 @@ body {
 .top-menu-container {
     right:0;
 }
-.f {
+/*.f {
     float:right;
-}
+}*/
 .f-r {
     float:left;
 }
@@ -25,7 +25,10 @@ body {
     right: 291px;
 }
 .talker-image-shadow {
-    left: -2px;
+    left: 2px;
+}
+.w-chatbox{
+    float: right;
 }
 .user-container {
     margin-right: 15px;
@@ -65,6 +68,26 @@ body {
 }
 .emoticons-bottom{
     background:url(../images/ar_emot_bottom.png) no-repeat;
+}
+.settings{
+    float: right;
+    
+}
+.friends-list{
+    float: right;
+}
+.online-users{
+    float: right;
+}
+strong{
+
+    float: right !important;
+}
+.typing-box{
+    float: right;
+}
+.icons {
+    float: right;
 }
 .settings-menu {
     right: 260px;
