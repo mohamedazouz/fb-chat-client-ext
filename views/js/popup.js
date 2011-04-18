@@ -97,9 +97,9 @@ $(document).ready(function() {
     }, 1200)
 
     var dir='left';
-    if(window.localStorage.lang == 'ar'){
-        dir='rigth'
-    }
+//    if(window.localStorage.lang == 'ar'){
+//        dir='right'
+//    }
     //new slider.
     //    $("#slidesContainer").slider({maxItems:6,dir:dir});
 
@@ -137,7 +137,6 @@ $(document).ready(function() {
 
     fbchatpopup.removeFriendFromSlider=function(slide){
         var arr = getRemoveOptions(slide);
-        console.log(arr)
         $("#slidesContainer").trigger("removeItem", arr);
     }
     
