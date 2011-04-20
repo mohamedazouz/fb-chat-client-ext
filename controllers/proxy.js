@@ -109,6 +109,9 @@ var Proxy={
                 handler(usr);
             },
             error:function(jqXHR, textStatus, errorThrown){
+                if(jqXHR && jqXHR.status == 500){
+                    window.localStorage.logged = false;
+                }
                 console.log(errorThrown)
                 failer();
             }
