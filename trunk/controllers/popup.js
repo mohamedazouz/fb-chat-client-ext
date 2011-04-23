@@ -182,7 +182,6 @@ var fbchatPOPUP = function(){
             chrome.extension.sendRequest({
                 'action':'disconnect'
             });
-            window.localStorage.connected=false;
             //setting icon to offline
             chrome.browserAction.setIcon({
                 path:'icons/32x32_off.png'

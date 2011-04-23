@@ -139,14 +139,15 @@ var fbchatBG=function(){
         updateFriendsStatus:function(handler){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
-                if(list.error){
+                if(! list || list[0].error != null){
                     fbchatbg.disconnect();
                     window.localStorage.connected=false;
                     //setting icon to offline
                     chrome.browserAction.setIcon({
                         path:'/views/icons/32x32_off.png'
                     });
-                    console.log(list.error);
+                    console.log(list[0].error);
+                    fbchatbg.connect();
                     return;
                 }
                 fbchatdb.setOnline(list);
@@ -181,14 +182,14 @@ var fbchatBG=function(){
                 //saving user data.
                 window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
-                    if(list.error){
+                    if(! list || list[0].error != null){
                         bchatbg.disconnect();
                         window.localStorage.connected=false;
                         //setting icon to offline
                         chrome.browserAction.setIcon({
                             path:'/views/icons/32x32_off.png'
                         });
-                        console.log(list.error);
+                        console.log(list[0].error);
                         return;
                     }
                     fbchatdb.insertFriends(list, function(list){
@@ -197,14 +198,14 @@ var fbchatBG=function(){
                         window.localStorage.friendList=callbackParam.friendlist;
                     });
                     Proxy.getOnlineFriends(function(list){
-                        if(list.error){
+                        if(! list || list[0].error != null){
                             fbchatbg.disconnect();
                             window.localStorage.connected=false;
                             //setting icon to offline
                             chrome.browserAction.setIcon({
                                 path:'/views/icons/32x32_off.png'
                             });
-                            console.log(list.error);
+                            console.log(list[0].error);
                             return;
                         }
                         //___ set connected to be true
@@ -332,6 +333,7 @@ var fbchatBG=function(){
             window.clearInterval(fbchatbg.ChatInterval);
             delete window.localStorage.chatwindow;
             delete window.localStorage.activeChat;
+            window.localStorage.connected=false;
             fbchatdb.cleareFriends();
             Proxy.disconnect();
         },
