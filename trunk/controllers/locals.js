@@ -30,7 +30,8 @@ var fbchatlocals={
         "connect2":" إتصل ؟",
         "connecting":"جاري الاتصال",
         "loading":"جاري التحميل",
-        "savebutton":"حفظ"
+        "savebutton":"حفظ",
+        "autoConnect":"اتصال تلقائي"
     },
     en:{
         "onlineFriends":"Online Friends",
@@ -59,7 +60,8 @@ var fbchatlocals={
         "connect2":"go online now?",
         "connecting":"connecting",
         "loading":"loading",
-        "savebutton":"Save"
+        "savebutton":"Save",
+        "autoConnect":"Auto Connect"
     }
 }
 
