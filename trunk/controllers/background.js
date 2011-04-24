@@ -211,6 +211,10 @@ var fbchatBG=function(){
                             console.log(list[0].error);
                             return;
                         }
+                        // reduces the time taken for first time quering.
+                        fbchatdb.getFriendByUID(list[0].uid, function(){
+                            console.log('first time quering');
+                        });
                         //___ set connected to be true
                         window.localStorage.connected=true;
                         //___update online friends.
