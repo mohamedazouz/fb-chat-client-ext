@@ -30,6 +30,9 @@ var fbchatBG=function(){
             if(! window.localStorage.playSounds){
                 window.localStorage.playSounds = true;
             }
+            if( ! window.localStorage.autoConnect){
+                window.localStorage.autoConnect = true;
+            }
         },
         getNavigatorLang:function(){
             var lang=window.navigator.language;
@@ -353,6 +356,17 @@ var fbchatBG=function(){
             });
             fbchatdb.clearDB();
             Proxy.disconnect();
+        },
+        autoConnect:function(){
+            if(window.localStorage.logged == 'false'){
+                extension.openURL(Proxy.baseURL+Proxy.loginURL, true);
+                window.setTimeout(function(){
+                    Proxy.Authenticate(0);
+                }, 1000 * 5);
+                window.localStorage.logged = 'logging';
+                return;
+            }
+            fbchatbg.connect();
         }
     };
 
@@ -366,6 +380,10 @@ var fbchatBG=function(){
             window.localStorage.logged=false;
         }
         fbchatbg.setExtensionSettings();
+        var autoConnect = JSON.parse(window.localStorage.autoConnect);
+        if(autoConnect){
+            fbchatbg.autoConnect();
+        }
     });
     
     return fbchatbg;

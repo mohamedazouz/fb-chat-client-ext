@@ -50,13 +50,17 @@ var fbchatOptions=function(){
                 window.localStorage.allowNotifications=this.checked;
             });
             $("#playsounds").change(function(){
-                window.localStorage.playSounds=this.checked
+                window.localStorage.playSounds=this.checked;
             });
             $('#playsounds').attr('checked',JSON.parse(window.localStorage.playSounds));
             $('#shwnotif').attr('checked', JSON.parse(window.localStorage.allowNotifications));
             $("#save").click(function(){
                 fbchatoptions.save();
             });
+            $("#autoConnect").attr('checked',JSON.parse(window.localStorage.autoConnect));
+            $("#autoConnect").change(function(){
+                window.localStorage.autoConnect=this.checked;
+            })
         },
         loadFriendsChatHistory:function(){
             background.fbchatdb.getAllFriends(function(list){
