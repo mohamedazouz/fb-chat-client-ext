@@ -171,6 +171,10 @@ var fbchatBG=function(){
                     handler();
                 }
             },function(){
+                //setting icon to offline
+                chrome.browserAction.setIcon({
+                    path:'/views/icons/32x32_off.png'
+                });
                 fbchatbg.disconnect();
             });
         },
