@@ -252,14 +252,26 @@ var fbchatBG=function(){
                     },function(){
                         //___ set connected to be false
                         window.localStorage.connected=false;
+                        //____update connect icon.
+                        chrome.browserAction.setIcon({
+                            path:'/views/icons/32x32.png'
+                        });
                     });
                 },function(){
                     //___ set connected to be false
                     window.localStorage.connected=false;
+                    //____update connect icon.
+                    chrome.browserAction.setIcon({
+                        path:'/views/icons/32x32.png'
+                    });
                 });
             },function(){
                 //___ set connected to be false
                 window.localStorage.connected=false;
+                //____update connect icon.
+                chrome.browserAction.setIcon({
+                    path:'/views/icons/32x32.png'
+                });
             });
         },
         /**
@@ -345,6 +357,10 @@ var fbchatBG=function(){
             delete window.localStorage.chatwindow;
             delete window.localStorage.activeChat;
             window.localStorage.connected=false;
+            //____update connect icon.
+            chrome.browserAction.setIcon({
+                path:'/views/icons/32x32.png'
+            });
             fbchatdb.cleareFriends();
             Proxy.disconnect();
         },
