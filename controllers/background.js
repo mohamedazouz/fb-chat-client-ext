@@ -142,7 +142,7 @@ var fbchatBG=function(){
         updateFriendsStatus:function(handler){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
-                if(! list || list[0].error != null){
+                if(! list || list[0].error){
                     fbchatbg.disconnect();
                     window.localStorage.connected=false;
                     //setting icon to offline
@@ -186,11 +186,23 @@ var fbchatBG=function(){
             window.localStorage.connected = 'connecting';
             var callbackParam={};
             Proxy.connect(function(usr){
+                if(! usr || usr.error){
+                    window.localStorage.connected=false;
+                    //setting icon to offline
+                    chrome.browserAction.setIcon({
+                        path:'/views/icons/32x32_off.png'
+                    });
+                    console.log(usr.error);
+                    if(usr.error == 'invalid session key'){
+                        fbchatbg.logout();
+                    }
+                    return;
+                }
                 //saving user data.
                 window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
-                    if(! list || list[0].error != null){
-                        bchatbg.disconnect();
+                    if(! list || list[0].error){
+                        fbchatbg.disconnect();
                         window.localStorage.connected=false;
                         //setting icon to offline
                         chrome.browserAction.setIcon({
@@ -205,7 +217,7 @@ var fbchatBG=function(){
                         window.localStorage.friendList=callbackParam.friendlist;
                     });
                     Proxy.getOnlineFriends(function(list){
-                        if(! list || list[0].error != null){
+                        if(! list  || list[0].error){
                             fbchatbg.disconnect();
                             window.localStorage.connected=false;
                             //setting icon to offline
