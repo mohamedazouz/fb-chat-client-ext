@@ -142,13 +142,8 @@ var fbchatBG=function(){
         updateFriendsStatus:function(handler){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
-                if(! list || list[0].error){
+                if(! list || (list.length != 0 && list[0].error)){
                     fbchatbg.disconnect();
-                    window.localStorage.connected=false;
-                    //setting icon to offline
-                    chrome.browserAction.setIcon({
-                        path:'/views/icons/32x32_off.png'
-                    });
                     console.log(list[0].error);
                     fbchatbg.connect();
                     return;
@@ -171,10 +166,6 @@ var fbchatBG=function(){
                     handler();
                 }
             },function(){
-                //setting icon to offline
-                chrome.browserAction.setIcon({
-                    path:'/views/icons/32x32_off.png'
-                });
                 fbchatbg.disconnect();
             });
         },
@@ -201,13 +192,8 @@ var fbchatBG=function(){
                 //saving user data.
                 window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
-                    if(! list || list[0].error){
+                    if(! list || (list.length != 0 && list[0].error)){
                         fbchatbg.disconnect();
-                        window.localStorage.connected=false;
-                        //setting icon to offline
-                        chrome.browserAction.setIcon({
-                            path:'/views/icons/32x32_off.png'
-                        });
                         console.log(list[0].error);
                         return;
                     }
@@ -215,22 +201,19 @@ var fbchatBG=function(){
                         //populate list of all friends and save it in the localStorage
                         callbackParam.friendlist=fbchatpopup.populateFriendsList(list);
                         window.localStorage.friendList=callbackParam.friendlist;
+                        window.setTimeout(function(){
+                            // reduces the time taken for first time quering.
+                            fbchatdb.getFriendByUID(list[0].uid, function(){
+                                console.log('first time quering');
+                            });
+                        }, 1000 * 2)
                     });
                     Proxy.getOnlineFriends(function(list){
-                        if(! list  || list[0].error){
+                        if(! list  || (list.length != 0 && list[0].error)){
                             fbchatbg.disconnect();
-                            window.localStorage.connected=false;
-                            //setting icon to offline
-                            chrome.browserAction.setIcon({
-                                path:'/views/icons/32x32_off.png'
-                            });
                             console.log(list[0].error);
                             return;
                         }
-                        // reduces the time taken for first time quering.
-                        fbchatdb.getFriendByUID(list[0].uid, function(){
-                            console.log('first time quering');
-                        });
                         //___ set connected to be true
                         window.localStorage.connected=true;
                         //___update online friends.
@@ -266,7 +249,7 @@ var fbchatBG=function(){
                         window.localStorage.connected=false;
                         //____update connect icon.
                         chrome.browserAction.setIcon({
-                            path:'/views/icons/32x32.png'
+                            path:'/views/icons/32x32_off.png'
                         });
                     });
                 },function(){
@@ -274,7 +257,7 @@ var fbchatBG=function(){
                     window.localStorage.connected=false;
                     //____update connect icon.
                     chrome.browserAction.setIcon({
-                        path:'/views/icons/32x32.png'
+                        path:'/views/icons/32x32_off.png'
                     });
                 });
             },function(){
@@ -282,7 +265,7 @@ var fbchatBG=function(){
                 window.localStorage.connected=false;
                 //____update connect icon.
                 chrome.browserAction.setIcon({
-                    path:'/views/icons/32x32.png'
+                    path:'/views/icons/32x32_off.png'
                 });
             });
         },
@@ -341,11 +324,6 @@ var fbchatBG=function(){
             Proxy.sendMessage(message.to, message.msg,function(resp){
                 if(resp && resp.error){
                     fbchatbg.disconnect();
-                    window.localStorage.connected=false;
-                    //setting icon to offline
-                    chrome.browserAction.setIcon({
-                        path:'/views/icons/32x32_off.png'
-                    });
                     console.log(resp.error);
                     return;
                 }
@@ -371,7 +349,7 @@ var fbchatBG=function(){
             window.localStorage.connected=false;
             //____update connect icon.
             chrome.browserAction.setIcon({
-                path:'/views/icons/32x32.png'
+                path:'/views/icons/32x32_off.png'
             });
             fbchatdb.cleareFriends();
             Proxy.disconnect();
