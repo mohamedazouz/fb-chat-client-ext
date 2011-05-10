@@ -357,7 +357,7 @@ body {
     background:url(../images/friends-list-offline.png) no-repeat;
 }
 .friend-image-away{
-    background:url(../images/friends-list-offline.png) no-repeat;
+    background:url(../images/friends-list-away.png) no-repeat;
 }
 .group {
     color:#7f9fee;
