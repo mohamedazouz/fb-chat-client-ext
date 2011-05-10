@@ -10,7 +10,7 @@ var fbchatDB=function(){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("create table if not exists " +
                     "friends(id integer primary key asc, name string, pic_square string,"+
-                    "uid integer,online boolean);",
+                    "uid integer,online string);",
                     [],
                     function() {
                         console.log("friends on.");
@@ -61,7 +61,7 @@ var fbchatDB=function(){
         insertFriend:function(friend,handler,pathob){
             fbchatdb.db.transaction(function(tx) {
                 tx.executeSql("INSERT into friends (uid,name,pic_square,online) VALUES (?,?,?,?);",
-                    [friend.uid,friend.name,friend.pic_square,false],
+                    [friend.uid,friend.name,friend.pic_square,"false"],
                     handler?handler(pathob.list):null,
                     fbchatdb.onError);
             });
@@ -76,11 +76,22 @@ var fbchatDB=function(){
                     function(){
                         for(i=0; i< list.length; i++){
                             tx.executeSql("update friends set online=? where uid = ?;",
-                                [true,list[i].uid],
+                                [list[i].online!=null?list[i].online:'online',list[i].uid],
                                 null,
                                 fbchatdb.onError);
                         }
                     },
+                    fbchatdb.onError);
+            });
+        },
+        /**
+         * set one user online.
+         */
+        setUserOnline:function(usr){
+            fbchatdb.db.transaction(function(tx) {
+                tx.executeSql("update friends set online=? where uid = ?;",
+                    ['online',usr.uid],
+                    null,
                     fbchatdb.onError);
             });
         },
@@ -90,8 +101,8 @@ var fbchatDB=function(){
         getOnlineFriends:function(handler){
             var onlineFriends=[];
             fbchatdb.db.transaction(function(tx) {
-                tx.executeSql("SELECT * FROM friends where online=? ;",
-                    [true],
+                tx.executeSql("SELECT * FROM friends where online != ? ;",
+                    ['false'],
                     function(tx,results) {
                         for (i = 0; i < results.rows.length; i++) {
                             onlineFriends.push(util.clone(results.rows.item(i)));

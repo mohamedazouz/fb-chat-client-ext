@@ -20,9 +20,6 @@ var fbchatPOPUP = function(){
                 //populate list of all friends and save it in the localStorage
                 $("#friend-list").html(ob.friendlist);
 
-                //____ running the intervals
-                fbchatpopup.runIntervals();
-
                 $("#online-friends").html(ob.onlineFriends);
                 $('#notconnected').fadeOut();
                 $("#container").fadeIn('fast');
@@ -366,19 +363,24 @@ var fbchatPOPUP = function(){
             });
             // opening a new chat tab.
             background.fbchatdb.getFriendByUID(uid, function(friend){
-                if(friend.online == 'true'){
+                if(friend.online == 'online'){
                     //setting online icon and enapling the text area.
                     $("#chat-buddy-img").attr('src','images/status_color.png');
                     $("#chat-text-box").attr('disabled',false);
                     $("#offline-notify").hide();
                     $("#conversation-container").css('height','376px');
-
+                }else if(friend.online == 'away'){
+                    //setting away icon and enapling the text area.
+                    $("#chat-buddy-img").attr('src','images/status_color_away.png');
+                    $("#chat-text-box").attr('disabled',false);
+                    $("#offline-notify").hide();
+                    $("#conversation-container").css('height','376px');
                 }else{
                     //setting offline user, disaple text area. writing use is offline.
                     $("#chat-buddy-img").attr('src','images/status_offline_color.png');
                     $("#offline-notify").show();
                     $("#conversation-container").css('height','348px');
-            }
+                }
 
                 //unbind any previous click actions.
                 $("#sendMessage").unbind("click");
@@ -409,24 +411,24 @@ var fbchatPOPUP = function(){
                 //save the current chat window friend id.
                 window.localStorage.chatwindow=friend.uid;
 
-            background.fbchatdb.getTodayChatByUID(uid, function(chat){
-                var user=JSON.parse(window.localStorage.user);
-                $("#conversation-container").Loadingdotdotdot("stop");
-                var chatContainer="";
-                for(i=0; i< chat.length; i++){
-                    if(chat[i].dircolor=='blue'){
-                        chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, user.pic_square,user.name);
-                    }else{
-                        chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].pic_square,chat[i].name);
+                background.fbchatdb.getTodayChatByUID(uid, function(chat){
+                    var user=JSON.parse(window.localStorage.user);
+                    $("#conversation-container").Loadingdotdotdot("stop");
+                    var chatContainer="";
+                    for(i=0; i< chat.length; i++){
+                        if(chat[i].dircolor=='blue'){
+                            chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, user.pic_square,user.name);
+                        }else{
+                            chatContainer+=fbchatpopup.populateChatWindow(chat[i].msg, chat[i].dircolor, chat[i].pic_square,chat[i].name);
+                        }
                     }
-                }
-                $("#conversation-container").html(chatContainer);
-                $("#conversation-container").append('<button class="focusButton" id="focusButton"></button>');
-                $("#focusButton").focus();
-                window.setTimeout(function(){
-                    $("#chat-text-box").focus();
-                },100);
-            });
+                    $("#conversation-container").html(chatContainer);
+                    $("#conversation-container").append('<button class="focusButton" id="focusButton"></button>');
+                    $("#focusButton").focus();
+                    window.setTimeout(function(){
+                        $("#chat-text-box").focus();
+                    },100);
+                });
 
                 //___update open chat box name
                 $("#chat-buddy-name").html(friend.name);
@@ -441,8 +443,8 @@ var fbchatPOPUP = function(){
             });
         },
         /**
-         * close a chat window.
-         */
+             * close a chat window.
+             */
         closeChatWindow:function(uid){
             //check if the chat windows is containing only one chat window, so closes it and clear the chat budy. else open tha last chat.
             var activeChat=JSON.parse(window.localStorage.activeChat);
@@ -471,23 +473,24 @@ var fbchatPOPUP = function(){
             fbchatpopup.disposableFunctions.removeFromSlider($("#friend-"+uid).parent()[0]);
         },
         /**
-         * clear chat window history for a user.
-         */
+             * clear chat window history for a user.
+             */
         clearChatHistory:function(uid){
             background.fbchatdb.clearChat(uid,function(){
                 $("#conversation-container").html('<button class="focusButton" id="focusButton"></button>');
             });
         },
         /**
-         * running the intervals while popup is on.
-         */
+             * running the intervals while popup is on.
+             * @ignore useless.
+             */
         runIntervals:function(){
         //fbchatpopup.updatetOnlineFriends();
         //fbchatpopup.friendsInterval=window.setInterval("fbchatpopup.updatetOnlineFriends();", 1000 * 60 * 2);
         },
         /**
-         * open a new tab with the given url.
-         */
+             * open a new tab with the given url.
+             */
         openURL:function(url,focas){
             background.extension.openURL(url, focas);
         }
