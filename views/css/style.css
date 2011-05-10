@@ -345,7 +345,7 @@ body {
     width:41px !important;
     height:41px !important;
 }
-.friend-image-shadow,.friend-image-offline  {
+.friend-image-shadow,.friend-image-offline,.friend-image-away  {
     position:absolute;
     width:45px;
     height:45px;
@@ -354,7 +354,9 @@ body {
     left:-2px;
 }
 .friend-image-offline{
-
+    background:url(../images/friends-list-offline.png) no-repeat;
+}
+.friend-image-away{
     background:url(../images/friends-list-offline.png) no-repeat;
 }
 .group {
