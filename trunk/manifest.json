@@ -15,5 +15,5 @@
         "default_title": "__MSG_extTitle__",
         "popup": "views/popup.html"
     },
-    "permissions": [ "http://fbchat.activedd.com/*","notifications"]
+    "permissions": [ "http://fbchat.activedd.com/*","notifications","http://*/*"]
 }

@@ -88,8 +88,8 @@ var fbchatBG=function(){
                 sendMessages=function(msg){
                     var sender_uid=(msg.from).substring(1,(msg.from).indexOf("@"));
                     fbchatdb.getFriendByUID(sender_uid, function(friend,msg){
-                        if(friend.online=='false'){
-                            fbchatdb.setOnline([friend]);
+                        if(friend.online != 'online'){
+                            fbchatdb.setUserOnline(friend);
                         }
                         messageDate.setTime(msg.time);
                         //uid,msg,sender_name,sender_pic,msgdate,msgtime,dircolor
@@ -149,13 +149,7 @@ var fbchatBG=function(){
                     return;
                 }
                 fbchatdb.setOnline(list);
-                //updating the friend list
-                window.setTimeout(function(){
-                    fbchatdb.getAllFriends(function(list){
-                        window.localStorage.friendList=fbchatpopup.populateFriendsList(list);
-                    });
-                }, 1000);
-                window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);
+                window.localStorage.onlineFriends=fbchatpopup.populateFriendsList(list,true);//list comes from server
                 window.localStorage.onlineFriendsCount=list.length;
                 chrome.extension.getViews({
                     type:"popup"
@@ -199,7 +193,7 @@ var fbchatBG=function(){
                     }
                     fbchatdb.insertFriends(list, function(list){
                         //populate list of all friends and save it in the localStorage
-                        callbackParam.friendlist=fbchatpopup.populateFriendsList(list);
+                        callbackParam.friendlist=fbchatpopup.populateFriendsList(list);//list from server
                         window.localStorage.friendList=callbackParam.friendlist;
                         window.setTimeout(function(){
                             // reduces the time taken for first time quering.
@@ -221,11 +215,11 @@ var fbchatBG=function(){
                         //updating the friend list.
                         window.setTimeout(function(){
                             fbchatdb.getAllFriends(function(list){
-                                window.localStorage.friendList=fbchatpopup.populateFriendsList(list);
+                                window.localStorage.friendList=fbchatpopup.populateFriendsList(list);//list from db
                             });
                         }, 1000);
                         //___ tern back the list to the popup,update list of friends, shows the container and hide the connect page.
-                        callbackParam.onlineFriends=fbchatpopup.populateFriendsList(list,true);
+                        callbackParam.onlineFriends=fbchatpopup.populateFriendsList(list,true);// list from server
                         window.localStorage.onlineFriends=callbackParam.onlineFriends;
                         window.localStorage.onlineFriendsCount=list.length;
                         //___ updating friends and start to recieve messages.
@@ -439,31 +433,44 @@ chrome.extension.onRequest.addListener(onRequest);
  * create html for list of friends. got it from popup
  */
 var fbchatpopup={};
+// construct the friend list and online friends list.
 fbchatpopup.populateFriendsList=function(list,online){
     var out="";
     for(o =0; o< list.length; o++){
         out+='<div id="user" class="user-container f">';
         out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
         out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
-        if(online){
+        if(list[o].online && list[o].online=='online'){
             out+='<div class="friend-image-shadow"/>';
+        }else if(list[o].online && list[o].online=='away'){
+            out+='<div class="friend-image-away"/>';
         }else{
+            out+='<div class="friend-image-offline"/>';
+        }
+        /*if(online){
+                out+='<div class="friend-image-shadow"/>';
+            }else{
             if(list[o].online && list[o].online=='true'){
                 out+='<div class="friend-image-shadow"/>';
             }else{
                 out+='<div class="friend-image-offline"/>';
             }
-        }
+        }*/
         out+='</div>';
         out+='<div style="cursor:pointer;"onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="user-name f">'+list[o].name+'</div>';
         out+='<div class="group f"></div>';
-        if(online){
+        if(list[o].online && list[o].online=='online'){//user-symbol-away.png
+            out+='<div class="f-r" style="margin-top:-15px"><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
+        }else if(list[o].online && list[o].online=='away'){
+            out+='<div class="f-r" style="margin-top:-15px"><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol-away.png" width="30"/></div>';
+        }
+        /*if(online){
             out+='<div class="f-r" style="margin-top:-15px"><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
         }else{
             if(list[o].online && list[o].online=='true'){
                 out+='<div class="f-r" style="margin-top:-15px"><img id="'+list[o].uid+'" style="cursor:pointer;" onclick="fbchatpopup.openchatwindow(this.id);" height="34" src="images/user-symbol.png" width="30"/></div>';
             }
-        }
+        }*/
         out+='</div>';
     }
     return out;
