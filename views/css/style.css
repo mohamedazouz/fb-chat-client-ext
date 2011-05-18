@@ -345,7 +345,9 @@ body {
     width:41px !important;
     height:41px !important;
 }
-.friend-image-shadow,.friend-image-offline,.friend-image-away  {
+.friend-image-shadow,.friend-image-offline,.friend-image-away,
+.friend-image-active
+  {
     position:absolute;
     width:45px;
     height:45px;
@@ -358,6 +360,9 @@ body {
 }
 .friend-image-away{
     background:url(../images/friends-list-away.png) no-repeat;
+}
+.friend-image-active{
+    background:url(../images/friends-list-active.png) no-repeat;
 }
 .group {
     color:#7f9fee;
