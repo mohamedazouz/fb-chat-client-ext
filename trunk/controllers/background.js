@@ -143,7 +143,7 @@ var fbchatBG=function(){
             console.log('updateing on:'+(new Date()).getMinutes())
             Proxy.getOnlineFriends(function(list){
                 if(! list || (list.length != 0 && list[0].error)){
-                    fbchatbg.disconnect();
+                    fbchatbg.errorDisconnecting();
                     console.log(list[0].error);
                     fbchatbg.connect();
                     return;
@@ -160,7 +160,7 @@ var fbchatBG=function(){
                     handler();
                 }
             },function(){
-                fbchatbg.disconnect();
+                fbchatbg.errorDisconnecting();
             });
         },
         /**
@@ -172,11 +172,7 @@ var fbchatBG=function(){
             var callbackParam={};
             Proxy.connect(function(usr){
                 if(! usr || usr.error){
-                    window.localStorage.connected=false;
-                    //setting icon to offline
-                    chrome.browserAction.setIcon({
-                        path:'/views/icons/32x32_off.png'
-                    });
+                    fbchatbg.errorDisconnecting();
                     console.log(usr.error);
                     if(usr.error == 'invalid session key'){
                         fbchatbg.logout();
@@ -187,7 +183,7 @@ var fbchatBG=function(){
                 window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
                     if(! list || (list.length != 0 && list[0].error)){
-                        fbchatbg.disconnect();
+                        fbchatbg.errorDisconnecting();
                         console.log(list[0].error);
                         return;
                     }
@@ -204,7 +200,7 @@ var fbchatBG=function(){
                     });
                     Proxy.getOnlineFriends(function(list){
                         if(! list  || (list.length != 0 && list[0].error)){
-                            fbchatbg.disconnect();
+                            fbchatbg.errorDisconnecting();
                             console.log(list[0].error);
                             return;
                         }
@@ -239,28 +235,13 @@ var fbchatBG=function(){
                             });
                         }
                     },function(){
-                        //___ set connected to be false
-                        window.localStorage.connected=false;
-                        //____update connect icon.
-                        chrome.browserAction.setIcon({
-                            path:'/views/icons/32x32_off.png'
-                        });
+                        fbchatbg.errorDisconnecting();
                     });
                 },function(){
-                    //___ set connected to be false
-                    window.localStorage.connected=false;
-                    //____update connect icon.
-                    chrome.browserAction.setIcon({
-                        path:'/views/icons/32x32_off.png'
-                    });
+                    fbchatbg.errorDisconnecting();
                 });
             },function(){
-                //___ set connected to be false
-                window.localStorage.connected=false;
-                //____update connect icon.
-                chrome.browserAction.setIcon({
-                    path:'/views/icons/32x32_off.png'
-                });
+                fbchatbg.errorDisconnecting();
             });
         },
         /**
@@ -317,7 +298,7 @@ var fbchatBG=function(){
         sendMessage:function(message){
             Proxy.sendMessage(message.to, message.msg,function(resp){
                 if(resp && resp.error){
-                    fbchatbg.disconnect();
+                    fbchatbg.errorDisconnecting();
                     console.log(resp.error);
                     return;
                 }
@@ -375,6 +356,12 @@ var fbchatBG=function(){
                 return;
             }
             fbchatbg.connect();
+        },
+        errorDisconnecting:function(){
+            fbchatbg.disconnect();
+            window.setTimeout(function(){
+                fbchatbg.connect(null);
+            }, 30 * 1000);
         }
     };
 
@@ -441,17 +428,17 @@ fbchatpopup.populateFriendsList=function(list,online){
         out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
         out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
         if(list[o].online && list[o].online=='online'){
-            out+='<div class="friend-image-shadow"/>';
+            out+='<div class="friend-image-active"/>';
         }else if(list[o].online && list[o].online=='away'){
             out+='<div class="friend-image-away"/>';
         }else{
             out+='<div class="friend-image-offline"/>';
         }
         /*if(online){
-                out+='<div class="friend-image-shadow"/>';
+                out+='<div class="friend-image-active"/>';
             }else{
             if(list[o].online && list[o].online=='true'){
-                out+='<div class="friend-image-shadow"/>';
+                out+='<div class="friend-image-active"/>';
             }else{
                 out+='<div class="friend-image-offline"/>';
             }
