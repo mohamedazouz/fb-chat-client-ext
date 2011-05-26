@@ -360,6 +360,7 @@ var fbchatBG=function(){
         errorDisconnecting:function(){
             fbchatbg.disconnect();
             window.setTimeout(function(){
+                Proxy.disconnect();
                 fbchatbg.connect(null);
             }, 30 * 1000);
         }
