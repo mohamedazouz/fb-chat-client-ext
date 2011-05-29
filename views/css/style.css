@@ -349,7 +349,7 @@ body {
 .friend-image-active
   {
     position:absolute;
-    width:45px;
+    width:46px;
     height:45px;
     background:url(../images/friends-list-shadow.png) no-repeat;
     top:-2px;
