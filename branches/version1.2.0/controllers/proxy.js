@@ -5,8 +5,8 @@ var Proxy={
     /**
      * proxy base url.
      */
-    baseURL:'http://fbchat.activedd.com',
-    //    baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    //    baseURL:'http://fbchat.activedd.com',
+    baseURL:'http://41.130.147.16:8080/FBChatProxy',
     graphApiURL:'https://graph.facebook.com',
     /**
      * first time login url.
@@ -166,6 +166,40 @@ var Proxy={
      * get a list of online friends
      */
     getOnlineFriends:function(handler,failer){
+        //new fb api
+        /*var sessionKey = window.localStorage.sessionKey;
+        if(! sessionKey){
+            failer();
+            return;
+        }*/
+        /*
+        fbchatdb.getAllFriends(function(list){
+
+            var friendList=[];
+            try{
+                function recursiveStatusUpdate(index){
+                    FB.api({
+                        method: 'fql.query',
+                        query: "SELECT uid,online_presence,name FROM user WHERE  uid ="+list[index].uid,
+                        access_token:sessionKey
+                    },function(data){
+                        friendList = friendList.concat(data);
+                        if(list.length >  index +1){
+                            recursiveStatusUpdate(index+1);
+                        }else{
+                            console.log(friendList)
+                            handler(friendList);
+                        }
+                    });
+                }
+                recursiveStatusUpdate(0);
+            }catch(e){
+                console.log(e);
+                failer();
+                return;
+            }
+        });*/
+        //old one depends on server.
         $.ajax({
             url:Proxy.baseURL+Proxy.onlineUsersURL,
             dataType:'json',
@@ -222,7 +256,7 @@ var Proxy={
                         dataType:'json',
                         success:function(list){
                             friendList=friendList.concat(list.data);
-                            if(lst.length < index +1){
+                            if(lst.length > index +1){
                                 recusiveAjaxCall(index +1);
                             }else{
                                 handler(friendList);
