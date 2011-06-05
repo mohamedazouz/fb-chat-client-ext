@@ -170,17 +170,31 @@ var fbchatBG=function(){
             //changing the status of the connection to be connecting.
             window.localStorage.connected = 'connecting';
             var callbackParam={};
-            Proxy.connect(function(usr){
-                if(! usr || usr.error){
+            Proxy.connect(function(res){
+                if(! res || res.error){
                     fbchatbg.errorDisconnecting();
-                    console.log(usr.error);
-                    if(usr.error == 'invalid session key'){
+                    console.log(res.error);
+                    if(res.error == 'invalid session key'){
                         fbchatbg.logout();
                     }
                     return;
                 }
                 //saving user data.
-                window.localStorage.user=JSON.stringify(usr);
+                //modified for 1.4 getting the user info via facebook graph api.
+                Proxy.loggedUserInfo(function(logged){
+                    var user={};
+                    user.uid=logged.id;
+                    user.pic_square="https://graph.facebook.com/me/picture?access_token="+window.localStorage.sessionKey;
+                    user.name=logged.name;
+                    user.first_name=logged.first_name;
+                    user.last_name=logged.last_name;
+                    window.localStorage.user=JSON.stringify(user);
+                }, function(){
+                    fbchatbg.errorDisconnecting();
+                    fbchatbg.logout();
+                });
+
+                //window.localStorage.user=JSON.stringify(usr);
                 Proxy.getFriendsList(function(list){
                     if(! list || (list.length != 0 && list[0].error)){
                         fbchatbg.errorDisconnecting();
