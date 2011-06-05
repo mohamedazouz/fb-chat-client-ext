@@ -6,7 +6,8 @@ var Proxy={
      * proxy base url.
      */
     baseURL:'http://fbchat.activedd.com',
-//    baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    //    baseURL:'http://41.178.64.38:8080/FBChatProxy',
+    graphApiURL:'https://graph.facebook.com',
     /**
      * first time login url.
      */
@@ -40,6 +41,21 @@ var Proxy={
      */
     listOfUsersURL:'/messaging/friendlist.htm',
     /**
+     *  graph api get logged user info via graph api.
+     * @param access_token stored session key.
+     */
+    graphUserInfoURL:'/me?access_token=',
+    /**
+     *  get the list of friends list
+     *  @param access_token stored session key.
+     */
+    graphFriendListsURL:'/me/friendlists?access_token=',
+    /**
+     *  get the list of friends.
+     *  @param access_token stored session key.
+     */
+    graphFriendsURL:'/me/friends?access_token=',
+    /**
      * get the authentication token/session key, keep doing it for about 10 minuts every 10 seconds.
      */
     Authenticate:function(count){
@@ -47,7 +63,7 @@ var Proxy={
             count=0;
         }
         count=parseInt(count);
-        if(count == 59){
+        if(count == 29){
             window.localStorage.logged=false;
             return;
         }
@@ -176,7 +192,54 @@ var Proxy={
      *
      */
     getFriendsList:function(handler,failer){
+        // modification according to new graph api in version 1.4
+        var sessionKey = window.localStorage.sessionKey;
+        if(! sessionKey){
+            failer();
+            return;
+        }
         $.ajax({
+            url:Proxy.graphApiURL+Proxy.graphFriendsURL+sessionKey,
+            dataType:'json',
+            success:function(list){
+                handler(list.data)
+            },
+            error:function(jqXHR, textStatus, errorThrown){
+                console.log(errorThrown)
+                failer();
+            }
+        })
+    //in case we are categorizing the friends as fb friends lists.
+    /*
+        $.ajax({
+            url:Proxy.graphApiURL+Proxy.graphFriendListsURL+sessionKey,
+            dataType:'json',
+            success:function(lst){
+                var friendList=[];
+                function recusiveAjaxCall(index){
+                    $.ajax({
+                        url:Proxy.graphApiURL+lst.data[index].id+'/members?access_token='+sessionKey,
+                        dataType:'json',
+                        success:function(list){
+                            friendList=friendList.concat(list.data);
+                            if(lst.length < index +1){
+                                recusiveAjaxCall(index +1);
+                            }else{
+                                handler(friendList);
+                            }
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            console.log(errorThrown)
+                            failer();
+                        }
+                    })
+                }
+                recusiveAjaxCall(0);
+            }
+        });
+        */
+    //old method
+    /*$.ajax({
             url:Proxy.baseURL+Proxy.listOfUsersURL,
             dataType:'json',
             success:function(list){
@@ -186,8 +249,11 @@ var Proxy={
                 console.log(errorThrown)
                 failer();
             }
-        });
+        });*/
     },
+    /**
+     *
+     */
     getMessages:function(uid,handler,failer){
         try{
             $.ajax({
@@ -214,6 +280,29 @@ var Proxy={
         }catch(e){
             console.log(e);
             failer();
+        }
+    },
+    /**
+     *
+     */
+    loggedUserInfo:function(fn,error){
+        var sessionKey = window.localStorage.sessionKey;
+        if(! sessionKey){
+            error();
+            return;
+        }
+        try{
+            $.ajax({
+                url:Proxy.graphApiURL+Proxy.graphUserInfoURL+sessionKey,
+                dataType:'json',
+                cache:'false',
+                success:function(usr){
+                    fn(usr)
+                }
+            });
+        }catch(e){
+            console.log(e);
+            error();
         }
     }
 }
