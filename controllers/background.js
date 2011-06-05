@@ -172,11 +172,8 @@ var fbchatBG=function(){
             var callbackParam={};
             Proxy.connect(function(res){
                 if(! res || res.error){
-                    fbchatbg.errorDisconnecting();
+                    fbchatbg.errorDisconnecting(res.error);
                     console.log(res.error);
-                    if(res.error == 'invalid session key'){
-                        fbchatbg.logout();
-                    }
                     return;
                 }
                 //saving user data.
@@ -214,7 +211,7 @@ var fbchatBG=function(){
                     });
                     Proxy.getOnlineFriends(function(list){
                         if(! list  || (list.length != 0 && list[0].error)){
-                            fbchatbg.errorDisconnecting();
+                            fbchatbg.errorDisconnecting(list[0].error);
                             console.log(list[0].error);
                             return;
                         }
@@ -371,7 +368,12 @@ var fbchatBG=function(){
             }
             fbchatbg.connect();
         },
-        errorDisconnecting:function(){
+        errorDisconnecting:function(message){
+            if(message && message == "no sessionkey found"){
+                fbchatbg.logout();
+                console.log(message);
+                return;
+            }
             fbchatbg.disconnect();
             window.setTimeout(function(){
                 Proxy.disconnect();
@@ -437,11 +439,14 @@ chrome.extension.onRequest.addListener(onRequest);
 var fbchatpopup={};
 // construct the friend list and online friends list.
 fbchatpopup.populateFriendsList=function(list,online){
+    var sessionKey = window.localStorage.sessionKey;
     var out="";
     for(o =0; o< list.length; o++){
         out+='<div id="user" class="user-container f">';
         out+='<div style="cursor:pointer;" onclick="fbchatpopup.openchatwindow('+list[o].uid+');" class="friend-image f">';
-        out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
+        //profile pic using graph.
+        out+='<img height="45" src="'+"https://graph.facebook.com/"+list[o].uid+"/picture?access_token="+sessionKey+'" width="46"/>';
+//        out+='<img height="45" src="'+list[o].pic_square+'" width="46"/>';
         if(list[o].online && list[o].online=='online'){
             out+='<div class="friend-image-active"/>';
         }else if(list[o].online && list[o].online=='away'){
