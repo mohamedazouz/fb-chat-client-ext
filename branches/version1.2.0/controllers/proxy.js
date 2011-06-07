@@ -19,11 +19,11 @@ var Proxy={
     /**
      * connect and go online.
      */
-    connectURL:'/connect/connect.htm',
+    connectURL:'/newconnect/connect.htm',
     /**
      * disconnects from facebook and go offline.
      */
-    disconnectURL:'/connect/disconnect.htm',
+    disconnectURL:'/newconnect/disconnect.htm',
     /**
      * the json file of user recent chat url.
      */
@@ -31,15 +31,15 @@ var Proxy={
     /**
      * sending a chat message url, param:to( the reciever id), msg( the message),from (user id).
      */
-    sendMessageURL:'/messaging/send.htm',
+    sendMessageURL:'/newmessaging/send.htm',
     /**
      * update the list of online users, param: uid(user id).
      */
-    onlineUsersURL:'/messaging/onlinefriends.htm',
+    onlineUsersURL:'/newmessaging/onlinefriends.htm',
     /**
      * get a list of friends, param: uid(user id).
      */
-    listOfUsersURL:'/messaging/friendlist.htm',
+    listOfUsersURL:'/newmessaging/friendlist.htm',
     /**
      *  graph api get logged user info via graph api.
      * @param access_token stored session key.
