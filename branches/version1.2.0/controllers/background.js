@@ -378,7 +378,7 @@ var fbchatBG=function(){
             window.setTimeout(function(){
                 Proxy.disconnect();
                 fbchatbg.connect(null);
-            }, 2 * 6 * 1000);
+            }, 2 * 60 * 1000);
         }
     };
 
