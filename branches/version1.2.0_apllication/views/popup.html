@@ -1,0 +1,273 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/slider.css" />
+        <script src="js/jquery-1.4.4.min.js" type="text/javascript"></script>
+        <script src="js/jquery.carouFredSel-3.2.1-packed.js" type="text/javascript"></script>
+        <script type="text/javascript" src="../controllers/locals.js"></script>
+        <script type="text/javascript" src="js/popup.js"></script>
+        <script type="text/javascript" src="js/animations.js"></script>
+        <script type="text/javascript" src="js/jquery.loadingdotdotdot.js"></script>
+        <script type="text/javascript" src="js/specialkeys.js"></script>
+        <script type="text/javascript" src="js/jquery.quicksearch.js"></script>
+        <script type="text/javascript" src="../controllers/popup.js"></script>
+    </head>
+    <body>
+        <div id="container" class="container">
+
+            <div id="online-users" class="online-users f">
+                <img class="f" alt="Online Friends" src="images/online-user.png" width="16" height="12" style="padding: 1px 6px;" />
+                <div id="onlineFriends" local="onlineFriends" class="f">Online Friends</div>
+            </div>
+
+            <div id="friends-list" class="friends-list f">
+                <img class="f" alt="Friend Lists" src="images/fr-list.png" width="13" height="13" style="padding: 1px 6px;" />
+                <div local="friendList" class="f">Friend Lists</div>
+            </div>
+
+            <div id="settings" class="settings f">
+                <img alt="Settings" src="images/setting.png" width="24" height="23" />
+            </div>
+
+            <!-- chat buddy name -->
+            <div id="chat-buddy" class="status-box f">
+                <div id="chat-buddy-img-div" class="status-box-image"><img id="chat-buddy-img" src="images/status_color.png" width="21" height="21" alt="active" style="display: none;" /></div>
+                <strong id="chat-buddy-name" class="f" value=""></strong>
+                <div id="closeChat" class="f-r closeChat">
+                    <img src="images/close.png" alt="close"/>
+                </div>
+                <a id="clearHistory" class="clear-history">
+                    <img src="images/clear_history_1.png" width="13" height="22" alt="clear chat" title="clear chat">
+                </a>
+            </div>
+            <!-- offline notifier-->
+            <div id="offline-notify" style="display: none;color: #ffffff;width: 405px;margin-left: 10px;">
+                <div id="" style="font-size: 11px;margin-top: 2px;"><strong id="chat-buddy-name2" value=""></strong>&nbsp;<a  local="offlineUserChat">is offline , your messages will be sent to their inbox , if you both are using the new messages system.</a></div>
+            </div>
+            <!-- conversations  -->
+            <div id="conversation-container" class="conversation-container" >
+                <!-- white  bubble-->
+                <!--                <div class="conversation f other">
+                                    <div class="chatbox f w-chatbox">
+                                        <div class="w-chatbox-top f"></div>
+                                        <div class="w-chatbox-middle f">
+                                            i have got 3 weeks vacation .. woohooo ! tell that to everybody .. this gonna be crazy
+                                        </div>
+                                        <div class="w-chatbox-bottom f"></div>
+                                        <div class="w-chatbox-arrow"></div>
+                                    </div>
+                                    <div class="talker-image f-r">
+                                        <img src="images/user.png" width="50" height="50" alt="henedy" />
+                                        <div class="talker-image-shadow"></div>
+                                    </div>
+                                </div>-->
+
+                <!-- blue bubble-->
+                <!--                <div class="conversation f me">
+                                    <div class="chatbox f-r b-chatbox">
+                                        <div class="b-chatbox-top f"></div>
+                                        <div class="b-chatbox-middle f">
+                                            So .. we will have you with us this weekend .. this is great .. everyone will be happy
+                                        </div>
+                                        <div class="b-chatbox-bottom f"></div>
+                                        <div class="b-chatbox-arrow"></div>
+                                    </div>
+                                    <div class="talker-image f">
+                                        <img src="images/user_1.png" width="50" height="50" alt="henedy" />
+                                        <div class="talker-image-shadow"></div>
+                                    </div>
+                                </div>-->
+            </div>
+
+            <!-- chat friends -->
+            <div id="online-friends-slider-container"  class="slider-container f">
+                <div id="slideshow" class="slider" style="display: none;">
+                    <div id="slidesContainer" class="talker-image-container">
+                        <!--                                                <div class="slide">
+                                                                            <div class="slider-image f active"  title="">
+                                                                                <div class="notification"></div>
+                                                                                <img width="50" height="50" alt="henedy" src="images/user_1.png" >
+                                                                                <div class="talker-image-shadow"></div>
+                                                                            </div>
+                                                                        </div>-->
+                        <!--                        <div id="slider">
+                                                    <ul>
+                                                        <li>                                                         sliding items
+                                                            <div class="content">
+                                                                <span class="talker-image">
+                                                                    <img src="images/002.jpg" alt="" />
+                                                                    <span class="talker-active"></span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>-->
+                    </div>
+                    <a class="prev" style="cursor: pointer;" id="slider_prev" ><span></span></a>
+                    <a class="next" style="cursor: pointer;" id="slider_next" ><span></span></a>
+                </div>
+
+            </div>
+            <!-- typing area -->
+            <div class="typing-area f">
+                <textarea id="chat-text-box" name="" cols="" rows="" class="typing-box f" style="color: gray;" local="DefautlTextAreaValue" >type your message here</textarea>
+                <div class="icons f">
+                    <div class="emoticons-container">
+                        <div class="emoticons-top f"></div>
+                        <div class="emoticons-middle f">
+                            <div class="emoticons f" value=":)"><img alt=":)" src="chat-icons/smile.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":("><img alt=":(" src="chat-icons/frown.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":p"><img alt=":p" src="chat-icons/tongue.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":D"><img alt=":D" src="chat-icons/grin.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":O"><img alt=":O" src="chat-icons/gasp.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=";)"><img alt=";)" src="chat-icons/wink.png" width="16" height="16"></div>
+
+                            <div class="emoticons f" value="8)"><img alt="8)" src="chat-icons/glasses.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="8|"><img alt="8|" src="chat-icons/sunglasses.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=">:-("><img alt=">:-(" src="chat-icons/grumpy.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":/"><img alt=":/" src="chat-icons/unsure.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":'( "><img alt=":'(" src="chat-icons/cry.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="3:)"><img alt="3:)" src="chat-icons/devil.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="O:)"><img alt="O:)" src="chat-icons/angel.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":*"><img alt=":*" src="chat-icons/kiss.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="<3"><img alt="<3" src="chat-icons/heart.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="^_^"><img alt="^_^" src="chat-icons/kiki.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="-_-"><img alt="-_-" src="chat-icons/squint.png" width="16" height="16"></div>
+                            <div class="emoticons f" value="o.O"><img alt="o.O" src="chat-icons/confused.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=">:O"><img alt=">:O" src="chat-icons/upset.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":v"><img alt=":v" src="chat-icons/pacman.png" width="16" height="16"></div>
+                            <div class="emoticons f" value=":3"><img alt=":3" src="chat-icons/colonthree.png" width="16" height="16"></div>
+                        </div>
+                        <div class="emoticons-bottom f"></div>
+                    </div>
+                </div>
+                <button id="sendMessage" name="" class="send-btn f-r"></button>
+            </div>
+        </div>
+
+        <!-- top menu -->
+        <div id="online-top-menu-container" class="top-menu-container">
+            <input type="text" id="onlineFilter"  placeholder="Friends on Chat" autofocus class="quick-search"/>
+            <a id="clearonline" style="cursor: pointer;color: white;margin-left: 5px;" local="clearField" >clear</a>
+            <div id="online-friends" class="users-list f">
+                <!--<div class="user-container f">
+                        <div class="friend-image f">
+                            <img src="images/friends.png" width="46" height="45" />
+                            <div class="friend-image-shadow"></div>
+                        </div>
+                        <div class="user-name f">
+            	Ali Mohammed Ali
+                        </div>
+                        <div class="group f">
+            	Work List
+                        </div>
+
+                        <div>
+                            <img src="images/user-symbol.png" width="30" height="34" /></div>
+                    </div>-->
+            </div>
+            <div id="online-friends-arrow" class="arrow f"></div>
+            <div id="online-friends-top-menu-footer" class="top-menu-footer"></div>
+        </div>
+        <div id="friendlist-top-menu-container" class="top-menu-container">
+            <input type="text" id="friendsFilter"  placeholder="Search Friends" autofocus class="quick-search"/>
+            <a id="clearfriends" style="cursor: pointer;color: white;margin-left: 5px;" local="clearField">clear</a>
+            <div id="friend-list" class="users-list f">
+
+                <!--<div class="user-container f">
+                        <div class="friend-image f">
+                            <img src="images/friends.png" width="46" height="45" />
+                            <div class="friend-image-shadow"></div>
+                        </div>
+                        <div class="user-name f">
+            	Ali Mohammed Ali
+                        </div>
+                        <div class="group f">
+            	Work List
+                        </div>
+
+                        <div>
+                            <img src="images/user-symbol.png" width="30" height="34" /></div>
+                    </div>-->
+
+            </div>
+            <div id="friendlist-friends-arrow" class="arrow f"></div>
+            <div id="friendlist-friends-top-menu-footer" class="top-menu-footer"></div>
+        </div>
+        <div id="settings-top-menu-container" class="top-menu-container settings-menu f-r" >
+            <div id="settings-menu" class="users-list f" style="width: 160px;">
+
+                <div class="user-container f" style="width: 135px;">
+                    <div id="disconnect" class="user-name f user-name-settings" local="disconnect">
+                        Disconnect
+                    </div>
+                </div>
+                <div class="user-container f" style="width: 135px;">
+                    <div id="logout" class="user-name f user-name-settings" local="logout">
+                        Logout
+                    </div>
+                </div>
+                <div class="user-container f" style="width: 135px; ">
+                    <div id="options" class="user-name f user-name-settings" local="settings">
+                        Settings
+                    </div>
+                </div>
+                <!--                <div class="user-container f" style="width: 135px; ">
+                                    <div id="about" class="user-name f user-name-settings" local="about">
+                                        About
+                                    </div>
+                                </div>-->
+
+            </div>
+            <div id="settings-arrow" class="arrow f" style="left: 76px;bottom: 7px;"></div>
+            <div id="settings-top-menu-footer" class="top-menu-footer" style="width: 160px;"></div>
+        </div>
+
+
+        <div id="notconnected" align="center" style="display: none; height:600px;"class="container">
+            <div id="" style="color: white;margin: 0 auto;margin-top: 284px;">
+                <a local="urdisconnected">you are disconnected, </a><a style="cursor: pointer;color: #F5EE94;" id="connect" local="connect2"> connect ?</a>
+            </div>
+        </div>
+        <div id="loadingdiv" align="center" style="display: none; height:600px;"class="container">
+            <div id="loadindots" style="color: white;color: white;margin: 0 auto;margin-top: 284px;float: left;margin-left: 178px;">
+            </div>
+        </div>
+        <div id="logging" align="center" style="display: none; height:600px;"class="container">
+            <div id="" style="color: white;color: white;margin: 0 auto;margin-top: 284px;float: left;margin-left: 142px;">
+                logging in please wait.
+            </div>
+        </div>
+        <!--<div id="noticeMessage" style="display: none;">
+            <div style="width: 380px;" align="center">
+                <div style="float: right;cursor: pointer;"><img src="images/close.png" alt="close"/></div>
+                <div style="margin-left: 25px;">
+                    Developed and Maintained by
+                    <div>
+                        <a style="cursor: pointer;" onClick="background.extension.openURL('http://www.activedd.com', true);">Active Digital Development</a>
+                    </div>
+                </div>
+                <div style="margin-left: 10px;">
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/progmania', false);">Gamal Shaban</a>
+                </div>
+                <div style="margin-left: 10px;">
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/m_aliazouz', false);">Mohamed Azouz</a>
+                </div>
+                <div style="margin-left: 10px;">
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/abokhalil83', false);">Ahmed Khalil</a>
+                </div>
+                <div style="margin-left: 10px;">
+                    <a style="cursor: pointer;" onClick="background.extension.openURL('http://twitter.com/#!/Flashawy', false);">Ali Muhammad Ali</a>
+                </div>
+            </div>
+        </div>-->
+        <!--        <div style="font-style: italic;font-weight: lighter;font-size: smaller;color: #000099">last message on TUS 12-8 5:40 pm</div>-->
+    </body>
+</html>
